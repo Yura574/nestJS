@@ -6,11 +6,14 @@ import {ConfigModule} from "@nestjs/config";
 import {AuthController} from "./auth/auth.controller";
 import {AuthService} from "./auth/auth.service";
 import {User} from "./user/user.model";
+import {UserController} from "./user/user.controller";
+import {UserService} from "./user/user.service";
+import {UserModule} from "./user/user.module";
 
 
 @Module({
-    controllers: [AppController, AuthController],
-    providers: [AppService, AuthService],
+    controllers: [],
+    providers: [],
     imports: [
         ConfigModule.forRoot({
             envFilePath: '.env'
@@ -26,6 +29,7 @@ import {User} from "./user/user.model";
             models: [User],
             autoLoadModels: true
         }),
+        UserModule
     ],
 })
 

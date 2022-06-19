@@ -1,22 +1,32 @@
-import {Column, Model, Table} from "sequelize-typescript";
+import {Column, DataType, Model, Table} from "sequelize-typescript";
 
+interface UserInterface {
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+}
 
+@Table({tableName: 'Users'})
+export class User extends Model<User, UserInterface> {
+    @Column({type: DataType.INTEGER, autoIncrement: true, primaryKey: true, unique: true})
+    id: number
 
-@Table
-export class User extends Model{
-
-    @Column
+    @Column({type: DataType.STRING, allowNull: false})
     firstName: string
 
-    @Column
+    @Column({type: DataType.STRING, allowNull: false})
     lastName: string
 
-    @Column
+    @Column({type: DataType.STRING, allowNull: false, unique: true})
     email: string
 
-    @Column
+    @Column({type: DataType.STRING, allowNull: false})
     password: string
 
-    @Column({defaultValue: false})
+    @Column({type: DataType.BOOLEAN, defaultValue: false})
     banned: boolean
+
+    @Column({type: DataType.STRING, allowNull: true})
+    banReason: string
 }

@@ -1,5 +1,7 @@
-import {Column, DataType, Model, Table} from "sequelize-typescript";
+import {BelongsToMany, Column, DataType, Model, Table} from "sequelize-typescript";
 import {ApiProperty} from "@nestjs/swagger";
+import {Role} from "../roles/role.model";
+import {UserRoles} from "../roles/user_roles.model";
 
 interface UserInterface {
     firstName: string
@@ -10,19 +12,19 @@ interface UserInterface {
 
 @Table({tableName: 'Users'})
 export class User extends Model<User, UserInterface> {
-    @ApiProperty({ example: 1, description: 'user id' })
+    @ApiProperty({example: 1, description: 'user id'})
     @Column({type: DataType.INTEGER, autoIncrement: true, primaryKey: true, unique: true})
     id: number
 
-    @ApiProperty({ example: 'Bob', description: 'user first name'})
+    @ApiProperty({example: 'Bob', description: 'user first name'})
     @Column({type: DataType.STRING, allowNull: false})
     firstName: string
 
-    @ApiProperty({ example: 'Marly', description: 'user last name'})
+    @ApiProperty({example: 'Marly', description: 'user last name'})
     @Column({type: DataType.STRING, allowNull: false})
     lastName: string
 
-    @ApiProperty({ example: 'email@gmail.com', description: "user email"})
+    @ApiProperty({example: 'email@gmail.com', description: "user email"})
     @Column({type: DataType.STRING, allowNull: false, unique: true})
     email: string
 
@@ -37,4 +39,7 @@ export class User extends Model<User, UserInterface> {
     @ApiProperty({example: 'bad behavior', description: 'ban reason'})
     @Column({type: DataType.STRING, allowNull: true})
     banReason: string
+
+    @BelongsToMany(() => Role, () => UserRoles)
+    roles: Role[]
 }

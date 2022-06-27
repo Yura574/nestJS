@@ -17,13 +17,25 @@ model User {
   email     String   @unique
   password  String
   name      String?
+
+  @@map("users")
+  bookmarks  Bookmark[]
 }
 
 model Bookmark {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  title     String
-  description      String?
+  updatedAt DateTime @updatedAt
+
+
+  title         String
+  description   String?
+  link          String
+
+  userId        Int
+  user  User @relation(fields: [userId], references:[id])
+
+  @@map("bookmarks")
 }
 
 

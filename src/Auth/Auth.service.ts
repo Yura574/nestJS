@@ -9,8 +9,8 @@ export class AuthService{
 
 constructor(private prisma: PrismaService) {
 }
-    register(){
-        return 'register successful'
+    register(authDto){
+        return {authDto}
     }
 
     login(){

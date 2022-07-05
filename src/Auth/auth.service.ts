@@ -5,13 +5,15 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "../Entity/user.entity";
 import {Repository} from "typeorm";
 import * as bcrypt from 'bcrypt'
+import {JwtService} from "@nestjs/jwt";
 
 
 @Injectable()
 export class AuthService {
     constructor(@InjectRepository(UserEntity)
                 private userRepository: Repository<UserEntity>,
-                private userService: UserService) {
+                private userService: UserService,
+                private jwt: JwtService) {
     }
 
     async validateUser(email: string, pass: string): Promise<any> {
@@ -51,7 +53,18 @@ export class AuthService {
             throw new ForbiddenException('password incorrect')
         }
         delete  user.password
-        return user
+        return this.singToken(user.email, user.id)
+    }
+    async singToken (email: string, userId: number){
+
+        const payload = {
+            sub: userId,
+            email
+        }
+        return this.jwt.sign(payload, {
+            expiresIn: "15m",
+            secret: 'secret-code'
+        })
     }
 
 }

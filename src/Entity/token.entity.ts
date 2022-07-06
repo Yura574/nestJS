@@ -4,8 +4,9 @@ import {Schema} from "inspector";
 
 @Entity()
 export class TokenEntity{
-    @PrimaryGeneratedColumn()
-    id: number
-    @Column()
+
+    @Column({})
     user: any
+    @Column({})
+    refreshToken: string
 }

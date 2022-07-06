@@ -16,6 +16,8 @@ import {RefreshStrategy} from "./strategy/refresh.strategy";
     controllers:[AuthController],
     // exports: [AuthService]
     imports:[TypeOrmModule.forFeature([UserEntity]),UserModule, PassportModule,
-        JwtModule]
+        JwtModule.register({
+
+        })]
 })
 export class AuthModule{}

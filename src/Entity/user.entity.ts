@@ -16,8 +16,10 @@ export class UserEntity {
 
     @Column({default: false})
     isActivated: boolean
+
     @Column({default: null})
-    linkActivated: string
+    activationLink: string
+
     @Column({nullable: true})
     refreshToken: string
 }

@@ -10,12 +10,12 @@ async function start() {
       whitelist: true
     }))
     app.enableCors({
-      origin:  'http://localhost:3001',
+      origin:  'http://localhost:3000',
       methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
       credentials: true
     });
     app.use(cookieParser())
-    await app.listen(5000);
+    await app.listen(process.env.PORT );
   }
   catch (e) {
     console.log(e)

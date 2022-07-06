@@ -16,13 +16,28 @@ export class AuthController {
     }
 
     @Post('singUp')
-    singUp(@Body() dto: UserDto) {
+    singUp(@Body() dto: UserDto): Promise<Tokens> {
         console.log({dto})
         return this.authService.singUp(dto)
     }
 
     @Post('singIn')
-    singIn(@Body() dto: UserDto) {
+    singIn(@Body() dto: UserDto): Promise<Tokens> {
         return this.authService.singIn(dto)
     }
+
+    @Post('logout')
+    logout(){
+        return this.authService.logout()
+    }
+
+    @Post('refresh')
+    refreshTokens(){
+        return this.authService.refreshToken()
+    }
+
+}
+export type Tokens = {
+    access_token: string,
+    refresh_token: string
 }

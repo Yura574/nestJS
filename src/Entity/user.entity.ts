@@ -13,8 +13,11 @@ export class UserEntity {
 
     @Column()
     password: string
+
     @Column({default: false})
     isActivated: boolean
     @Column({default: null})
     linkActivated: string
+    @Column({nullable: true})
+    refreshToken: string
 }

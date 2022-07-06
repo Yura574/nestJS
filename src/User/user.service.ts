@@ -15,10 +15,21 @@ export class UserService {
         console.log(user)
         return user
     }
-    getUser(){
-        return  this.userRepository.find()
+
+    getUser() {
+        return this.userRepository.find()
     }
+
     async findOne(email: string): Promise<UserDto | undefined> {
         return this.userRepository.findOneBy({email});
+    }
+
+    async refreshTokenUser(id: number, refresh: string) {
+        return this.userRepository.update({
+                id
+            },
+            {
+                refreshToken: refresh
+            })
     }
 }

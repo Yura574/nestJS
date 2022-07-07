@@ -69,7 +69,7 @@ export class AuthService {
 
     }
 
-    async singToken(email: string, userId: number) {
+    async singToken(email: string, userId: string) {
         const [jwt, refresh] = await Promise.all([
             this.jwt.signAsync({
                     sub: userId,
@@ -96,7 +96,7 @@ export class AuthService {
         }
     }
 
-    async updateToken(userId: number, refresh: string) {
+    async updateToken(userId: string, refresh: string) {
         const hash = await bcrypt.hash(refresh, 8)
         await this.userService.refreshTokenUser(userId, hash)
     }

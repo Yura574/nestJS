@@ -1,12 +1,12 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
-import {Schema} from "inspector";
 
 
 @Entity()
-export class TokenEntity{
-
-    @Column({})
-    user: any
-    @Column({})
+export class TokenEntity {
+    @PrimaryGeneratedColumn()
+    id
+    @Column()
+    user: string
+    @Column()
     refreshToken: string
 }

@@ -16,7 +16,7 @@ export class UserService {
         return user
     }
 
-    getUser() {
+    getUsers() {
         return this.userRepository.find()
     }
 
@@ -24,7 +24,7 @@ export class UserService {
         return this.userRepository.findOneBy({email});
     }
 
-    async refreshTokenUser(id: number, refresh: string) {
+    async refreshTokenUser(id: string, refresh: string) {
         return this.userRepository.update({
                 id
             },

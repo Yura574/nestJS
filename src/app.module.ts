@@ -20,6 +20,7 @@ import {ConfigModule} from "@nestjs/config";
             entities: [UserEntity],
             synchronize: true,
             autoLoadEntities: true,
+
         }),
         UserModule, AuthModule
     ],

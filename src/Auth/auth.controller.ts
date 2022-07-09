@@ -2,18 +2,19 @@ import {Body, Controller, Get, Post, Req, Request, UseGuards} from "@nestjs/comm
 import {AuthGuard} from "@nestjs/passport";
 import {UserDto} from "../dto/userDto";
 import {AuthService} from "./auth.service";
+import {ApiTags} from "@nestjs/swagger";
 
-
+@ApiTags('authorization')
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) {
     }
 
-    @UseGuards(AuthGuard('local'))
-    @Post('login')
-    async login(@Req() req) {
-        return req.user
-    }
+    // @UseGuards(AuthGuard('local'))
+    // @Post('login')
+    // async login(@Req() req) {
+    //     return req.user
+    // }
 
     @Post('singUp')
     singUp(@Body() dto: UserDto): Promise<Tokens> {

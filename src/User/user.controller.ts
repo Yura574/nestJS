@@ -24,7 +24,7 @@ export class UserController{
         return this.userService.getUsers()
     }
     @Post('one')
-    findOneUser(@Body() email: string){
-        return this.userService.findOne(email)
+    findUserByEmail(@Body() email: string){
+        return this.userService.findUserByEmail(email)
     }
 }

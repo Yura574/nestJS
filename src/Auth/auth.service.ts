@@ -1,4 +1,4 @@
-import {ForbiddenException, Injectable} from "@nestjs/common";
+import {ForbiddenException, HttpException, HttpStatus, Injectable} from "@nestjs/common";
 import {UserService} from "../User/user.service";
 import {UserDto} from "../dto/userDto";
 import {InjectRepository} from "@nestjs/typeorm";
@@ -17,21 +17,16 @@ export class AuthService {
                 private jwt: JwtService) {
     }
 
-    async validateUser(email: string, pass: string): Promise<any> {
-        const user = await this.userService.findOne(email);
-        if (user && user.password === pass) {
-            const {password, ...result} = user;
-            return result;
-        }
-        return null;
-    }
-
     async singUp(dto: UserDto): Promise<Tokens> {
+        const candidate = await this.userService.findUserByEmail(dto.email)
+        if (candidate) {
+            throw new HttpException('such user already exist', HttpStatus.BAD_REQUEST)
+        }
         try {
+
             const hash = await bcrypt.hash(dto.password, 8)
             const user = await this.userService.createUser({...dto, password: hash})
-            delete user.password
-            const tokens = await this.singToken(user.email, user.id)
+            const tokens = await this.singToken(user)
             await this.updateToken(user.id, tokens.refresh_token)
             return tokens
         } catch (e) {
@@ -45,18 +40,9 @@ export class AuthService {
     }
 
     async singIn(dto: UserDto): Promise<Tokens> {
-        const user = await this.userRepository.findOneBy({
-            email: dto.email
-        })
-        if (!user) {
-            throw new ForbiddenException('email incorrect')
-        }
-        const comparePassword = await bcrypt.compare(dto.password, user.password)
-        if (!comparePassword) {
-            throw new ForbiddenException('password incorrect')
-        }
+      const  user = await  this.validateUser(dto)
 
-        const tokens = await this.singToken(user.email, user.id)
+        const tokens = await this.singToken(user)
         await this.updateToken(user.id, tokens.refresh_token)
         return tokens
     }
@@ -69,24 +55,18 @@ export class AuthService {
 
     }
 
-    async singToken(email: string, userId: string) {
+    async singToken(user: User) {
+        const payload = {sub: user.id, email: user.email, role: user.role}
         const [jwt, refresh] = await Promise.all([
-            this.jwt.signAsync({
-                    sub: userId,
-                    email
-                },
+            this.jwt.signAsync(payload,
                 {
                     expiresIn: 60 * 15,
-                    secret: 'secret-code'
+                    secret: process.env.SECRET_CODE || 'secret_code',
                 }),
-            this.jwt.signAsync({
-
-                    sub: userId,
-                    email
-                },
+            this.jwt.signAsync(payload,
                 {
                     expiresIn: 60 * 60 * 24 * 7,
-                    secret: 'secret-code'
+                    secret: process.env.SECRET_CODE || 'secret_code'
                 })
         ])
 
@@ -100,6 +80,18 @@ export class AuthService {
         const hash = await bcrypt.hash(refresh, 8)
         await this.userService.refreshTokenUser(userId, hash)
     }
+   private async validateUser(dto: UserDto) {
+        const user = await this.userService.findUserByEmail(dto.email)
+       if (!user) {
+           throw new ForbiddenException('password or email incorrect')
+       }
+        const comparePassword = await bcrypt.compare(dto.password, user.password)
+        if ( !comparePassword) {
+            throw new ForbiddenException('password or email incorrect')
+        }
+        return user;
+    }
+
 
 
 }

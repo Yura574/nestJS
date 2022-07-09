@@ -37,19 +37,39 @@ export class UserService {
     async findUserByEmail(email: string) {
         console.log(email)
         const user = await this.userRepository.findOne({
-            relations: {
-                role: true
-            },
-            where: {
-                email
-            }
+                relations: {
+                    role: true
+                },
+                where: {
+                    email
+                }
             },
         );
         console.log(user)
         return user
     }
 
-    async refreshTokenUser(id: string, refresh: string) {
-        return this.userRepository.update({id},{refreshToken: refresh})
+    async refreshTokenUser(id: number, refreshToken: string) {
+        return this.userRepository.update({id}, {refreshToken})
+    }
+
+    async logout(userId: number) {
+        return this.userRepository.update({id: userId}, {refreshToken: null})
+    }
+
+    async validateUser(email: string, password: string) {
+        const user = await this.userRepository.findOne({
+            relations: {
+                role: true
+            },
+            where: {
+                email
+            }
+        })
+        if (user && user.password === password) {
+            const {password, ...result} = user
+            return result
+        }
+        return null
     }
 }

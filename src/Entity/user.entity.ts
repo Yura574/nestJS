@@ -16,7 +16,7 @@ import {Role} from "./role.entity";
 export class User {
     @ApiProperty({example: 1, description: 'id пользователя'})
     @PrimaryGeneratedColumn()
-    id: string
+    id: number
 
     @ApiProperty({example: 'lololo@gmail.com', description: 'email пользователя'})
     @Column({unique: true})

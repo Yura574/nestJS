@@ -40,14 +40,14 @@ export class AuthService {
     }
 
     async singIn(dto: UserDto): Promise<Tokens> {
-      const  user = await  this.validateUser(dto)
-
+        const user = await this.validateUser(dto)
         const tokens = await this.singToken(user)
         await this.updateToken(user.id, tokens.refresh_token)
         return tokens
     }
 
-    logout() {
+    async logout(userId: number) {
+        await  this.userService.logout(userId)
         return 'logout'
     }
 
@@ -55,18 +55,18 @@ export class AuthService {
 
     }
 
-    async singToken(user: User) {
+    async singToken(user: User): Promise<Tokens> {
         const payload = {sub: user.id, email: user.email, role: user.role}
         const [jwt, refresh] = await Promise.all([
             this.jwt.signAsync(payload,
                 {
                     expiresIn: 60 * 15,
-                    secret: process.env.SECRET_CODE || 'secret_code',
+                    secret: process.env.SECRET_CODE || 'secret',
                 }),
             this.jwt.signAsync(payload,
                 {
                     expiresIn: 60 * 60 * 24 * 7,
-                    secret: process.env.SECRET_CODE || 'secret_code'
+                    secret: process.env.SECRET_CODE || 'secret'
                 })
         ])
 
@@ -76,22 +76,22 @@ export class AuthService {
         }
     }
 
-    async updateToken(userId: string, refresh: string) {
-        const hash = await bcrypt.hash(refresh, 8)
+    async   updateToken(userId: number, refreshToken: string) {
+        const hash = await bcrypt.hash(refreshToken, 8)
         await this.userService.refreshTokenUser(userId, hash)
     }
-   private async validateUser(dto: UserDto) {
+
+    private async validateUser(dto: UserDto) {
         const user = await this.userService.findUserByEmail(dto.email)
-       if (!user) {
-           throw new ForbiddenException('password or email incorrect')
-       }
+        if (!user) {
+            throw new ForbiddenException('password or email incorrect')
+        }
         const comparePassword = await bcrypt.compare(dto.password, user.password)
-        if ( !comparePassword) {
+        if (!comparePassword) {
             throw new ForbiddenException('password or email incorrect')
         }
         return user;
     }
-
 
 
 }

@@ -1,8 +1,9 @@
-import {Body, Controller, Get, Post, Req, Request, UseGuards} from "@nestjs/common";
+import {Body, Controller, Get, Post, Req, } from "@nestjs/common";
 import {AuthGuard} from "@nestjs/passport";
 import {UserDto} from "../dto/userDto";
 import {AuthService} from "./auth.service";
 import {ApiTags} from "@nestjs/swagger";
+import {Request} from "express";
 
 @ApiTags('authorization')
 @Controller('auth')
@@ -28,8 +29,9 @@ export class AuthController {
     }
 
     @Post('logout')
-    logout(){
-        return this.authService.logout()
+    logout(@Req() req: Request){
+        const user = req.user
+        return this.authService.logout(4)
     }
 
     @Post('refresh')

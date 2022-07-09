@@ -2,17 +2,17 @@ import {ForbiddenException, Injectable} from "@nestjs/common";
 import {UserService} from "../User/user.service";
 import {UserDto} from "../dto/userDto";
 import {InjectRepository} from "@nestjs/typeorm";
-import {UserEntity} from "../Entity/user.entity";
 import {Repository} from "typeorm";
 import * as bcrypt from 'bcrypt'
 import {JwtService} from "@nestjs/jwt";
 import {Tokens} from "./auth.controller";
+import {User} from "../Entity/user.entity";
 
 
 @Injectable()
 export class AuthService {
-    constructor(@InjectRepository(UserEntity)
-                private userRepository: Repository<UserEntity>,
+    constructor(@InjectRepository(User)
+                private userRepository: Repository<User>,
                 private userService: UserService,
                 private jwt: JwtService) {
     }

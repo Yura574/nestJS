@@ -6,6 +6,9 @@ import {ConfigModule} from "@nestjs/config";
 import {User} from "./Entity/user.entity";
 import {Role} from "./Entity/role.entity";
 import {RoleModule} from "./User/Roles/role.module";
+import {Post} from "./Entity/post.entity";
+import {FileModule} from "./Files/file.module";
+import {PostModule} from "./Post/post.module";
 
 @Module({
     imports: [
@@ -19,12 +22,12 @@ import {RoleModule} from "./User/Roles/role.module";
             username: process.env.POSTGRES_USER,
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
-            entities: [User, Role],
+            entities: [User, Role, Post],
             synchronize: true,
             autoLoadEntities: true,
 
         }),
-        UserModule, AuthModule, RoleModule
+        UserModule, AuthModule, RoleModule, FileModule, PostModule
     ],
 })
 export class AppModule {

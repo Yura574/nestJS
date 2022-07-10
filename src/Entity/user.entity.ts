@@ -3,12 +3,13 @@ import {
     CreateDateColumn,
     Entity,
     JoinTable,
-    ManyToMany,
+    ManyToMany, OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
 import {Role} from "./role.entity";
+import {Post} from "./post.entity";
 
 
 @Entity()
@@ -46,7 +47,11 @@ export class User {
     @UpdateDateColumn({type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP'})
     updated: Date
 
+
     @ManyToMany(() => Role, (role) => role.users)
     @JoinTable({name:'user-role'})
     role: Role[]
+
+    @OneToMany(()=> Post, (post)=> post.user)
+    posts: Post[]
 }

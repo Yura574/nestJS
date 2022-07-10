@@ -1,11 +1,8 @@
-import {Body, Controller, Get, Post, Req, UseGuards} from "@nestjs/common";
+import {Body, Controller, Get, Post, UseGuards} from "@nestjs/common";
 import {UserService} from "./user.service";
 import {UserDto} from "../dto/userDto";
 import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {User} from "../Entity/user.entity";
-import {JwtAuthGuard} from "../Auth/guards/jwt_auth.guard";
-import {AuthGuard} from "@nestjs/passport";
-import {Request} from "express";
 import {RolesGuard} from "../Auth/guards/roles.guard";
 import {Roles} from "../Auth/guards/roles-auth.decorator";
 
@@ -20,7 +17,7 @@ export class UserController{
     @Post()
     createUser(@Body() dto: UserDto){
         console.log(dto)
-        return this.userService.createUser(dto)
+        return "this.userService.createUser(dto)"
     }
     @ApiOperation({summary: 'Полочить всех пользователей '})
     @ApiResponse({status: 200, type: [User]})

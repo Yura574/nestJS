@@ -10,7 +10,6 @@ import {Observable} from "rxjs";
 import {JwtService} from "@nestjs/jwt";
 import {Reflector} from "@nestjs/core";
 import {ROLES_KEY} from "./roles-auth.decorator";
-import {use} from "passport";
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -33,7 +32,7 @@ export class RolesGuard implements CanActivate {
             const bearer = authHeader.split(' ')[0]
             const token = authHeader.split(' ')[1]
             if (bearer !== 'Bearer' || !token) {
-                throw new UnauthorizedException({message: 'user not authorized'})
+               throw new UnauthorizedException({message: 'user not authorized'})
             }
             const user = this.jwtService.verify(token, {secret: process.env.SECRET_KEY || 'secret'})
             console.log(user)

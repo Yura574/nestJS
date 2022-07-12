@@ -9,6 +9,8 @@ import {RoleModule} from "./User/Roles/role.module";
 import {Post} from "./Entity/post.entity";
 import {FileModule} from "./Files/file.module";
 import {PostModule} from "./Post/post.module";
+import {Basket} from "./Entity/basket.entity";
+import {BasketDevice} from "./Entity/BasketDevice.entity";
 
 @Module({
     imports: [
@@ -22,7 +24,8 @@ import {PostModule} from "./Post/post.module";
             username: process.env.POSTGRES_USER,
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
-            entities: [User, Role, Post],
+            // entities: [User, Role, Post, Basket, BasketDevice],
+            entities: ["dist/**/*.entity.js"],
             synchronize: true,
             autoLoadEntities: true,
 

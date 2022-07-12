@@ -1,6 +1,6 @@
 import {Body, Controller, Get, Post, Req, } from "@nestjs/common";
 import {AuthGuard} from "@nestjs/passport";
-import {UserDto} from "../dto/userDto";
+import {UserDto} from "../Entity/dto/userDto";
 import {AuthService} from "./auth.service";
 import {ApiTags} from "@nestjs/swagger";
 import {Request} from "express";

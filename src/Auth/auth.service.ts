@@ -1,6 +1,6 @@
 import {ForbiddenException, HttpException, HttpStatus, Injectable} from "@nestjs/common";
 import {UserService} from "../User/user.service";
-import {UserDto} from "../dto/userDto";
+import {UserDto} from "../Entity/dto/userDto";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import * as bcrypt from 'bcrypt'

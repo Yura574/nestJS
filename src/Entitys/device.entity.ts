@@ -1,5 +1,7 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
+import {BasketDevice} from "./basketDevice.entity";
+import {DeviceInfo} from "./device_info";
 
 
 @Entity()
@@ -25,4 +27,10 @@ export class Device {
     @ApiProperty({example: 'путь картинки', description: 'изображение товара'})
     @Column()
     img: string
+
+    // @OneToOne(()=>DeviceInfo, (deviceInfo)=> deviceInfo.device)
+    // @JoinColumn()
+    // deviceInfo: DeviceInfo
+
 }
+

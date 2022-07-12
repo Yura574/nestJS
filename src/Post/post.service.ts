@@ -1,8 +1,8 @@
 import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
-import {Post} from "../Entity/post.entity";
+import {Post} from "../Entitys/post.entity";
 import {Repository} from "typeorm";
-import {CreatePostDto} from "../Entity/dto/createPost.dto";
+import {CreatePostDto} from "../Entitys/dto/createPost.dto";
 import {FileService} from "../Files/file.service";
 
 interface PostInterface {

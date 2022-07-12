@@ -8,7 +8,7 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {JwtModule} from "@nestjs/jwt";
 import {JwtStrategy} from "./guards/strategy";
 import {RefreshStrategy} from "./guards/strategy/refresh.strategy";
-import {User} from "../Entity/user.entity";
+import {User} from "../Entitys/user.entity";
 
 
 @Module({

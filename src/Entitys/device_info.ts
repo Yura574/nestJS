@@ -1,5 +1,6 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
+import {Device} from "./device.entity";
 
 
 @Entity()
@@ -21,4 +22,8 @@ export class DeviceInfo{
     @ApiProperty({example: 'ароматическая свеча', description:'описание товара'})
     @Column()
     description: string
+
+    // @OneToOne(()=>Device, (device)=> device.deviceInfo)
+    //
+    // device: Device
 }

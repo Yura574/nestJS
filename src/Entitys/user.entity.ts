@@ -1,15 +1,16 @@
 import {
     Column,
     CreateDateColumn,
-    Entity,
+    Entity, JoinColumn,
     JoinTable,
-    ManyToMany, OneToMany,
+    ManyToMany, OneToMany, OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
 import {Role} from "./role.entity";
 import {Post} from "./post.entity";
+import {Basket} from "./basket.entity";
 
 
 @Entity()
@@ -54,4 +55,8 @@ export class User {
 
     @OneToMany(()=> Post, (post)=> post.user)
     posts: Post[]
+
+    @OneToOne(()=> Basket)
+    @JoinColumn()
+    basket: Basket
 }

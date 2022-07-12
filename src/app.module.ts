@@ -3,14 +3,14 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {UserModule} from "./User/user.module";
 import {AuthModule} from "./Auth/auth.module";
 import {ConfigModule} from "@nestjs/config";
-import {User} from "./Entity/user.entity";
-import {Role} from "./Entity/role.entity";
+import {User} from "./Entitys/user.entity";
+import {Role} from "./Entitys/role.entity";
 import {RoleModule} from "./User/Roles/role.module";
-import {Post} from "./Entity/post.entity";
+import {Post} from "./Entitys/post.entity";
 import {FileModule} from "./Files/file.module";
 import {PostModule} from "./Post/post.module";
-import {Basket} from "./Entity/basket.entity";
-import {BasketDevice} from "./Entity/BasketDevice.entity";
+import {Basket} from "./Entitys/basket.entity";
+import {BasketDevice} from "./Entitys/BasketDevice.entity";
 
 @Module({
     imports: [

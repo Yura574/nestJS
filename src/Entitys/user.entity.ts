@@ -11,6 +11,7 @@ import {ApiProperty} from "@nestjs/swagger";
 import {Role} from "./role.entity";
 import {Post} from "./post.entity";
 import {Basket} from "./basket.entity";
+import {Rating} from "./rating.entity";
 
 
 @Entity()
@@ -59,4 +60,7 @@ export class User {
     @OneToOne(()=> Basket)
     @JoinColumn()
     basket: Basket
+
+    @OneToMany(()=> Rating, (rating)=> rating.user)
+    rating: Rating[]
 }

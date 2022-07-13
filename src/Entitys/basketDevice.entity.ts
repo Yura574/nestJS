@@ -1,4 +1,4 @@
-import {Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
 import {Basket} from "./basket.entity";
 import {Device} from "./device.entity";
@@ -14,6 +14,9 @@ export class BasketDevice{
 
     @ManyToOne(()=>Basket, (basket)=> basket.basketDevice)
     basket: Basket
+
+    @OneToOne(()=>Device, (device)=> device.basketDevice)
+    device: Device
 
 
 }

@@ -1,5 +1,7 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
+import {User} from "./user.entity";
+import {Device} from "./device.entity";
 
 
 @Entity()
@@ -13,4 +15,10 @@ export class Rating {
     @ApiProperty({example: 3, description:'рейниг товара'})
     @Column({default: 0})
     rating: number
+
+    @ManyToOne(()=> User, (user)=> user.rating)
+    user: User
+
+    @ManyToOne(()=>Device, (device)=> device.rate)
+    device: Device
 }

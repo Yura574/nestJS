@@ -1,7 +1,10 @@
-import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
 import {BasketDevice} from "./basketDevice.entity";
 import {DeviceInfo} from "./device_info";
+import {Rating} from "./rating.entity";
+import {Type} from "./type.entity";
+import {Brand} from "./brand.entity";
 
 
 @Entity()
@@ -16,7 +19,7 @@ export class Device {
     @Column({unique: true})
     name: string
 
-    @ApiProperty({example:'50$', description: 'цена товара'})
+    @ApiProperty({example: '50$', description: 'цена товара'})
     @Column()
     price: string
 
@@ -28,9 +31,21 @@ export class Device {
     @Column()
     img: string
 
-    // @OneToOne(()=>DeviceInfo, (deviceInfo)=> deviceInfo.device)
-    // @JoinColumn()
-    // deviceInfo: DeviceInfo
+    @OneToMany(() => DeviceInfo, (deviceInfo) => deviceInfo.device)
+    @JoinColumn()
+    deviceInfo: DeviceInfo
+
+    @OneToMany(() => Rating, (rating) => rating.device)
+    rate: Rating
+
+    @OneToOne(() => BasketDevice, (basketDevice) => basketDevice.device)
+    basketDevice: BasketDevice
+
+    @ManyToOne(()=> Type, (type)=> type.device)
+    type: Type
+
+    @ManyToOne(()=> Brand, (brand)=> brand.device)
+    brand: Brand
 
 }
 

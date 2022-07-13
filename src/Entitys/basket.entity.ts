@@ -1,7 +1,7 @@
 import {Entity, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
 import {User} from "./user.entity";
-import {BasketDevice} from "./BasketDevice.entity";
+import { BasketDevice } from "./basketDevice.entity";
 
 
 @Entity()

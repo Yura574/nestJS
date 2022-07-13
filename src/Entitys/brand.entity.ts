@@ -1,5 +1,7 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
+import {Device} from "./device.entity";
+import {Type} from "./type.entity";
 
 
 @Entity()
@@ -14,5 +16,11 @@ export class Brand {
     @Column({unique: true})
     name: string
 
+    @OneToMany(() => Device, device => device.brand)
+    device: Device[]
+
+    @ManyToMany(()=> Type, (type)=> type.brand)
+    @JoinTable({name:'brand_type'})
+    type: Type[]
 
 }

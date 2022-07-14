@@ -7,6 +7,9 @@ import {RoleModule} from "./User/Roles/role.module";
 import {FileModule} from "./Files/file.module";
 import {PostModule} from "./Post/post.module";
 import {Basket, BasketDevice, Brand, Device, DeviceInfo, Post, Rating, Role, Type, User} from "./Entitys";
+import {DeviceModule} from "./Device/device.module";
+import {TypeModule} from "./Type/type.module";
+import {BrandModule} from "./Brand/brand.module";
 
 @Module({
     imports: [
@@ -26,7 +29,7 @@ import {Basket, BasketDevice, Brand, Device, DeviceInfo, Post, Rating, Role, Typ
             autoLoadEntities: true,
 
         }),
-        UserModule, AuthModule, RoleModule, FileModule, PostModule
+        UserModule, AuthModule, RoleModule, FileModule, PostModule, DeviceModule, TypeModule, BrandModule
     ],
 })
 export class AppModule {

@@ -1,5 +1,4 @@
-import {Body, Controller, Get, Post, Req, } from "@nestjs/common";
-import {AuthGuard} from "@nestjs/passport";
+import {Body, Controller, ForbiddenException, Get, Post, Req,} from "@nestjs/common";
 import {UserDto} from "../Entitys/dto/userDto";
 import {AuthService} from "./auth.service";
 import {ApiTags} from "@nestjs/swagger";
@@ -28,9 +27,18 @@ export class AuthController {
         return this.authService.singIn(dto)
     }
 
+    @Get('me')
+    authMe(@Req() req: Request){
+        const id = req.query.id
+        if(!id){
+            throw new ForbiddenException({message: 'not id'})
+        }
+        return req.query.id
+    }
+
+
     @Post('logout')
     logout(@Req() req: Request){
-        const user = req.user
         return this.authService.logout(4)
     }
 

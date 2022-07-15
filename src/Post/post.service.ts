@@ -1,15 +1,10 @@
 import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
-import {Post} from "../Entitys/post.entity";
 import {Repository} from "typeorm";
 import {CreatePostDto} from "../Entitys/dto/createPost.dto";
 import {FileService} from "../Files/file.service";
+import {Post} from "../Entitys";
 
-interface PostInterface {
-    title: string,
-    content: string,
-    image: string
-}
 
 @Injectable()
 export class PostService {
@@ -18,10 +13,10 @@ export class PostService {
                 private fileService: FileService) {
     }
 
-    async createPost (dto){
-        // console.log(image)
-        // const fileName = await this.fileService.createFile(image)
-        // const post = await this.postRepository.save({...dto, image: fileName})
-        return dto
+    async create (dto: CreatePostDto, image: any){
+        console.log(image)
+        console.log(dto)
+        const fileName = await this.fileService.createFile(image)
+        return await this.postRepository.save({...dto, image: fileName})
     }
 }

@@ -16,16 +16,16 @@ export class Device {
     id: number
 
     @ApiProperty({example: 'модель', description: 'название модели '})
-    @Column({unique: true})
+    @Column()
     name: string
 
     @ApiProperty({example: '50$', description: 'цена товара'})
     @Column()
     price: string
 
-    @ApiProperty({example: 3.8, description: 'рейтинг товара '})
+    @ApiProperty({example: 4, description: 'рейтинг товара '})
     @Column()
-    rating: number
+    rate: string
 
     @ApiProperty({example: 'путь картинки', description: 'изображение товара'})
     @Column()
@@ -36,7 +36,7 @@ export class Device {
     deviceInfo: DeviceInfo
 
     @OneToMany(() => Rating, (rating) => rating.device)
-    rate: Rating
+    rating: Rating
 
     @OneToOne(() => BasketDevice, (basketDevice) => basketDevice.device)
     basketDevice: BasketDevice

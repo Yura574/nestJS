@@ -6,7 +6,7 @@ import {Repository} from "typeorm";
 import * as bcrypt from 'bcrypt'
 import {JwtService} from "@nestjs/jwt";
 import {Tokens} from "./auth.controller";
-import {User} from "../Entitys/user.entity";
+import {User} from "../Entitys";
 
 
 @Injectable()
@@ -44,6 +44,10 @@ export class AuthService {
         const tokens = await this.singToken(user)
         await this.updateToken(user.id, tokens.refresh_token)
         return tokens
+    }
+
+    async authMe(){
+        return 'lololo'
     }
 
     async logout(userId: number) {

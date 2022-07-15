@@ -10,6 +10,9 @@ import {Basket, BasketDevice, Brand, Device, DeviceInfo, Post, Rating, Role, Typ
 import {DeviceModule} from "./Device/device.module";
 import {TypeModule} from "./Type/type.module";
 import {BrandModule} from "./Brand/brand.module";
+import {MulterModule} from "@nestjs/platform-express";
+import {ServeStaticModule} from "@nestjs/serve-static";
+import * as path from "path";
 
 @Module({
     imports: [
@@ -28,6 +31,12 @@ import {BrandModule} from "./Brand/brand.module";
             synchronize: true,
             autoLoadEntities: true,
 
+        }),
+        ServeStaticModule.forRoot({
+            rootPath: path.resolve(__dirname,'static')
+        }),
+        MulterModule.register({
+           dest: './upload'
         }),
         UserModule, AuthModule, RoleModule, FileModule, PostModule, DeviceModule, TypeModule, BrandModule
     ],

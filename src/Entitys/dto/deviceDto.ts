@@ -11,6 +11,10 @@ export class DeviceDto{
 
     @IsString()
     rate: string
+    @IsString()
+    brandId: string
+    @IsString()
+    typeId: string
 
 
 }

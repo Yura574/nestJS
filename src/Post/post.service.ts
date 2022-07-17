@@ -13,10 +13,10 @@ export class PostService {
                 private fileService: FileService) {
     }
 
-    async create (dto: CreatePostDto, image: any){
+    async create (dto: CreatePostDto, image, folder){
         console.log(image)
         console.log(dto)
-        const fileName = await this.fileService.createFile(image)
+        const fileName = await this.fileService.createFile(image, folder)
         return await this.postRepository.save({...dto, image: fileName})
     }
 }

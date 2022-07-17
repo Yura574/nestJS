@@ -16,7 +16,8 @@ export class PostController{
                @UploadedFile() image){
         console.log(image)
         console.log(dto)
-        return this.postService.create(dto, image)
+        const folder = 'static'
+        return this.postService.create(dto, image, folder)
     }
     @Get()
     get(){

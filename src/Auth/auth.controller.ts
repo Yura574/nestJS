@@ -1,8 +1,8 @@
-import {Body, Controller, ForbiddenException, Get, Post, Req,} from "@nestjs/common";
+import {Body, Controller, ForbiddenException, Get, Post, Req, Res,} from "@nestjs/common";
 import {UserDto} from "../Entitys/dto/userDto";
 import {AuthService} from "./auth.service";
 import {ApiTags} from "@nestjs/swagger";
-import {Request} from "express";
+import {Request, Response} from "express";
 
 @ApiTags('authorization')
 @Controller('auth')
@@ -23,14 +23,22 @@ export class AuthController {
     }
 
     @Post('singIn')
-    singIn(@Body() dto: UserDto): Promise<Tokens> {
-        return this.authService.singIn(dto)
+   async singIn( @Body()dto: UserDto,
+                 @Res() res: Response) {
+        // console.log(dto)
+        const userData = await this.authService.singIn(dto)
+        // res.cookie('refresh', userData.refresh_token)
+        // res.cookie('refresh', userData.refresh_token)
+        // console.log(userData)
+         res.cookie('refresh',userData.refresh_token, {maxAge: 30*24*60*60*1000, httpOnly: true})
+        console.log(userData)
+        return res.json(userData)
     }
 
     @Get('me')
-    authMe(@Req() req: Request){
+    authMe(@Req() req: Request) {
         const id = req.query.id
-        if(!id){
+        if (!id) {
             throw new ForbiddenException({message: 'not id'})
         }
         return req.query.id
@@ -38,16 +46,24 @@ export class AuthController {
 
 
     @Post('logout')
-    logout(@Req() req: Request){
+    logout(@Req() req: Request) {
         return this.authService.logout(4)
     }
 
     @Post('refresh')
-    refreshTokens(){
+    refreshTokens() {
         return this.authService.refreshToken()
+    }
+    @Post('me')
+    me(@Req() req: Request){
+        console.log(req.cookies.refresh)
+        const token = req.cookies.refresh
+        console.log(token)
+        return this.authService.authMe(token)
     }
 
 }
+
 export type Tokens = {
     access_token: string,
     refresh_token: string

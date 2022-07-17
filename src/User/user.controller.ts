@@ -21,7 +21,7 @@ export class UserController{
     }
     @ApiOperation({summary: 'Полочить всех пользователей '})
     @ApiResponse({status: 200, type: [User]})
-    @UseGuards(RolesGuard)
+    // @UseGuards(RolesGuard)
     @Roles('admin')
     @Get('all')
     getUsers(){

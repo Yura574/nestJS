@@ -48,6 +48,14 @@ export class UserService {
         console.log(user)
         return user
     }
+    async findUserByToken (token){
+        const validate  = 1
+        const user = await this.userRepository.findOne({
+            where:{
+                refreshToken: token
+            }
+        })
+    }
 
     async refreshTokenUser(id: number, refreshToken: string) {
         return this.userRepository.update({id}, {refreshToken})
@@ -72,4 +80,5 @@ export class UserService {
         }
         return null
     }
+
 }

@@ -12,12 +12,13 @@ export class DeviceService {
     constructor(@InjectRepository(Device) private deviceRepository:  Repository<Device>,
                 private fileService: FileService) {
     }
-   async createDevice (dto: DeviceDto, file: Express.Multer.File){
-       const fileName = await this.fileService.createFile(file)
-       const device = await this.deviceRepository.save({...dto, img: fileName})
+   async createDevice (dto: DeviceDto, file: Express.Multer.File, folder){
+       const fileName = await this.fileService.createFile(file, folder)
+       // const device = await this.deviceRepository.save({...dto, img: fileName})
+
        console.log(fileName)
        console.log(file)
-        return {...dto, img: fileName}
+        return 'device'
     }
     // async create (dto: CreatePostDto, image: any){
     //     console.log(image)

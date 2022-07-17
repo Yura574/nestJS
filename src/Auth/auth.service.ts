@@ -39,15 +39,21 @@ export class AuthService {
 
     }
 
-    async singIn(dto: UserDto): Promise<Tokens> {
+    async singIn(dto: UserDto) {
         const user = await this.validateUser(dto)
         const tokens = await this.singToken(user)
         await this.updateToken(user.id, tokens.refresh_token)
-        return tokens
+
+        return {...tokens, user}
     }
 
-    async authMe(){
-        return 'lololo'
+    async authMe(token){
+        const validToken = this.jwt.verify(token, {secret:process.env.SECRET_CODE || 'secret'} )
+        const user = {...validToken}
+        user.logo = 'assa'
+        console.log(validToken)
+        // console.log(user)
+        return user
     }
 
     async logout(userId: number) {

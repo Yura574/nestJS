@@ -42,10 +42,10 @@ export class Device {
     basketDevice: BasketDevice
 
     @ManyToOne(()=> Type, (type)=> type.device)
-    type: Type
+    typeId: Type
 
     @ManyToOne(()=> Brand, (brand)=> brand.device)
-    brand: Brand
+    brandId: Brand
 
 }
 

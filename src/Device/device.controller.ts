@@ -22,22 +22,25 @@ export class DeviceController {
         @Body() dto: DeviceDto,
         @UploadedFile() file: Express.Multer.File,
     ) {
+        const folder = 'static'
         console.log(file)
-        return this.deviceService.createDevice(dto, file )
+        console.log(dto)
+        return this.deviceService.createDevice(dto, file, folder )
         // {
         //     body,
         //     file: file.buffer.toString(),
         // };
     }
-    @Post('upload-file')
+    @Post('uploadfile')
     @UseInterceptors(FileInterceptor('file'))
 
     upload(
         @Body() dto: DeviceDto,
         @UploadedFile() file: Express.Multer.File,
     ) {
+        const folder = 'myDevice'
         console.log(file)
-        return this.deviceService.createDevice(dto, file )
+        return this.deviceService.createDevice(dto, file, folder)
         // {
         //     body,
         //     file: file.buffer.toString(),

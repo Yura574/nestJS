@@ -9,7 +9,7 @@ export class RoleController{
     }
 
     @Post()
-    createRole(@Body() dto: CreateRoleDto){
+    createRole(@Body() dto: CreateRoleDto)  {
         return this.roleService.createRole(dto)
     }
 

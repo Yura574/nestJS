@@ -34,10 +34,6 @@ import * as path from "path";
         }),
         ServeStaticModule.forRoot({
             rootPath: path.resolve(__dirname,'static'),
-            serveRoot: '/static'
-        }),
-        ServeStaticModule.forRoot({
-            rootPath: path.resolve(__dirname,'myDevice')
         }),
         MulterModule.register({
            dest: './upload'

@@ -49,7 +49,7 @@ export class UserService {
         return user
     }
     async findUserByToken (token){
-        const validate  = 1
+        const validate  = 1  
         const user = await this.userRepository.findOne({
             where:{
                 refreshToken: token

@@ -14,11 +14,11 @@ export class DeviceService {
     }
    async createDevice (dto: DeviceDto, file: Express.Multer.File, folder){
        const fileName = await this.fileService.createFile(file, folder)
-       // const device = await this.deviceRepository.save({...dto, img: fileName})
+       const device = await this.deviceRepository.save({...dto, img: fileName})
 
        console.log(fileName)
        console.log(file)
-        return 'device'
+        return device
     }
     // async create (dto: CreatePostDto, image: any){
     //     console.log(image)

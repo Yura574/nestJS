@@ -24,6 +24,12 @@ export class UserService {
         return user
     }
 
+    async deleteUser(id: number) {
+        return await this.userRepository.createQueryBuilder().delete().from(User)
+            .where("id = :id", {id})
+            .execute()
+    }
+
     getUsers() {
         return this.userRepository.find({
 
@@ -48,10 +54,11 @@ export class UserService {
         console.log(user)
         return user
     }
-    async findUserByToken (token){
-        const validate  = 1  
+
+    async findUserByToken(token) {
+        const validate = 1
         const user = await this.userRepository.findOne({
-            where:{
+            where: {
                 refreshToken: token
             }
         })

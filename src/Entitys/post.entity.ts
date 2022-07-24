@@ -21,6 +21,6 @@ export class Post {
 
 
 
-    @ManyToOne(()=> User, (user)=> user.posts)
-    user: User
+    // @ManyToOne(()=> User, (user)=> user.posts)
+    // user: User
 }

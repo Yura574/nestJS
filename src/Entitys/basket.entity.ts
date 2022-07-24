@@ -11,11 +11,11 @@ export class Basket {
     @PrimaryGeneratedColumn()
     id: number
 
-    @OneToOne(()=> User, (user)=> user.basket)
-    user: User
-
-    @OneToMany(()=>BasketDevice, (basketDevice)=>basketDevice )
-    basketDevice: BasketDevice[]
+    // @OneToOne(()=> User, (user)=> user.basket)
+    // user: User
+    //
+    // @OneToMany(()=>BasketDevice, (basketDevice)=>basketDevice )
+    // basketDevice: BasketDevice[]
 
 
 }

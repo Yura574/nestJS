@@ -16,11 +16,11 @@ export class Brand {
     @Column({unique: true})
     name: string
 
-    @OneToMany(() => Device, device => device.brandId)
-    device: Device[]
-
-    @ManyToMany(()=> Type, (type)=> type.brandId)
-    @JoinTable({name:'brand_type'})
-    typeId: Type[]
+    // @OneToMany(() => Device, device => device.brandId)
+    // device: Device[]
+    //
+    // @ManyToMany(()=> Type, (type)=> type.brandId)
+    // @JoinTable({name:'brand_type'})
+    // typeId: Type[]
 
 }

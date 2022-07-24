@@ -16,9 +16,9 @@ export class Rating {
     @Column({ default: 0})
     rate: string
 
-    @ManyToOne(()=> User, (user)=> user.rating)
-    user: User
-
-    @ManyToOne(()=>Device, (device)=> device.rating)
-    device: Device
+    // @ManyToOne(()=> User, (user)=> user.rating)
+    // user: User
+    //
+    // @ManyToOne(()=>Device, (device)=> device.rating)
+    // device: Device
 }

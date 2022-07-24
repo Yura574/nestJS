@@ -31,21 +31,21 @@ export class Device {
     @Column()
     img: string
 
-    @OneToMany(() => DeviceInfo, (deviceInfo) => deviceInfo.device)
-    @JoinColumn()
-    deviceInfo: DeviceInfo
-
-    @OneToMany(() => Rating, (rating) => rating.device)
-    rating: Rating
-
-    @OneToOne(() => BasketDevice, (basketDevice) => basketDevice.device)
-    basketDevice: BasketDevice
-
-    @ManyToOne(()=> Type, (type)=> type.device)
-    typeId: Type
-
-    @ManyToOne(()=> Brand, (brand)=> brand.device)
-    brandId: Brand
+    // @OneToMany(() => DeviceInfo, (deviceInfo) => deviceInfo.device)
+    // @JoinColumn()
+    // deviceInfo: DeviceInfo
+    //
+    // @OneToMany(() => Rating, (rating) => rating.device)
+    // rating: Rating
+    //
+    // @OneToOne(() => BasketDevice, (basketDevice) => basketDevice.device)
+    // basketDevice: BasketDevice
+    //
+    // @ManyToOne(()=> Type, (type)=> type.device)
+    // typeId: Type
+    //
+    // @ManyToOne(()=> Brand, (brand)=> brand.device)
+    // brandId: Brand
 
 }
 

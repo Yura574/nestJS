@@ -40,6 +40,7 @@ export class AuthService {
     }
 
     async singIn(dto: UserDto) {
+        console.log(dto)
         const user = await this.validateUser(dto)
         const tokens = await this.singToken(user)
         await this.updateToken(user.id, tokens.refresh_token)
@@ -50,9 +51,9 @@ export class AuthService {
     async authMe(token){
         const validToken = this.jwt.verify(token, {secret:process.env.SECRET_CODE || 'secret'} )
         const user = {...validToken}
-        user.logo = 'assa'
+
         console.log(validToken)
-        // console.log(user)
+        console.log(user)
         return user
     }
 
@@ -93,6 +94,7 @@ export class AuthService {
 
     private async validateUser(dto: UserDto) {
         const user = await this.userService.findUserByEmail(dto.email)
+        // console.log(user)
         if (!user) {
             throw new ForbiddenException('password or email incorrect')
         }
@@ -100,6 +102,7 @@ export class AuthService {
         if (!comparePassword) {
             throw new ForbiddenException('password or email incorrect')
         }
+        console.log(comparePassword)
         return user;
     }
 

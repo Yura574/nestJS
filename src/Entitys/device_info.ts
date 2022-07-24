@@ -23,6 +23,7 @@ export class DeviceInfo {
     @Column()
     description: string
 
-    @ManyToOne(() => Device, (device) => device.deviceInfo)
-    device: Device
+//     @ManyToOne(() => Device, (device) => device.deviceInfo)
+//     device: Device
+
 }

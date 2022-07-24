@@ -50,17 +50,17 @@ export class User {
     updated: Date
 
 
-    @ManyToMany(() => Role, (role) => role.users)
-    @JoinTable({name:'user-role'})
-    role: Role[]
-
-    @OneToMany(()=> Post, (post)=> post.user)
-    posts: Post[]
-
-    @OneToOne(()=> Basket)
-    @JoinColumn()
-    basket: Basket
-
-    @OneToMany(()=> Rating, (rating)=> rating.user)
-    rating: Rating[]
+//     @ManyToMany(() => Role, (role) => role.users)
+//     @JoinTable({name:'user-role'})
+//     role: Role[]
+//
+//     @OneToMany(()=> Post, (post)=> post.user)
+//     posts: Post[]
+//
+//     @OneToOne(()=> Basket)
+//     @JoinColumn()
+//     basket: Basket
+//
+//     @OneToMany(()=> Rating, (rating)=> rating.user)
+//     rating: Rating[]
 }

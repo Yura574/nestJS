@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post, UseGuards} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, UseGuards} from "@nestjs/common";
 import {UserService} from "./user.service";
 import {UserDto} from "../Entitys/dto/userDto";
 import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
@@ -17,7 +17,7 @@ export class UserController{
     @Post()
     createUser(@Body() dto: UserDto){
         console.log(dto)
-        return "this.userService.createUser(dto)"
+        return this.userService.createUser(dto)
     }
     @ApiOperation({summary: 'Полочить всех пользователей '})
     @ApiResponse({status: 200, type: [User]})
@@ -30,5 +30,10 @@ export class UserController{
     @Post('one')
     findUserByEmail(@Body() email: string){
         return this.userService.findUserByEmail(email)
+    }
+    @Delete('delete/:id')
+    deleteUser (@Param() params){
+        // return params.id
+        return this.userService.deleteUser(Number(params.id))
     }
 }

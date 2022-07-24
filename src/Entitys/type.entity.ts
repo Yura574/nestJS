@@ -17,11 +17,11 @@ export class Type {
     name: string
 
 
-    @OneToMany(()=> Device, (device)=> device.typeId)
-    device: Device[]
+    // @OneToMany(()=> Device, (device)=> device.typeId)
+    // device: Device[]
 
-
-    @ManyToMany(()=> Brand, (brand)=> brand.typeId)
-    brandId: Brand[]
+    //
+    // @ManyToMany(()=> Brand, (brand)=> brand.typeId)
+    // brandId: Brand[]
 
 }

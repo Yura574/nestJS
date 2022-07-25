@@ -3,7 +3,7 @@ import {ApiProperty} from "@nestjs/swagger";
 import {Device} from "./device.entity";
 
 
-@Entity()
+// @Entity()
 
 export class DeviceInfo {
 

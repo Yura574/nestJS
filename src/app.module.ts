@@ -5,14 +5,15 @@ import {AuthModule} from "./Auth/auth.module";
 import {ConfigModule} from "@nestjs/config";
 import {RoleModule} from "./User/Roles/role.module";
 import {FileModule} from "./Files/file.module";
-import {PostModule} from "./Post/post.module";
+import {PostModule} from "./history/Post/post.module";
 import {Basket, BasketDevice, Brand, Device, DeviceInfo, Post, Rating, Role, Type, User} from "./Entitys";
-import {DeviceModule} from "./Device/device.module";
-import {TypeModule} from "./Type/type.module";
-import {BrandModule} from "./Brand/brand.module";
+import {DeviceModule} from "./history/Device/device.module";
+import {TypeModule} from "./history/Type/type.module";
+import {BrandModule} from "./history/Brand/brand.module";
 import {MulterModule} from "@nestjs/platform-express";
 import {ServeStaticModule} from "@nestjs/serve-static";
 import * as path from "path";
+import {CategoryModule} from "./Category/category.module";
 
 @Module({
     imports: [
@@ -26,8 +27,7 @@ import * as path from "path";
             username: process.env.POSTGRES_USER,
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
-            entities: [User, Role, Post, Basket, BasketDevice,Brand, Device, DeviceInfo,
-            Rating, Type],
+            entities: ["src/entity/**/*.ts"],
             synchronize: true,
             autoLoadEntities: true,
 
@@ -38,7 +38,7 @@ import * as path from "path";
         MulterModule.register({
            dest: './upload'
         }),
-        UserModule, AuthModule, RoleModule, FileModule, PostModule, DeviceModule, TypeModule, BrandModule
+        UserModule, AuthModule, RoleModule, FileModule, CategoryModule
     ],
 })
 export class AppModule {

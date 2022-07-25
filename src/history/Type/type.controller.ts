@@ -1,6 +1,6 @@
 import {Body, Controller, Get, Post} from "@nestjs/common";
 import {TypeService} from "./type.service";
-import {TypeDto} from "../Entitys/dto/typeDto";
+import {TypeDto} from "../../Entitys/dto/history/typeDto";
 
 
 @Controller('type')

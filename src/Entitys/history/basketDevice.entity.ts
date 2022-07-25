@@ -4,7 +4,7 @@ import {Basket} from "./basket.entity";
 import {Device} from "./device.entity";
 
 
-@Entity()
+// @Entity()
 
 export class BasketDevice{
 

@@ -1,10 +1,10 @@
 import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
-import {User} from "./user.entity";
+import {User} from "../user.entity";
 import {Device} from "./device.entity";
 
 
-@Entity()
+// @Entity()
 
 export class Rating {
 

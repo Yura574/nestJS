@@ -15,12 +15,14 @@ export class UserService {
 
     async createUser(dto: UserDto) {
         const user = await this.userRepository.save(dto)
-        const role = await this.roleService.getRoleByValue('admin')
+        const role = await this.roleService.getRoleByValue('user')
+        user.role = role
+        console.log(role)
 
-        user.role = [role]
+
         // await this.dataSource.manager.save(user)
         await this.userRepository.save(user)
-        console.log(user)
+
         return user
     }
 

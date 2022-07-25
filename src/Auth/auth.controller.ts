@@ -12,7 +12,7 @@ export class AuthController {
 
     @Post('singUp')
     singUp(@Body() dto: UserDto): Promise<Tokens> {
-        console.log({dto})
+        // console.log({dto})
         return this.authService.singUp(dto)
     }
 
@@ -21,7 +21,7 @@ export class AuthController {
                  @Res() res: Response) {
         const userData = await this.authService.singIn(dto)
          res.cookie('refresh',userData.refresh_token, {maxAge: 30*24*60*60*1000, httpOnly: true})
-        console.log(userData)
+        // console.log(userData)
         return res.json(userData)
     }
 

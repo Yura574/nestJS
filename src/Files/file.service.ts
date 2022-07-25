@@ -6,20 +6,21 @@ import * as uuid from 'uuid'
 @Injectable()
 export class FileService{
 
-    async createFile(file, folder): Promise<string>{
+    async createFile(file): Promise<string>{
         try{
+            console.log(file)
             const fileName = uuid.v4() + '.jpg'
-            const filePath = path.resolve(__dirname, '..',   folder)
+            const filePath = path.resolve(__dirname, '..', 'static')
             if(!fs.existsSync(filePath)){
                 fs.mkdirSync(filePath, {recursive: true})
             }
             console.log(filePath)
             fs.writeFileSync(path.join(filePath, fileName), file.buffer)
-            return fileName
+            return "http://localhost:5000/" + fileName
         }
-        catch (e){
-            console.log(e)
-            throw new HttpException('error', HttpStatus.INTERNAL_SERVER_ERROR)
+        catch (err){
+            console.log(err)
+            throw new HttpException(err.message, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 }

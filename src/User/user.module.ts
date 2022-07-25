@@ -7,7 +7,7 @@ import {Role} from "../Entitys/role.entity";
 import {RoleModule} from "./Roles/role.module";
 import {AuthModule} from "../Auth/auth.module";
 import {JwtModule} from "@nestjs/jwt";
-import {Post} from "../Entitys/post.entity";
+import {Post} from "../Entitys/history/post.entity";
 
 @Module({
     controllers: [UserController],

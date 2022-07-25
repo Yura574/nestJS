@@ -1,8 +1,8 @@
 import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
-import {Type} from "../Entitys";
+import {Type} from "../../Entitys";
 import {Repository} from "typeorm";
-import {TypeDto} from "../Entitys/dto/typeDto";
+import {TypeDto} from "../../Entitys/dto/history/typeDto";
 
 
 @Injectable()

@@ -30,7 +30,6 @@ export class AuthService {
             await this.updateToken(user.id, tokens.refresh_token)
             return tokens
         } catch (e) {
-            console.log(e.code)
             if (e.code === '23505') {
                 throw new ForbiddenException('such user already exist')
             }
@@ -102,7 +101,6 @@ export class AuthService {
         if (!comparePassword) {
             throw new ForbiddenException('password or email incorrect')
         }
-        console.log(comparePassword)
         return user;
     }
 

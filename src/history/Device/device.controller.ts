@@ -1,6 +1,6 @@
 import {Body, Controller, Get, Param, Post, UploadedFile,  UseInterceptors} from "@nestjs/common";
 import {DeviceService} from "./device.service";
-import {DeviceDto} from "../Entitys/dto/deviceDto";
+import {DeviceDto} from "../../Entitys/dto/history/deviceDto";
 import {FileInterceptor} from "@nestjs/platform-express";
 
 
@@ -31,7 +31,7 @@ export class DeviceController {
         //     file: file.buffer.toString(),
         // };
     }
-    @Post('uploadfile')
+    @Post('uploadFile')
     @UseInterceptors(FileInterceptor('file'))
 
     upload(
@@ -41,10 +41,7 @@ export class DeviceController {
         const folder = 'myDevice'
         console.log(file)
         return this.deviceService.createDevice(dto, file, folder)
-        // {
-        //     body,
-        //     file: file.buffer.toString(),
-        // };
+
     }
     getImage(){
 

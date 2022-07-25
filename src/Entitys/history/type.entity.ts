@@ -4,7 +4,7 @@ import {Device} from "./device.entity";
 import {Brand} from "./brand.entity";
 
 
-@Entity()
+// @Entity()
 
 export class Type {
 

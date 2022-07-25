@@ -9,9 +9,9 @@ import {
 } from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
 import {Role} from "./role.entity";
-import {Post} from "./post.entity";
-import {Basket} from "./basket.entity";
-import {Rating} from "./rating.entity";
+import {Post} from "./history/post.entity";
+import {Basket} from "./history/basket.entity";
+import {Rating} from "./history/rating.entity";
 
 
 @Entity()
@@ -29,13 +29,13 @@ export class User {
     @Column()
     password: string
 
-    @ApiProperty({example: 'true', description: 'находится ли пользователь в сети'})
-    @Column({default: false})
-    isActivated?: boolean
-
-    @ApiProperty({example: 'ec720174-115a-4a99-9b33-1f346c386198', description: 'ссылка для подверждения email'})
-    @Column({default: null})
-    activationLink: string
+    // @ApiProperty({example: 'true', description: 'находится ли пользователь в сети'})
+    // @Column({default: false})
+    // isActivated?: boolean
+    //
+    // @ApiProperty({example: 'ec720174-115a-4a99-9b33-1f346c386198', description: 'ссылка для подверждения email'})
+    // @Column({default: null})
+    // activationLink: string
 
     @ApiProperty({example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3O', description: 'refresh token'})
     @Column({nullable: true})
@@ -50,9 +50,9 @@ export class User {
     updated: Date
 
 
-//     @ManyToMany(() => Role, (role) => role.users)
-//     @JoinTable({name:'user-role'})
-//     role: Role[]
+    @OneToOne(() => Role)
+    @JoinColumn()
+    role: Role
 //
 //     @OneToMany(()=> Post, (post)=> post.user)
 //     posts: Post[]

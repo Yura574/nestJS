@@ -1,10 +1,10 @@
 import {Entity, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
-import {User} from "./user.entity";
+import {User} from "../user.entity";
 import { BasketDevice } from "./basketDevice.entity";
 
 
-@Entity()
+// @Entity()
 
 export class Basket {
     @ApiProperty({example: 1, description: 'id корзины'})

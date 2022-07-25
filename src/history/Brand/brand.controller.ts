@@ -1,6 +1,6 @@
 import {Body, Controller, Get, Post} from "@nestjs/common";
 import {BrandService} from "./brand.service";
-import {BrandDto} from "../Entitys/dto/brandDto";
+import {BrandDto} from "../../Entitys/dto/history/brandDto";
 
 
 @Controller('brand')

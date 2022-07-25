@@ -1,8 +1,8 @@
 import {Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
-import {User} from "./user.entity";
+import {User} from "../user.entity";
 
 
-@Entity()
+// @Entity()
 export class Post {
     @PrimaryGeneratedColumn()
     id: number

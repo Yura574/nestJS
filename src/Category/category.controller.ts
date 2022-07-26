@@ -15,7 +15,6 @@ export class CategoryController{
     @UseInterceptors(FileInterceptor('image'))
     createCategory(@Body() dto: CategoryDto,
                    @UploadedFile() image: Express.Multer.File){
-        console.log(image.originalname)
         return this.categoryService.createCategory(dto, image)
     }
 

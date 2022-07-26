@@ -14,7 +14,7 @@ export class FileService{
             if(!fs.existsSync(filePath)){
                 fs.mkdirSync(filePath, {recursive: true})
             }
-            console.log(filePath)
+            // console.log(filePath)
             fs.writeFileSync(path.join(filePath, fileName), file.buffer)
             return "http://localhost:5000/" + fileName
         }

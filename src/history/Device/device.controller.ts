@@ -25,7 +25,7 @@ export class DeviceController {
         const folder = 'static'
         console.log(file)
         console.log(dto)
-        return this.deviceService.createDevice(dto, file, folder )
+        return this.deviceService.createDevice(dto, file )
         // {
         //     body,
         //     file: file.buffer.toString(),
@@ -40,7 +40,7 @@ export class DeviceController {
     ) {
         const folder = 'myDevice'
         console.log(file)
-        return this.deviceService.createDevice(dto, file, folder)
+        return this.deviceService.createDevice(dto, file)
 
     }
     getImage(){

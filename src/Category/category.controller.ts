@@ -2,6 +2,7 @@ import {Body, Controller, Post, UploadedFile, UseInterceptors} from "@nestjs/com
 import {CategoryService} from "./category.service";
 import {CategoryDto} from "../Entitys/dto/categoryDto";
 import {FileInterceptor} from "@nestjs/platform-express";
+import {CategoryUpdateDto} from "../Entitys/dto/categoryUpdateDto";
 
 
 @Controller('category')
@@ -20,11 +21,12 @@ export class CategoryController{
 
     @Post('update')
     @UseInterceptors(FileInterceptor('image'))
-    updateCategory(@Body() dto: CategoryDto,
+    updateCategory(@Body() dto: CategoryUpdateDto,
                    @UploadedFile() image: Express.Multer.File,
-                   id: number){
-        console.log(id)
-        return this.categoryService.updateCategory(id, dto, image)
+                   ){
+
+
+        return this.categoryService.updateCategory( dto, image)
     }
 
 }

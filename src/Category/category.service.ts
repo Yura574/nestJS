@@ -1,9 +1,10 @@
-import {Injectable} from "@nestjs/common";
+import {ForbiddenException, Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Category} from "../Entitys/category";
-import {Repository} from "typeorm";
+import {getConnection, Repository} from "typeorm";
 import {CategoryDto} from "../Entitys/dto/categoryDto";
 import {FileService} from "../Files/file.service";
+import {CategoryUpdateDto} from "../Entitys/dto/categoryUpdateDto";
 
 
 @Injectable()
@@ -23,20 +24,21 @@ export class CategoryService {
         return category
     }
 
-    async updateCategory(id: number,dto: CategoryDto, image: Express.Multer.File){
-        console.log(id)
+    async updateCategory(dto: CategoryUpdateDto, image: Express.Multer.File) {
         console.log(dto)
-        const oldCategory = await this.categoryService.findOneBy({id})
-        if(!oldCategory.id){
-            console.error(`Category doesn't exist`)
+        const oldCategory = await this.categoryService.findOneBy({id: Number(dto.id)})
+
+        if(!oldCategory){
+           throw new ForbiddenException(   `category doesn't exist`)
         }
-        if (!image){
-            return await  this.categoryService.update(oldCategory.id, dto)
+        if (!image) {
+            return  await this.categoryService.update({id: Number(dto.id)}, {title: dto.title})
+
         }
+
         const fileName = await this.fileService.createFile(image)
-       const updatedCategory = await  this.categoryService.update(oldCategory.id, {...dto, image: fileName})
+        const updatedCategory =  await this.categoryService.update({id: Number(dto.id)}, {title: dto.title, image: fileName})
 
-        return ''
-
+        return await this.categoryService.findOneBy({id: Number(dto.id)})
     }
 }

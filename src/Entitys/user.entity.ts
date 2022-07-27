@@ -12,6 +12,7 @@ import {Role} from "./role.entity";
 import {Post} from "./history/post.entity";
 import {Basket} from "./history/basket.entity";
 import {Rating} from "./history/rating.entity";
+import {Category} from "./category";
 
 
 @Entity()
@@ -53,7 +54,9 @@ export class User {
     @OneToOne(() => Role)
     @JoinColumn()
     role: Role
-//
+
+    @OneToMany(()=> Category, (category)=> category.user)
+    categories: Category[]
 //     @OneToMany(()=> Post, (post)=> post.user)
 //     posts: Post[]
 //

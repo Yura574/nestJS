@@ -14,6 +14,7 @@ import {MulterModule} from "@nestjs/platform-express";
 import {ServeStaticModule} from "@nestjs/serve-static";
 import * as path from "path";
 import {CategoryModule} from "./Category/category.module";
+import {SubCategoryModule} from "./SubCategory/SubCategory.module";
 
 @Module({
     imports: [
@@ -38,7 +39,7 @@ import {CategoryModule} from "./Category/category.module";
         MulterModule.register({
            dest: './upload'
         }),
-        UserModule, AuthModule, RoleModule, FileModule, CategoryModule
+        UserModule, AuthModule, RoleModule, FileModule, CategoryModule, SubCategoryModule
     ],
 })
 export class AppModule {

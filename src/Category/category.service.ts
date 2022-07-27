@@ -7,6 +7,7 @@ import {FileService} from "../Files/file.service";
 import {CategoryUpdateDto} from "../Entitys/dto/categoryUpdateDto";
 import * as fs from 'fs'
 import * as path from 'path'
+import {UserService} from "../User/user.service";
 
 
 @Injectable()
@@ -14,17 +15,21 @@ import * as path from 'path'
 export class CategoryService {
     constructor(@InjectRepository(Category)
                 private categoryService: Repository<Category>,
-                private fileService: FileService) {
+                private fileService: FileService,
+                private userService: UserService) {
     }
 
     async createCategory(dto: CategoryDto, image: Express.Multer.File) {
         console.log(dto)
+        const {title, userId} = dto
         console.log(image)
         if (!image) {
             return await this.categoryService.save(dto)
         }
         const fileName = await this.fileService.createFile(image)
-        return await this.categoryService.save({...dto, image: fileName})
+        const newCategory = await this.categoryService.save({title,  image: fileName})
+        newCategory.user = await this.userService.findUserById(userId)
+        return  await this.categoryService.save(newCategory)
 
     }
 
@@ -37,7 +42,6 @@ export class CategoryService {
         }
         if (!image) {
             return await this.categoryService.update({id: Number(dto.id)}, {title: dto.title})
-
         }
         try {
             const fileName = oldCategory.image.split('/')[3]
@@ -48,8 +52,6 @@ export class CategoryService {
         catch (e){
             console.log(e)
         }
-
-
         const fileName = await this.fileService.createFile(image)
         const updatedCategory = await this.categoryService.update({id: Number(dto.id)}, {
             title: dto.title,
@@ -57,5 +59,9 @@ export class CategoryService {
         })
 
         return await this.categoryService.findOneBy({id: Number(dto.id)})
+    }
+    async findCategoryByTitle (title: string) {
+        return await this.categoryService.findOne({where: {title}})
+
     }
 }

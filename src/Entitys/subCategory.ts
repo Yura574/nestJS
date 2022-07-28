@@ -1,5 +1,6 @@
-import {Column, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToOne, OneToMany, PrimaryColumn} from "typeorm";
 import {Category} from "./category";
+import {Goods} from "./goods.entity";
 
 
 @Entity()
@@ -16,4 +17,7 @@ export class SubCategory{
 
     @ManyToOne(()=> Category, (category)=> category.subCategories)
     category: Category
+
+    @OneToMany(()=> Goods, (goods)=> goods.subCategory)
+    goods: Goods[]
 }

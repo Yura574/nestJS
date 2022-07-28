@@ -10,6 +10,8 @@ import {CategoryModule} from "../Category/category.module";
 @Module({
     controllers: [SubCategoryController],
     providers:[SubCategoryService],
-    imports: [TypeOrmModule.forFeature([SubCategory]), FileModule, CategoryModule]
+    imports: [TypeOrmModule.forFeature([SubCategory]),
+        FileModule, CategoryModule],
+    exports: [SubCategoryService]
 })
 export class SubCategoryModule{}

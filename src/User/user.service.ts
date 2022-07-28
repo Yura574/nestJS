@@ -4,13 +4,14 @@ import {Repository} from "typeorm";
 import {UserDto} from "../Entitys/dto/userDto";
 import {RoleService} from "./Roles/role.service";
 import {User} from "../Entitys";
+import {SubCategoryService} from "../SubCategory/subCategory.service";
 
 
 @Injectable()
 export class UserService {
     constructor(@InjectRepository(User)
                 private userRepository: Repository<User>,
-                private roleService: RoleService) {
+                private roleService: RoleService,) {
     }
 
     async createUser(dto: UserDto) {

@@ -14,7 +14,8 @@ export class AuthService {
     constructor(@InjectRepository(User)
                 private userRepository: Repository<User>,
                 private userService: UserService,
-                private jwt: JwtService) {
+                private jwt: JwtService,
+                ) {
     }
 
     async singUp(dto: UserDto): Promise<Tokens> {

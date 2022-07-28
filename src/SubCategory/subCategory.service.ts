@@ -5,7 +5,6 @@ import {SubCategory} from "../Entitys/subCategory";
 import {Repository} from "typeorm";
 import {FileService} from "../Files/file.service";
 import {CategoryService} from "../Category/category.service";
-import {log} from "util";
 
 
 @Injectable()
@@ -30,10 +29,12 @@ export class SubCategoryService {
         const fileName=  await this.fileService.createFile(image)
 
         const newSubCategory = await this.subCategoryService.save({title, image: fileName})
-        const category = await this.categoryService.findCategoryByTitle(categoryTitle)
-        newSubCategory.category = category
+        newSubCategory.category = await this.categoryService.findCategoryByTitle(categoryTitle)
 
         return await this.subCategoryService.save(newSubCategory)
+    }
 
+    async getOneSubCategory (title: string) {
+        return await this.subCategoryService.findOne({where:{title}})
     }
 }

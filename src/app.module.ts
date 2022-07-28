@@ -5,16 +5,12 @@ import {AuthModule} from "./Auth/auth.module";
 import {ConfigModule} from "@nestjs/config";
 import {RoleModule} from "./User/Roles/role.module";
 import {FileModule} from "./Files/file.module";
-import {PostModule} from "./history/Post/post.module";
-import {Basket, BasketDevice, Brand, Device, DeviceInfo, Post, Rating, Role, Type, User} from "./Entitys";
-import {DeviceModule} from "./history/Device/device.module";
-import {TypeModule} from "./history/Type/type.module";
-import {BrandModule} from "./history/Brand/brand.module";
 import {MulterModule} from "@nestjs/platform-express";
 import {ServeStaticModule} from "@nestjs/serve-static";
 import * as path from "path";
 import {CategoryModule} from "./Category/category.module";
 import {SubCategoryModule} from "./SubCategory/SubCategory.module";
+import {GoodsModule} from "./Goods/Goods.module";
 
 @Module({
     imports: [
@@ -39,7 +35,9 @@ import {SubCategoryModule} from "./SubCategory/SubCategory.module";
         MulterModule.register({
            dest: './upload'
         }),
-        UserModule, AuthModule, RoleModule, FileModule, CategoryModule, SubCategoryModule
+        UserModule, AuthModule, RoleModule, FileModule, CategoryModule,
+        SubCategoryModule, GoodsModule
+
     ],
 })
 export class AppModule {

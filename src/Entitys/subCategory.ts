@@ -6,13 +6,13 @@ import {Goods} from "./goods.entity";
 @Entity()
 export class SubCategory{
 
-    @Column({generated: "increment"})
-    id: number
-
     @PrimaryColumn({unique: true})
     title: string
 
-    @Column({nullable: true})
+    @Column({generated: "increment"})
+    id: number
+
+      @Column({nullable: true})
     image: string
 
     @ManyToOne(()=> Category, (category)=> category.subCategories)

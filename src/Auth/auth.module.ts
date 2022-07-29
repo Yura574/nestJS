@@ -7,7 +7,6 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {JwtModule} from "@nestjs/jwt";
 import {JwtStrategy, RefreshStrategy} from "./guards/strategy";
 import {User} from "../Entitys";
-import {SubCategoryModule} from "../SubCategory/subCategory.module";
 
 @Module({
     providers: [AuthService, JwtStrategy, RefreshStrategy],

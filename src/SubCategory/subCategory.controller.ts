@@ -6,6 +6,7 @@ import {FileInterceptor} from "@nestjs/platform-express";
 
 @Controller('subCategory')
 export class SubCategoryController{
+
 constructor(private subCategoryService: SubCategoryService) {
 }
 

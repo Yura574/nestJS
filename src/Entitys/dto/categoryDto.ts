@@ -7,7 +7,6 @@ export class CategoryDto{
     title: string
 
     @IsNotEmpty()
-
     userId: number
 
 

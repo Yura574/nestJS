@@ -14,4 +14,4 @@ import {CategoryModule} from "../Category/category.module";
         FileModule, CategoryModule],
     exports: [SubCategoryService]
 })
-export class SubCategoryModule{}
+export  class SubCategoryModule{}

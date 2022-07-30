@@ -15,7 +15,7 @@ export class SubCategory{
     @Column({nullable: true})
     image: string
 
-    @ManyToOne(()=> Category, (category)=> category.subCategories)
+    @ManyToOne(()=> Category, (category)=> category.subCategories, {onDelete: "CASCADE"})
     category: Category
 
     @OneToMany(()=> Goods, (goods)=> goods.subCategory)

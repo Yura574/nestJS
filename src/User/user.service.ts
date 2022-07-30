@@ -4,7 +4,6 @@ import {Repository} from "typeorm";
 import {UserDto} from "../Entitys/dto/userDto";
 import {RoleService} from "./Roles/role.service";
 import {User} from "../Entitys";
-import {SubCategoryService} from "../SubCategory/subCategory.service";
 
 
 @Injectable()
@@ -15,16 +14,9 @@ export class UserService {
     }
 
     async createUser(dto: UserDto) {
-        const user = await this.userRepository.save(dto)
-        const role = await this.roleService.getRoleByValue('user')
-        user.role = role
-        console.log(role)
+        const role = await this.roleService.getRoleByValue('admin')
+        return await this.userRepository.save({...dto, role})
 
-
-        // await this.dataSource.manager.save(user)
-        await this.userRepository.save(user)
-
-        return user
     }
 
     async deleteUser(id: number) {
@@ -44,8 +36,7 @@ export class UserService {
     }
 
     async findUserByEmail(email: string) {
-        console.log(email)
-        const user = await this.userRepository.findOne({
+        return await this.userRepository.findOne({
                 relations: {
                     role: true
                 },
@@ -53,9 +44,7 @@ export class UserService {
                     email
                 }
             },
-        );
-        console.log(user)
-        return user
+        )
     }
 
     async findUserById(id) {
@@ -89,6 +78,13 @@ export class UserService {
             return result
         }
         return null
+    }
+
+    async findUserCategory(userID) {
+        console.log(userID)
+        return await this.userRepository.findOne({where: {id: +userID}, relations: {
+            categories: true
+            }});
     }
 
 }

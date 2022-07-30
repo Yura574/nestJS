@@ -1,7 +1,7 @@
 import {
     Column,
     CreateDateColumn,
-    Entity, JoinColumn,
+    Entity, JoinColumn, ManyToOne,
     OneToMany, OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
@@ -26,13 +26,6 @@ export class User {
     @Column()
     password: string
 
-    // @ApiProperty({example: 'true', description: 'находится ли пользователь в сети'})
-    // @Column({default: false})
-    // isActivated?: boolean
-    //
-    // @ApiProperty({example: 'ec720174-115a-4a99-9b33-1f346c386198', description: 'ссылка для подверждения email'})
-    // @Column({default: null})
-    // activationLink: string
 
     @ApiProperty({example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3O', description: 'refresh token'})
     @Column({nullable: true})
@@ -47,19 +40,11 @@ export class User {
     updated: Date
 
 
-    @OneToOne(() => Role)
+    @ManyToOne(() => Role, (role)=> role.user)
     @JoinColumn()
     role: Role
 
-    @OneToMany(() => Category, (category) => category.user)
+    @OneToMany(() => Category, (category) => category.user, {onDelete: "CASCADE"})
     categories: Category[]
-//     @OneToMany(()=> Post, (post)=> post.user)
-//     posts: Post[]
-//
-//     @OneToOne(()=> Basket)
-//     @JoinColumn()
-//     basket: Basket
-//
-//     @OneToMany(()=> Rating, (rating)=> rating.user)
-//     rating: Rating[]
+
 }

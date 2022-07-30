@@ -19,6 +19,6 @@ export class Goods{
 
 
 
-    @ManyToOne(()=> SubCategory, (subCategory)=>subCategory.goods )
+    @ManyToOne(()=> SubCategory, (subCategory)=>subCategory.goods, {onDelete: "CASCADE"} )
     subCategory: SubCategory
 }

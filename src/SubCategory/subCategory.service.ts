@@ -1,4 +1,4 @@
-import {Injectable} from "@nestjs/common";
+import {BadRequestException, ForbiddenException, Injectable} from "@nestjs/common";
 import {SubCategoryDto} from "../Entitys/dto/subCategoryDto";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
@@ -11,34 +11,30 @@ import {SubCategory} from "../Entitys/subCategory.entity";
 export class SubCategoryService {
 
     constructor(@InjectRepository(SubCategory)
-                private subCategoryService: Repository<SubCategory>,
+                private subCategoryRepository: Repository<SubCategory>,
                 private fileService: FileService,
-                private categoryService: CategoryService
-    ) {
+                private categoryService: CategoryService ) {
     }
 
-
     async createSubCategory(dto: SubCategoryDto, image: Express.Multer.File) {
-        console.log(dto)
-        console.log(image)
         const {categoryId, title} = dto
+        const category = await this.categoryService.findCategoryById(categoryId)
+        if(!category){
+            throw new ForbiddenException(BadRequestException, 'category not found')
+        }
         const fileName = image ? await this.fileService.createFile(image) : ''
-        // const newSubCategory = await this.subCategoryService.save({title, image: fileName})
         const newSubCategory = fileName
-            ? await this.subCategoryService.save({title, image: fileName})
-            : await this.subCategoryService.save({title})
-            // if (!image) {
-            //     newSubCategory.category = await this.categoryService.findCategoryById(categoryId)
-            //     return  await this.subCategoryService.save(dto)
-            // }
-
-
+            ? await this.subCategoryRepository.save({title, image: fileName})
+            : await this.subCategoryRepository.save({title})
             newSubCategory.category = await this.categoryService.findCategoryById(categoryId)
-
-        return await this.subCategoryService.save(newSubCategory)
+        return await this.subCategoryRepository.save(newSubCategory)
     }
 
     async getOneSubCategory (id: string) {
-        return await this.subCategoryService.findOne({where:{id: +id}})
+        return await this.subCategoryRepository.findOne({where:{id: +id}})
+    }
+
+    async deleteSubCategory(id: string){
+        return await this.subCategoryRepository.delete({id: +id})
     }
 }

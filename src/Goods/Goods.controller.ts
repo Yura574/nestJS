@@ -1,4 +1,4 @@
-import {Body, Controller, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
+import {Body, Controller, Delete, Param, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
 import {FileInterceptor} from "@nestjs/platform-express";
 import {GoodsDto} from "../Entitys/dto/goodsDto";
 import {GoodsService} from "./Goods.service";
@@ -18,4 +18,11 @@ export class GoodsController{
            @UploadedFile() image: Express.Multer.File){
         return this.goodsService.createGoods(dto, image)
     }
+
+
+    @Delete('delete/:id')
+        delete(@Param() param){
+            return this.goodsService.deleteGoods(param.id)
+        }
+
 }

@@ -20,16 +20,18 @@ export class AuthService {
 
     async singUp(dto: UserDto): Promise<Tokens> {
         const candidate = await this.userService.findUserByEmail(dto.email)
+        // console.log(candidate)
         if (candidate) {
             throw new HttpException('such user already exist', HttpStatus.BAD_REQUEST)
         }
         try {
-
             const hash = await bcrypt.hash(dto.password, 8)
             const user = await this.userService.createUser({...dto, password: hash})
             const tokens = await this.singToken(user)
-            await this.updateToken(user.id, tokens.refresh_token)
-            return tokens
+            user.refreshToken = tokens.refresh_token
+            await this.userService.refreshTokenUser(user.id, tokens.refresh_token)
+            console.log(user)
+            return  tokens
         } catch (e) {
             if (e.code === '23505') {
                 throw new ForbiddenException('such user already exist')
@@ -67,6 +69,7 @@ export class AuthService {
     }
 
     async singToken(user: User): Promise<Tokens> {
+
         const payload = {sub: user.id, email: user.email, role: user.role}
         const [jwt, refresh] = await Promise.all([
             this.jwt.signAsync(payload,
@@ -88,8 +91,9 @@ export class AuthService {
     }
 
     async   updateToken(userId: number, refreshToken: string) {
-        const hash = await bcrypt.hash(refreshToken, 8)
-        await this.userService.refreshTokenUser(userId, hash)
+        console.log(refreshToken)
+        // const hash = await bcrypt.hash(refreshToken, 8)
+        await this.userService.refreshTokenUser(userId, refreshToken)
     }
 
     private async validateUser(dto: UserDto) {

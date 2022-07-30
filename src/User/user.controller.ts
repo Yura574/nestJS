@@ -16,7 +16,7 @@ export class UserController{
     @ApiResponse({status: 200, type: User})
     @Post()
     createUser(@Body() dto: UserDto){
-        console.log(dto)
+        // console.log(dto)
         return this.userService.createUser(dto)
     }
     @ApiOperation({summary: 'Полочить всех пользователей '})
@@ -27,6 +27,12 @@ export class UserController{
     getUsers(){
         return this.userService.getUsers()
     }
+
+    @Get('one/:id')
+    getOne(@Param() param){
+        return this.userService.findUserCategory(param.id)
+    }
+
     @Post('one')
     findUserByEmail(@Body() email: string){
         return this.userService.findUserByEmail(email)

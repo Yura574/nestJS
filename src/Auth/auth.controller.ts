@@ -2,7 +2,7 @@ import {Body, Controller, ForbiddenException, Get, Post, Req, Res,} from "@nestj
 import {UserDto} from "../Entitys/dto/userDto";
 import {AuthService} from "./auth.service";
 import {ApiTags} from "@nestjs/swagger";
-import {Request, Response} from "express";
+import {raw, Request, Response} from "express";
 
 @ApiTags('authorization')
 @Controller('auth')
@@ -11,8 +11,8 @@ export class AuthController {
     }
 
     @Post('singUp')
-    singUp(@Body() dto: UserDto): Promise<Tokens> {
-        // console.log({dto})
+    singUp(@Body() dto: UserDto){
+        console.log(dto)
         return this.authService.singUp(dto)
     }
 

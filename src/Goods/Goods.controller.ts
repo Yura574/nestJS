@@ -4,7 +4,7 @@ import {GoodsDto} from "../Entitys/dto/goodsDto";
 import {GoodsService} from "./Goods.service";
 
 
-@Controller()
+@Controller('goods')
 
 export class GoodsController{
     constructor(private goodsService: GoodsService) {

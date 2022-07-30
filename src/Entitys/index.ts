@@ -1,11 +1,3 @@
-export * from './history/basketDevice.entity'
-export * from './history/basket.entity'
-export * from './history/device_info'
-export * from './history/device.entity'
-export * from './history/brand.entity'
-export * from './history/device_info'
-export * from './history/post.entity'
-export * from './history/rating.entity'
+
 export * from './role.entity'
-export * from './history/type.entity'
 export * from './user.entity'

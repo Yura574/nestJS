@@ -11,7 +11,6 @@ import * as path from "path";
 import {CategoryModule} from "./Category/category.module";
 import {SubCategoryModule} from "./SubCategory/SubCategory.module";
 import {GoodsModule} from "./Goods/Goods.module";
-import {TestModule} from "./test/test.module";
 
 @Module({
     imports: [
@@ -37,7 +36,7 @@ import {TestModule} from "./test/test.module";
            dest: './upload'
         }),
         UserModule, AuthModule, RoleModule, FileModule, CategoryModule,
-        SubCategoryModule,  TestModule
+        SubCategoryModule, GoodsModule
 
     ],
 })

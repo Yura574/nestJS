@@ -11,4 +11,7 @@ export class TestService {
                 private testRepository: Repository<Post>,
     ) {    }
 
+    async lololo(){
+
+    }
 }

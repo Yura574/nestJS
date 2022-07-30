@@ -12,6 +12,6 @@ export class TestService {
     constructor(@InjectRepository(Post)
                 private testRepository: Repository<Post>,
                 private subCategoryService: SubCategoryService
-    ) {
-    }
+    ) {    }
+
 }

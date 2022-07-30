@@ -1,15 +1,15 @@
-import {Column, Entity, ManyToOne, OneToMany, PrimaryColumn} from "typeorm";
-import {Category} from "./category";
+import {Column, Entity, ManyToOne, OneToMany,  PrimaryGeneratedColumn} from "typeorm";
 import {Goods} from "./goods.entity";
+import {Category} from "./category.entity";
 
 
 @Entity()
 export class SubCategory{
 
-    @Column({generated: "increment"})
+    @PrimaryGeneratedColumn()
     id: number
 
-    @PrimaryColumn({unique: true})
+    @Column({unique: true})
     title: string
 
     @Column({nullable: true})

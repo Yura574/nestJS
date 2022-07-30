@@ -1,7 +1,7 @@
 import {Body, Controller, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
-import {SubCategoryDto} from "../Entitys/dto/subCategoryDto";
-import {SubCategoryService} from "./SubCategory.service";
+import {SubCategoryService} from "./subCategory.service";
 import {FileInterceptor} from "@nestjs/platform-express";
+import {SubCategoryDto} from "../Entitys/dto/subCategoryDto";
 
 
 @Controller('subCategory')

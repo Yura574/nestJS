@@ -2,17 +2,13 @@ import {
     Column,
     CreateDateColumn,
     Entity, JoinColumn,
-    JoinTable,
-    ManyToMany, OneToMany, OneToOne,
+    OneToMany, OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
 import {Role} from "./role.entity";
-import {Post} from "./history/post.entity";
-import {Basket} from "./history/basket.entity";
-import {Rating} from "./history/rating.entity";
-import {Category} from "./category";
+import {Category} from "./category.entity";
 
 
 @Entity()
@@ -55,7 +51,7 @@ export class User {
     @JoinColumn()
     role: Role
 
-    @OneToMany(()=> Category, (category)=> category.user)
+    @OneToMany(() => Category, (category) => category.user)
     categories: Category[]
 //     @OneToMany(()=> Post, (post)=> post.user)
 //     posts: Post[]

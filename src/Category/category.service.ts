@@ -1,6 +1,5 @@
 import {ForbiddenException, Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
-import {Category} from "../Entitys/category";
 import {Repository} from "typeorm";
 import {CategoryDto} from "../Entitys/dto/categoryDto";
 import {FileService} from "../Files/file.service";
@@ -8,6 +7,7 @@ import {CategoryUpdateDto} from "../Entitys/dto/categoryUpdateDto";
 import * as fs from 'fs'
 import * as path from 'path'
 import {UserService} from "../User/user.service";
+import {Category} from "../Entitys/category.entity";
 
 
 @Injectable()
@@ -60,8 +60,8 @@ export class CategoryService {
 
         return await this.categoryService.findOneBy({id: Number(dto.id)})
     }
-    async findCategoryByTitle (title: string) {
-        return await this.categoryService.findOne({where: {title}})
+    async findCategoryById (id: string) {
+        return await this.categoryService.findOne({where: {id: +id}})
 
     }
 }

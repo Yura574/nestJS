@@ -6,11 +6,11 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {Goods} from "../Entitys/goods.entity";
 import {FileModule} from "../Files/file.module";
 
-
 @Module({
     providers:[GoodsService],
     controllers:[GoodsController],
-    imports:[TypeOrmModule.forFeature([Goods]),FileModule,SubCategoryModule]
+    imports:[TypeOrmModule.forFeature([Goods]),FileModule,
+         SubCategoryModule]
 })
 
 export class GoodsModule{}

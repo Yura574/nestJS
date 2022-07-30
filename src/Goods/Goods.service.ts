@@ -16,23 +16,17 @@ export class GoodsService {
                 private goodsService: Repository<Goods>,
                 private fileService: FileService,
                 private subCategoryService: SubCategoryService
-                // private sub: SubCategoryService
-
     ) {
     }
 
     async createGoods(dto: GoodsDto, image: Express.Multer.File) {
-        const {title, subCategoryTitle} = dto
-        // const subCategory = await this.subCategoryService.getOneSubCategory(subCategoryTitle)
-        if(!image){
-         const goods = await this.goodsService.save({title})
-            // goods.subCategory = subCategory
-            return goods
-        }
-        const fileName = await this.fileService.createFile(image)
+        const {title, subCategoryId} = dto
+        const fileName = image ? await this.fileService.createFile(image) : ''
+        const newGoods = fileName
+            ? await this.goodsService.save({title, image: fileName})
+            : await this.goodsService.save({title})
 
-        return await this.goodsService.save({title, image: fileName })
-
-
+        newGoods.subCategory = await this.subCategoryService.getOneSubCategory(subCategoryId)
+        return await this.goodsService.save(newGoods)
     }
 }

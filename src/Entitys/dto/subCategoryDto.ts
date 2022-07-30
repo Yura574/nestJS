@@ -8,7 +8,7 @@ export class SubCategoryDto {
 
     @IsNotEmpty()
     @IsString()
-    categoryTitle: string
+    categoryId: string
 
 
 }

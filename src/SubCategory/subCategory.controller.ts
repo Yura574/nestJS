@@ -6,6 +6,7 @@ import {SubCategoryDto} from "../Entitys/dto/subCategoryDto";
 
 @Controller('subCategory')
 export class SubCategoryController{
+
 constructor(private subCategoryService: SubCategoryService) {
 }
 

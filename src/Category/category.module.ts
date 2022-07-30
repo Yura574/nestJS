@@ -10,8 +10,9 @@ import {Category} from "../Entitys/category.entity";
 @Module({
     controllers: [CategoryController],
     providers: [CategoryService],
-    imports:[TypeOrmModule.forFeature([Category]),
-    FileModule, UserModule],
-    exports:[CategoryService]
+    imports: [TypeOrmModule.forFeature([Category]),
+        FileModule, UserModule],
+    exports: [CategoryService]
 })
-export class CategoryModule{}
+export class CategoryModule {
+}

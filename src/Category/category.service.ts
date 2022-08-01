@@ -68,17 +68,12 @@ export class CategoryService {
 
     }
 
-    // async findUserCategory(userId: string) {
-    //    const users = await this.categoryRepository.find({
-    //         relations:[userId]
-    //         }
-    //     )
-    //     console.log(users)
-    //     return {users}
-    // }
-    async findUserCategory() {
+    async findSubCategories(categoryId: string) {
         return await this.categoryRepository.find({
-            relations: {user: true},
+            where: {
+                id: +categoryId
+            },
+            relations: {subCategories: true},
         });
     }
 

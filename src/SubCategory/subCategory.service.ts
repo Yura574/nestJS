@@ -33,6 +33,12 @@ export class SubCategoryService {
     async getOneSubCategory (id: string) {
         return await this.subCategoryRepository.findOne({where:{id: +id}})
     }
+    async getGoods (id: string) {
+        const subCategory = await this.subCategoryRepository.findOne({where:{id: +id},
+            relations:{goods: true}})
+        console.log(subCategory)
+        return subCategory.goods
+    }
 
     async deleteSubCategory(id: string){
         return await this.subCategoryRepository.delete({id: +id})

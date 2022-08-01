@@ -34,9 +34,9 @@ export class CategoryController{
         return this.categoryService.deleteCategory(param.id)
     }
 
-    @Get('userCategory')
-    getUserCategory(@Param() param){
-        return this.categoryService.findUserCategory()
+    @Get('subCategory/:id')
+    getUserCategories(@Param() param){
+        return this.categoryService.findSubCategories(param.id)
     }
 
 }

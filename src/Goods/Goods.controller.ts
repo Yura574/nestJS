@@ -22,7 +22,7 @@ export class GoodsController{
 
     @Delete('delete/:id')
         delete(@Param() param){
-            return this.goodsService.deleteGoods(param.id)
+            return this.goodsService.deleteGoods(+param.id)
         }
 
 }

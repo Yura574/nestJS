@@ -6,6 +6,9 @@ import {FileService} from "../Files/file.service";
 import {SubCategoryService} from "../SubCategory/subCategory.service";
 import {Goods} from "../Entitys/goods.entity";
 import {isExist} from "../UtilFunction/CheckFunction/isExist";
+import {CategoryUpdateDto} from "../Entitys/dto/categoryUpdateDto";
+import * as path from "path";
+import * as fs from "fs";
 
 
 @Injectable()
@@ -23,7 +26,7 @@ export class GoodsService {
     async createGoods(dto: GoodsDto, image: Express.Multer.File) {
         const {title, subCategoryId} = dto
         const category = await this.subCategoryService.getOneSubCategory(subCategoryId)
-        if(!category){
+        if (!category) {
             throw new ForbiddenException(BadRequestException, 'sub category not found')
         }
         const fileName = image ? await this.fileService.createFile(image) : ''
@@ -35,8 +38,16 @@ export class GoodsService {
         return await this.goodsRepository.save(newGoods)
     }
 
-    async deleteGoods(id: string){
+    async deleteGoods(id: number) {
+        const oldGoods = await this.goodsRepository.findOne({where: {id}})
+        if (oldGoods.image) {
+            const fileName = oldGoods.image.split('/')[3]
+            const filePath = path.resolve(__dirname, '..', 'static', fileName)
+            fs.unlinkSync(filePath)
+            return   this.goodsRepository.delete({id})
+        } else {
+          return   this.goodsRepository.delete({id})
+        }
 
-        return this.goodsRepository.delete({id: +id})
     }
 }

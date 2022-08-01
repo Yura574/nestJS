@@ -18,7 +18,7 @@ export class AuthService {
                 ) {
     }
 
-    async singUp(dto: UserDto): Promise<Tokens> {
+    async singUp(dto: UserDto) {
         const candidate = await this.userService.findUserByEmail(dto.email)
         // console.log(candidate)
         if (candidate) {
@@ -31,7 +31,7 @@ export class AuthService {
             user.refreshToken = tokens.refresh_token
             await this.userService.refreshTokenUser(user.id, tokens.refresh_token)
             console.log(user)
-            return  tokens
+            return {...tokens, user: UserDto}
         } catch (e) {
             if (e.code === '23505') {
                 throw new ForbiddenException('such user already exist')
@@ -42,8 +42,9 @@ export class AuthService {
     }
 
     async singIn(dto: UserDto) {
-        console.log(dto)
+
         const user = await this.validateUser(dto)
+
         const tokens = await this.singToken(user)
         await this.updateToken(user.id, tokens.refresh_token)
 
@@ -52,11 +53,13 @@ export class AuthService {
 
     async authMe(token){
         const validToken = this.jwt.verify(token, {secret:process.env.SECRET_CODE || 'secret'} )
-        const user = {...validToken}
-
-        console.log(validToken)
-        console.log(user)
-        return user
+        const user = await this.userRepository.findOne({where:{email: validToken.email}, relations:{role: true}})
+        const tokens = await this.singToken(user)
+        await this.updateToken(user.id, tokens.refresh_token)
+        // console.log(validToken)
+        // console.log(user)
+        console.log({...tokens, user})
+        return {...tokens, user}
     }
 
     async logout(userId: number) {

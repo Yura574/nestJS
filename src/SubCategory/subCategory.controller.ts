@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Param, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
 import {SubCategoryService} from "./subCategory.service";
 import {FileInterceptor} from "@nestjs/platform-express";
 import {SubCategoryDto} from "../Entitys/dto/subCategoryDto";
@@ -15,6 +15,10 @@ constructor(private subCategoryService: SubCategoryService) {
     create(@Body() dto: SubCategoryDto,
            @UploadedFile() image: Express.Multer.File){
         return this.subCategoryService.createSubCategory(dto, image)
+    }
+    @Get('goods/:id')
+    getGoods(@Param() param){
+    return this.subCategoryService.getGoods(param.id)
     }
 
     @Delete('delete/:id')

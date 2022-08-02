@@ -4,34 +4,30 @@ import {Repository} from "typeorm";
 import {UserDto} from "../Entitys/dto/userDto";
 import {RoleService} from "./Roles/role.service";
 import {User} from "../Entitys";
+import {AuthService} from "../Auth/auth.service";
 
 
 @Injectable()
 export class UserService {
     constructor(@InjectRepository(User)
                 private userRepository: Repository<User>,
-                private roleService: RoleService,) {
+                private roleService: RoleService,
+                ) {
     }
 
     async createUser(dto: UserDto) {
         const role = await this.roleService.getRoleByValue('admin')
-        return await this.userRepository.save({...dto, role})
-
+        const user =  await this.userRepository.save({...dto, role})
+        console.log(user)
+        return user
     }
 
     async deleteUser(id: number) {
-
         return await this.userRepository.delete({id})
     }
 
     getUsers() {
-        return this.userRepository.find({
-
-            relations: {
-                role: true
-            }
-
-        })
+        return this.userRepository.find({relations: {role: true}})
     }
 
     async findUserByEmail(email: string) {
@@ -45,11 +41,7 @@ export class UserService {
             },
         )
     }
-    async findUserByToken(refreshToken: string){
-        const user= await this.userRepository.findOne({where: {refreshToken}})
-        console.log(user)
-        return user
-    }
+
 
     async findUserById(id) {
         return await this.userRepository.findOne({
@@ -86,9 +78,11 @@ export class UserService {
 
     async findUserCategory(userID) {
         console.log(userID)
-        return await this.userRepository.findOne({where: {id: +userID}, relations: {
-            categories: true
-            }});
+        return await this.userRepository.findOne({
+            where: {id: +userID}, relations: {
+                categories: true
+            }
+        });
     }
 
 }

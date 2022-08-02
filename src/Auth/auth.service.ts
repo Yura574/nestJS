@@ -1,4 +1,4 @@
-import {ForbiddenException, HttpException, HttpStatus, Injectable} from "@nestjs/common";
+import {ForbiddenException, HttpException, HttpStatus, Injectable, UnauthorizedException} from "@nestjs/common";
 import {UserService} from "../User/user.service";
 import {UserDto} from "../Entitys/dto/userDto";
 import {InjectRepository} from "@nestjs/typeorm";
@@ -15,7 +15,7 @@ export class AuthService {
                 private userRepository: Repository<User>,
                 private userService: UserService,
                 private jwt: JwtService,
-                ) {
+    ) {
     }
 
     async singUp(dto: UserDto) {
@@ -27,11 +27,13 @@ export class AuthService {
         try {
             const hash = await bcrypt.hash(dto.password, 8)
             const user = await this.userService.createUser({...dto, password: hash})
+            console.log(user)
             const tokens = await this.singToken(user)
             user.refreshToken = tokens.refresh_token
             await this.userService.refreshTokenUser(user.id, tokens.refresh_token)
-            console.log(user)
-            return {...tokens, user: UserDto}
+            delete user.refreshToken
+            delete user.password
+            return user
         } catch (e) {
             if (e.code === '23505') {
                 throw new ForbiddenException('such user already exist')
@@ -42,29 +44,45 @@ export class AuthService {
     }
 
     async singIn(dto: UserDto) {
-
-        const user = await this.validateUser(dto)
-
-        const tokens = await this.singToken(user)
-        await this.updateToken(user.id, tokens.refresh_token)
-
-        return {...tokens, user}
+        try {
+            const user = await this.validateUser(dto)
+            const tokens = await this.singToken(user)
+            await this.updateToken(user.id, tokens.refresh_token)
+            return {...tokens, user}
+        }
+        catch (e) {
+            console.log(e)
+        }
     }
 
-    async authMe(token){
-        const validToken = this.jwt.verify(token, {secret:process.env.SECRET_CODE || 'secret'} )
-        const user = await this.userRepository.findOne({where:{email: validToken.email}, relations:{role: true}})
-        const tokens = await this.singToken(user)
-        await this.updateToken(user.id, tokens.refresh_token)
-        // console.log(validToken)
-        // console.log(user)
-        console.log({...tokens, user})
-        return {...tokens, user}
+    async authMe(token) {
+        try {
+            const validToken = this.jwt.verify(token, {secret: process.env.SECRET_CODE || 'secret'})
+            const user = await this.userRepository.findOne({where: {email: validToken.email}, relations: {role: true}})
+            const tokens = await this.singToken(user)
+            await this.updateToken(user.id, tokens.refresh_token)
+            return {...tokens, user}
+        }catch (e) {
+            console.log(e)
+            throw new UnauthorizedException( 'invalid token')
+        }
+
+
     }
 
-    async logout(userId: number) {
-        await  this.userService.logout(userId)
-        return 'logout'
+    async logout(token) {
+try {
+    const validToken = this.jwt.verify(token, {secret: process.env.SECRET_CODE || 'secret'})
+    const user = await this.userRepository.findOne({where: {email: validToken.email}, relations: {role: true}})
+    console.log(user)
+}
+catch (e) {
+    console.log(e)
+}
+
+
+        return 'updatedUser'
+
     }
 
     refreshToken() {
@@ -93,23 +111,29 @@ export class AuthService {
         }
     }
 
-    async   updateToken(userId: number, refreshToken: string) {
+    async updateToken(userId: number, refreshToken: string) {
         console.log(refreshToken)
         // const hash = await bcrypt.hash(refreshToken, 8)
         await this.userService.refreshTokenUser(userId, refreshToken)
     }
 
     private async validateUser(dto: UserDto) {
-        const user = await this.userService.findUserByEmail(dto.email)
-        // console.log(user)
-        if (!user) {
+        try {
+            const user = await this.userService.findUserByEmail(dto.email)
+            // console.log(user)
+            if (!user) {
+                throw new ForbiddenException('password or email incorrect')
+            }
+            const comparePassword = await bcrypt.compare(dto.password, user.password)
+            if (!comparePassword) {
+                throw new ForbiddenException('password or email incorrect')
+            }
+            return user;
+        }
+        catch (e) {
+            console.log(e)
             throw new ForbiddenException('password or email incorrect')
         }
-        const comparePassword = await bcrypt.compare(dto.password, user.password)
-        if (!comparePassword) {
-            throw new ForbiddenException('password or email incorrect')
-        }
-        return user;
     }
 
 

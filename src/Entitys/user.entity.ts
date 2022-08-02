@@ -18,6 +18,11 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number
 
+    @ApiProperty({example: 'Yura', description: 'имя пользователя'})
+    @Column({nullable: true})
+    name: string
+
+
     @ApiProperty({example: 'lololo@gmail.com', description: 'email пользователя'})
     @Column({unique: true})
     email: string
@@ -39,6 +44,10 @@ export class User {
     @UpdateDateColumn({type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP'})
     updated: Date
 
+    toResponse(){
+        const {id,email,refreshToken,updated, created, role} = this
+    }
+
 
     @ManyToOne(() => Role, (role)=> role.user)
     @JoinColumn()
@@ -46,5 +55,7 @@ export class User {
 
     @OneToMany(() => Category, (category) => category.user, {onDelete: "CASCADE"})
     categories: Category[]
+
+
 
 }

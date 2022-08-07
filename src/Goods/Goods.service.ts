@@ -5,8 +5,6 @@ import {GoodsDto} from "../Entitys/dto/goodsDto";
 import {FileService} from "../Files/file.service";
 import {SubCategoryService} from "../SubCategory/subCategory.service";
 import {Goods} from "../Entitys/goods.entity";
-import {isExist} from "../UtilFunction/CheckFunction/isExist";
-import {CategoryUpdateDto} from "../Entitys/dto/categoryUpdateDto";
 import * as path from "path";
 import * as fs from "fs";
 
@@ -29,7 +27,7 @@ export class GoodsService {
         if (!category) {
             throw new ForbiddenException(BadRequestException, 'sub category not found')
         }
-        const fileName = image ? await this.fileService.createFile(image) : ''
+        const fileName = image ? await this.fileService.createFile(image, '') : ''
         const newGoods = fileName
             ? await this.goodsRepository.save({title, image: fileName})
             : await this.goodsRepository.save({title})

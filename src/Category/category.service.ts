@@ -28,7 +28,7 @@ export class CategoryService {
         if (!image) {
             return await this.categoryRepository.save(dto)
         }
-        const fileName = await this.fileService.createFile(image)
+        const fileName = await this.fileService.createFile(image, 'category')
         const newCategory = await this.categoryRepository.save({title, image: fileName})
         newCategory.user = await this.userService.findUserById(userId)
 
@@ -54,7 +54,7 @@ export class CategoryService {
         } catch (e) {
             console.log(e)
         }
-        const fileName = await this.fileService.createFile(image)
+        const fileName = await this.fileService.createFile(image, '')
         const updatedCategory = await this.categoryRepository.update({id: Number(dto.id)}, {
             title: dto.title,
             image: fileName
@@ -69,7 +69,7 @@ export class CategoryService {
     }
 
     async findSubCategories(categoryId: string) {
-        return await this.categoryRepository.find({
+        return await this.categoryRepository.findOne({
             where: {
                 id: +categoryId
             },
@@ -78,6 +78,11 @@ export class CategoryService {
     }
 
     async deleteCategory(id: string) {
-        return await this.categoryRepository.delete({id: +id})
+        try {
+            return await this.categoryRepository.delete({id: +id})
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
 }

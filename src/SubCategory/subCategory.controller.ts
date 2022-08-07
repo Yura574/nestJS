@@ -16,7 +16,7 @@ constructor(private subCategoryService: SubCategoryService) {
            @UploadedFile() image: Express.Multer.File){
         return this.subCategoryService.createSubCategory(dto, image)
     }
-    @Get('goods/:id')
+    @Get('one/:id')
     getGoods(@Param() param){
     return this.subCategoryService.getGoods(param.id)
     }

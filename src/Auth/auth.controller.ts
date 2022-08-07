@@ -4,6 +4,7 @@ import {AuthService} from "./auth.service";
 import {ApiTags} from "@nestjs/swagger";
 import {raw, Request, Response} from "express";
 import {UserService} from "../User/user.service";
+import {UserDtoRegistration} from "../Entitys/dto/userDtoRegistration";
 
 @ApiTags('authorization')
 @Controller('auth')
@@ -13,9 +14,12 @@ export class AuthController {
     }
 
     @Post('singUp')
-    singUp(@Body() dto: UserDto) {
-        console.log(dto)
-        return this.authService.singUp(dto)
+    async singUp(@Body() dto: UserDtoRegistration,
+                 @Res() res: Response) {
+        const userData = await this.authService.singUp(dto)
+        const {user, refresh_token, access_token} = userData
+        res.cookie('refresh', refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+        return user
     }
 
     @Post('singIn')
@@ -26,19 +30,17 @@ export class AuthController {
             const {access_token, refresh_token, user} = userData
             res.cookie('refresh', refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             // console.log(userData)
-
             delete user.refreshToken
             delete user.password
             return res.json(user)
-        }
-        catch (e) {
+        } catch (e) {
             throw new ForbiddenException('email or password incorrect')
         }
     }
 
     @Get('me')
-   async authMe(@Req() req: Request,
-           @Res() res: Response) {
+    async authMe(@Req() req: Request,
+                 @Res() res: Response) {
         // console.log(req.cookies.refresh)
         const userData = await this.authService.authMe(req.cookies.refresh)
         const {access_token, refresh_token, user} = userData
@@ -55,7 +57,7 @@ export class AuthController {
     @Get('logout')
     logout(@Req() req: Request,
            @Res() res: Response) {
-       const user = this.authService.logout(req.cookies.refresh)
+        const user = this.authService.logout(req.cookies.refresh)
         // console.log(user)
         res.clearCookie('refresh')
         return res.json(user)

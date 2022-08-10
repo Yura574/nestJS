@@ -1,4 +1,4 @@
-import {BadRequestException, ForbiddenException, Injectable} from "@nestjs/common";
+import {BadRequestException, ForbiddenException, HttpException, Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {CategoryDto} from "../Entitys/dto/categoryDto";
@@ -8,6 +8,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import {UserService} from "../User/user.service";
 import {Category} from "../Entitys/category.entity";
+import {deleteFile} from "../UtilFunction/common/deleteFile";
 
 
 @Injectable()
@@ -28,7 +29,7 @@ export class CategoryService {
         if (!image) {
             return await this.categoryRepository.save(dto)
         }
-        const fileName = await this.fileService.createFile(image, 'category')
+        const fileName = await this.fileService.createFile(image, 'category/')
         const newCategory = await this.categoryRepository.save({title, image: fileName})
         newCategory.user = await this.userService.findUserById(userId)
 
@@ -79,7 +80,18 @@ export class CategoryService {
 
     async deleteCategory(id: string) {
         try {
-            return await this.categoryRepository.delete({id: +id})
+            //находим категорию
+            const oldCategory = await this.categoryRepository.findOne({where: {id: +id}, relations: {subCategories: true}})
+            //удаляем фотографию для этой категории
+            if(oldCategory.subCategories.length> 0){
+                return new ForbiddenException('удалите вложенные подкатегории')
+            }
+            else {
+                deleteFile(oldCategory)
+                //удаляем категорию из бд
+                return await this.categoryRepository.delete({id: +id})
+            }
+
         }
         catch (err) {
             console.log(err)

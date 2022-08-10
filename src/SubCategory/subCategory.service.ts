@@ -25,7 +25,7 @@ export class SubCategoryService {
         if (!category) {
             throw new ForbiddenException(BadRequestException, 'category not found')
         }
-        const fileName = image ? await this.fileService.createFile(image, 'subCategory/lololo/') : ''
+        const fileName = image ? await this.fileService.createFile(image, 'subCategory/') : ''
 
         const newSubCategory = fileName
             ? await this.subCategoryRepository.save({title, image: fileName})

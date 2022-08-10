@@ -53,7 +53,7 @@ export class User {
     @JoinColumn()
     role: Role
 
-    @OneToMany(() => Category, (category) => category.user, {onDelete: "CASCADE"})
+    @OneToMany(() => Category, (category) => category.user)
     categories: Category[]
 
 

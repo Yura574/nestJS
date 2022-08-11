@@ -1,4 +1,4 @@
-import {BadRequestException, ForbiddenException, HttpException, Injectable} from "@nestjs/common";
+import {BadRequestException, ForbiddenException, HttpException, HttpStatus, Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {CategoryDto} from "../Entitys/dto/categoryDto";
@@ -27,7 +27,9 @@ export class CategoryService {
             throw new ForbiddenException(BadRequestException, 'user not found')
         }
         if (!image) {
-            return await this.categoryRepository.save(dto)
+            const newCategory = await this.categoryRepository.save({title})
+            newCategory.user = await this.userService.findUserById(userId)
+            return await this.categoryRepository.save(newCategory)
         }
         const fileName = await this.fileService.createFile(image, 'category/')
         const newCategory = await this.categoryRepository.save({title, image: fileName})
@@ -39,29 +41,35 @@ export class CategoryService {
 
     async updateCategory(dto: CategoryUpdateDto, image: Express.Multer.File) {
         console.log(dto)
-        const oldCategory = await this.categoryRepository.findOneBy({id: Number(dto.id)})
 
-        if (!oldCategory) {
-            throw new ForbiddenException(`category doesn't exist`)
-        }
-        if (!image) {
-            return await this.categoryRepository.update({id: Number(dto.id)}, {title: dto.title})
-        }
         try {
-            const fileName = oldCategory.image.split('/')[3]
-            const filePath = path.resolve(__dirname, '..', 'static', fileName)
+            const oldCategory = await this.categoryRepository.findOneBy({id: Number(dto.id)})
 
-            fs.unlinkSync(filePath)
+            if (!oldCategory) {
+                const error = new HttpException(
+                    'категория не найдена',   403,
+                );
+                return {error}
+            }
+            if (!image) {
+                return await this.categoryRepository.update({id: Number(dto.id)}, {title: dto.title})
+            }
+            deleteFile(oldCategory)
+            // const fileName = oldCategory.image.split('/')[3]
+            // const filePath = path.resolve(__dirname, '..', 'static', fileName)
+            //
+            // fs.unlinkSync(filePath)
+            const fileName = await this.fileService.createFile(image, 'category/')
+            const updatedCategory = await this.categoryRepository.update({id: Number(dto.id)}, {
+                title: dto.title,
+                image: fileName
+            })
+
+            return await this.categoryRepository.findOneBy({id: Number(dto.id)})
         } catch (e) {
             console.log(e)
         }
-        const fileName = await this.fileService.createFile(image, '')
-        const updatedCategory = await this.categoryRepository.update({id: Number(dto.id)}, {
-            title: dto.title,
-            image: fileName
-        })
 
-        return await this.categoryRepository.findOneBy({id: Number(dto.id)})
     }
 
     async findCategoryById(id: string) {
@@ -84,10 +92,13 @@ export class CategoryService {
             const oldCategory = await this.categoryRepository.findOne({where: {id: +id}, relations: {subCategories: true}})
             //удаляем фотографию для этой категории
             if(oldCategory.subCategories.length> 0){
-                return new ForbiddenException('удалите вложенные подкатегории')
+                const error = new HttpException(
+                    'удалите сначала подкатегории ',   403,
+                );
+                return {error}
             }
             else {
-                deleteFile(oldCategory)
+                oldCategory.image && deleteFile(oldCategory)
                 //удаляем категорию из бд
                 return await this.categoryRepository.delete({id: +id})
             }

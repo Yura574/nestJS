@@ -5,25 +5,26 @@ import {SubCategoryDto} from "../Entitys/dto/subCategoryDto";
 
 
 @Controller('subCategory')
-export class SubCategoryController{
+export class SubCategoryController {
 
-constructor(private subCategoryService: SubCategoryService) {
-}
+    constructor(private subCategoryService: SubCategoryService) {
+    }
 
     @Post('create')
     @UseInterceptors(FileInterceptor('image'))
     create(@Body() dto: SubCategoryDto,
-           @UploadedFile() image: Express.Multer.File){
+           @UploadedFile() image: Express.Multer.File) {
         return this.subCategoryService.createSubCategory(dto, image)
     }
+
     @Get('one/:id')
-    getGoods(@Param() param){
-    return this.subCategoryService.getGoods(param.id)
+    getGoods(@Param() param) {
+        return this.subCategoryService.getGoods(param.id)
     }
 
     @Delete('delete/:id')
-    delete(@Param() param){
-    return this.subCategoryService.deleteSubCategory(param.id)
+    delete(@Param() param) {
+        return this.subCategoryService.deleteSubCategory(param.id)
     }
 
 }

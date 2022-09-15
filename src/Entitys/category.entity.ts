@@ -7,7 +7,7 @@ import {SubCategory} from "./subCategory.entity";
 
 export class Category {
 
-    @Column({unique: true})
+    @Column()
     title: string
 
     @PrimaryGeneratedColumn()

@@ -1,11 +1,9 @@
-import {BadRequestException, ForbiddenException, HttpException, HttpStatus, Injectable} from "@nestjs/common";
+import {BadRequestException, ForbiddenException, HttpException,  Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {CategoryDto} from "../Entitys/dto/categoryDto";
 import {FileService} from "../Files/file.service";
 import {CategoryUpdateDto} from "../Entitys/dto/categoryUpdateDto";
-import * as fs from 'fs'
-import * as path from 'path'
 import {UserService} from "../User/user.service";
 import {Category} from "../Entitys/category.entity";
 import {deleteFile} from "../UtilFunction/common/deleteFile";
@@ -26,6 +24,13 @@ export class CategoryService {
         if (!user) {
             throw new ForbiddenException(BadRequestException, 'user not found')
         }
+        const allCategories = await this.userService.findAllCategoriesByUser(dto.userId)
+        const isExist = allCategories.filter(cat => cat.title === title)
+        if(isExist.length> 0){
+            throw new ForbiddenException(BadRequestException, 'such category already exist')
+        }
+        console.log(isExist)
+
         if (!image) {
             const newCategory = await this.categoryRepository.save({title})
             newCategory.user = await this.userService.findUserById(userId)

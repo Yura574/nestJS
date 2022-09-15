@@ -12,12 +12,12 @@ export class UserService {
     constructor(@InjectRepository(User)
                 private userRepository: Repository<User>,
                 private roleService: RoleService,
-                ) {
+    ) {
     }
 
     async createUser(dto: UserDto) {
         const role = await this.roleService.getRoleByValue('admin')
-        const user =  await this.userRepository.save({...dto, role})
+        const user = await this.userRepository.save({...dto, role})
         return user
     }
 
@@ -31,14 +31,19 @@ export class UserService {
 
     async findUserByEmail(email: string) {
         return await this.userRepository.findOne({
-                relations: {
-                    role: true
-                },
-                where: {
-                    email
-                }
+                relations: {role: true},
+                where: {email}
             },
         )
+    }
+
+    async findAllCategoriesByUser(id: number) {
+       // const user = await this.userRepository.find({
+       //      relations: {categories: true},
+       //      where: {id}
+       //  })
+        const user = await this.findUserById(id)
+        return user.categories
     }
 
 
@@ -46,7 +51,8 @@ export class UserService {
         return await this.userRepository.findOne({
             where: {
                 id
-            }
+            },
+            relations: {categories: true, role: true}
         })
 
     }

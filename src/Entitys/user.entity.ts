@@ -9,6 +9,7 @@ import {
 import {ApiProperty} from "@nestjs/swagger";
 import {Role} from "./role.entity";
 import {Category} from "./category.entity";
+import {Warehouse} from "./warehouse.entity";
 
 
 @Entity()
@@ -44,18 +45,20 @@ export class User {
     @UpdateDateColumn({type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP'})
     updated: Date
 
-    toResponse(){
-        const {id,email,refreshToken,updated, created, role} = this
+    toResponse() {
+        const {id, email, refreshToken, updated, created, role} = this
     }
 
 
-    @ManyToOne(() => Role, (role)=> role.user)
+    @ManyToOne(() => Role, (role) => role.user)
     @JoinColumn()
     role: Role
 
     @OneToMany(() => Category, (category) => category.user)
     categories: Category[]
 
+    @OneToMany(() => Warehouse, (warehouse) => warehouse.user)
+    warehouses: Warehouse[]
 
 
 }

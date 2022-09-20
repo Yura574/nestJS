@@ -4,7 +4,6 @@ import {Repository} from "typeorm";
 import {UserDto} from "../Entitys/dto/userDto";
 import {RoleService} from "./Roles/role.service";
 import {User} from "../Entitys";
-import {AuthService} from "../Auth/auth.service";
 
 
 @Injectable()
@@ -17,8 +16,7 @@ export class UserService {
 
     async createUser(dto: UserDto) {
         const role = await this.roleService.getRoleByValue('admin')
-        const user = await this.userRepository.save({...dto, role})
-        return user
+        return await this.userRepository.save({...dto, role})
     }
 
     async deleteUser(id: number) {
@@ -36,23 +34,18 @@ export class UserService {
             },
         )
     }
-
-    async findAllCategoriesByUser(id: number) {
-       // const user = await this.userRepository.find({
-       //      relations: {categories: true},
-       //      where: {id}
-       //  })
-        const user = await this.findUserById(id)
-        return user.categories
-    }
-
+    //
+    // async findAllCategoriesByUser(id: number) {
+    //     const user = await this.findUserById(id)
+    //     return user.categories
+    // }
 
     async findUserById(id) {
         return await this.userRepository.findOne({
             where: {
                 id
             },
-            relations: {categories: true, role: true}
+            relations: {categories: true, role: true, warehouses: true}
         })
 
     }

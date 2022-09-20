@@ -1,10 +1,10 @@
-import {Body, Controller, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
+import {Body, Controller, Get, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
 import {WarehousesService} from "./warehouses.service";
 import {FileInterceptor} from "@nestjs/platform-express";
-import {WarehouseDto} from "../Entitys/dto/warehouseDto";
+import {CreateWarehouseDto, GetAllWarehousesDto} from "../Entitys/dto/warehouseDto";
 
 
-@Controller()
+@Controller('warehouse')
 
 
 export class WarehouseController {
@@ -14,10 +14,15 @@ export class WarehouseController {
 
     @Post('create')
     @UseInterceptors(FileInterceptor('image'))
-    createWareHouse(@Body() dto: WarehouseDto,
+    createWareHouse(@Body() dto: CreateWarehouseDto,
                     @UploadedFile() image: Express.Multer.File) {
         return this.warehouseService.createWarehouse(dto, image)
+    }
 
+    @Get('getAll')
+    getAllWarehouses(@Body() dto: GetAllWarehousesDto){
+        console.log(dto)
+        return  this.warehouseService.getAllWarehouses(dto.userId)
     }
 
 }

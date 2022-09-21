@@ -24,7 +24,7 @@ export class CategoryService {
         if (!user) {
             throw new ForbiddenException(BadRequestException, 'user not found')
         }
-        const allCategories = await this.userService.findAllCategoriesByUser(dto.userId)
+        const allCategories = user.categories
         const isExist = allCategories.filter(cat => cat.title === title)
         if(isExist.length> 0){
             throw new ForbiddenException(BadRequestException, 'such category already exist')

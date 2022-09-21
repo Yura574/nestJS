@@ -5,15 +5,16 @@ import {Warehouse} from "../Entitys/warehouse.entity";
 import {FileService} from "../Files/file.service";
 import {UserService} from "../User/user.service";
 import {CreateWarehouseDto} from "../Entitys/dto/warehouseDto";
+import {isExist} from "../UtilFunction/common/isExist";
 
 
 @Injectable()
 
-export class WarehousesService {
+export class WarehouseService {
     constructor(@InjectRepository(Warehouse)
                 private warehouseRepository: Repository<Warehouse>,
                 private fileService: FileService,
-                private  userService: UserService) {
+                private userService: UserService) {
     }
 
     async createWarehouse(dto: CreateWarehouseDto, image: Express.Multer.File) {
@@ -25,30 +26,36 @@ export class WarehousesService {
                 return {error}
             }
             const allWarehouse = user.warehouses
-            const isExist = allWarehouse.filter(warehouse => warehouse.title === title)
-            if(isExist.length> 0){
-                const error = new ForbiddenException(BadRequestException, 'such warehouse already exist')
-                return {error}
+
+            const exist = isExist(allWarehouse, title, 'warehouse')
+            // если название такое существует, возвращает ошибку "such title already exist"
+            if (exist){
+                return exist
             }
-            console.log(isExist)
+            console.log(exist)
             if (!image) {
                 const newWarehouse = await this.warehouseRepository.save({title})
                 newWarehouse.user = await this.userService.findUserById(userId)
                 return await this.warehouseRepository.save(newWarehouse)
             }
-            const fileName = await this.fileService.createFile(image, 'warehouse/')
+            const fileName = await this.fileService.createFile(image, 'warehouses/')
             const newWarehouse = await this.warehouseRepository.save({title, image: fileName})
             newWarehouse.user = await this.userService.findUserById(userId)
             return await this.warehouseRepository.save(newWarehouse)
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err)
         }
 
     }
 
-    async getAllWarehouses (userId: number) {
+    async getAllWarehouses(userId: number) {
         const user = await this.userService.findUserById(userId)
         return user.warehouses
+    }
+
+    async findWarehouseById(warehouseId: number) {
+        return await this.warehouseRepository.findOne(
+            {where: {id: warehouseId}, relations: {purchases: true}}
+        )
     }
 }

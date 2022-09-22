@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
+import {Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
 import {WarehouseService} from "./warehouse.service";
 import {FileInterceptor} from "@nestjs/platform-express";
 import {CreateWarehouseDto, GetAllWarehousesDto} from "../Entitys/dto/warehouseDto";
@@ -19,10 +19,10 @@ export class WarehouseController {
         return this.warehouseService.createWarehouse(dto, image)
     }
 
-    @Get('all')
-    getAllWarehouses(@Body() dto: GetAllWarehousesDto){
-        console.log(dto)
-        return  this.warehouseService.getAllWarehouses(dto.userId)
+    @Get('all/:id')
+    getAllWarehouses(@Param() param){
+        console.log(param.id)
+        return  this.warehouseService.getAllWarehouses(param.id)
     }
 
     // @Get('one')

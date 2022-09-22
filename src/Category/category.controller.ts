@@ -3,8 +3,6 @@ import {
     Controller,
     Delete,
     Get,
-    HttpException,
-    HttpStatus,
     Param,
     Post, Put,
     UploadedFile,
@@ -14,7 +12,6 @@ import {CategoryService} from "./category.service";
 import {CategoryDto} from "../Entitys/dto/categoryDto";
 import {FileInterceptor} from "@nestjs/platform-express";
 import {CategoryUpdateDto} from "../Entitys/dto/categoryUpdateDto";
-import {raw} from "express";
 
 
 @Controller('category')

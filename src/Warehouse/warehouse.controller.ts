@@ -1,7 +1,7 @@
 import {Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
 import {WarehouseService} from "./warehouse.service";
 import {FileInterceptor} from "@nestjs/platform-express";
-import {CreateWarehouseDto, GetAllWarehousesDto} from "../Entitys/dto/warehouseDto";
+import {CreateWarehouseDto} from "../Entitys/dto/warehouseDto";
 
 
 @Controller('warehouse')
@@ -20,11 +20,16 @@ export class WarehouseController {
     }
 
     @Get('all/:id')
-    getAllWarehouses(@Param() param){
+    getAllWarehouses(@Param() param) {
         console.log(param.id)
-        return  this.warehouseService.getAllWarehouses(param.id)
+        return this.warehouseService.getAllWarehouses(param.id)
+
     }
 
-    // @Get('one')
+    @Get('purchases/:id')
+    async getWarehousePurchases(@Param() param) {
+        const warehouse = await this.warehouseService.findWarehouseById(param.id)
+        return warehouse.purchases
+    }
 
 }

@@ -44,4 +44,8 @@ export class PurchasesService {
         newPurchase.warehouse = await this.warehouseService.findWarehouseById(warehouseId)
         return  await this.purchasesRepository.save(newPurchase)
     }
+    async getAllPurchases (warehouseId: number) {
+        const purchases = await this.warehouseService.findWarehouseById(warehouseId)
+        return purchases.purchases
+    }
 }

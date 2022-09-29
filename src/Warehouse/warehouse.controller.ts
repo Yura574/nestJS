@@ -1,7 +1,8 @@
-import {Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
 import {WarehouseService} from "./warehouse.service";
 import {FileInterceptor} from "@nestjs/platform-express";
 import {CreateWarehouseDto} from "../Entitys/dto/warehouseDto";
+import {log} from "util";
 
 
 @Controller('warehouse')
@@ -16,6 +17,8 @@ export class WarehouseController {
     @UseInterceptors(FileInterceptor('image'))
     createWareHouse(@Body() dto: CreateWarehouseDto,
                     @UploadedFile() image: Express.Multer.File) {
+        console.log(image)
+        console.log(dto)
         return this.warehouseService.createWarehouse(dto, image)
     }
 
@@ -30,6 +33,10 @@ export class WarehouseController {
     async getWarehousePurchases(@Param() param) {
         const warehouse = await this.warehouseService.findWarehouseById(param.id)
         return warehouse.purchases
+    }
+    @Delete('delete/:id')
+    deleteWarehouse(@Param() param){
+        return this.warehouseService.deleteWarehouse(param.id)
     }
 
 }

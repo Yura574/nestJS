@@ -1,4 +1,4 @@
-import {BadRequestException, ForbiddenException, Injectable} from "@nestjs/common";
+import {BadRequestException, ForbiddenException, HttpException, Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {Warehouse} from "../Entitys/warehouse.entity";
@@ -6,6 +6,7 @@ import {FileService} from "../Files/file.service";
 import {UserService} from "../User/user.service";
 import {CreateWarehouseDto} from "../Entitys/dto/warehouseDto";
 import {isExist} from "../UtilFunction/common/isExist";
+import {deleteFile} from "../UtilFunction/common/deleteFile";
 
 
 @Injectable()
@@ -29,7 +30,7 @@ export class WarehouseService {
 
             const exist = isExist(allWarehouse, title, 'warehouse')
             // если название такое существует, возвращает ошибку "such title already exist"
-            if (exist){
+            if (exist) {
                 return exist
             }
             console.log(exist)
@@ -57,5 +58,23 @@ export class WarehouseService {
         return await this.warehouseRepository.findOne(
             {where: {id: warehouseId}, relations: {purchases: true}}
         )
+    }
+
+    async deleteWarehouse(warehouseId: number) {
+        try {
+            const oldWarehouse = await this.warehouseRepository.findOne(
+                {where: {id: warehouseId}, relations:{purchases: true}})
+            if (oldWarehouse.purchases.length > 0){
+                const error = new HttpException(
+                    'удалите сначала товары на складе', 403
+                )
+                return {error}
+            } else {
+                oldWarehouse.image && deleteFile(oldWarehouse)
+                return  await this.warehouseRepository.delete({id: warehouseId})
+            }
+        } catch (err) {
+            console.log(err)
+        }
     }
 }

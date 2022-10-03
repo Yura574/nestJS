@@ -13,6 +13,7 @@ import {SubCategoryModule} from "./SubCategory/SubCategory.module";
 import {GoodsModule} from "./Goods/Goods.module";
 import {WarehouseModule} from "./Warehouse/warehouse.module";
 import {PurchasesModule} from "./Purchases/Purchases.module";
+import {PurchasesInfoModule} from "./Purchases/PurchasesInfo/PurchasesInfo.module";
 
 @Module({
     imports: [
@@ -38,7 +39,7 @@ import {PurchasesModule} from "./Purchases/Purchases.module";
            dest: './upload'
         }),
         UserModule, AuthModule, RoleModule, FileModule, CategoryModule,
-        SubCategoryModule, GoodsModule, WarehouseModule, PurchasesModule
+        SubCategoryModule, GoodsModule, WarehouseModule, PurchasesModule, PurchasesInfoModule
 
     ],
 })

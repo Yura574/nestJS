@@ -18,7 +18,7 @@ export class PurchasesService {
     }
 
     async createPurchase(dto: CreatePurchasesDto, image: Express.Multer.File) {
-        const {warehouseId, title, price, place, amount, date} = dto
+        const {warehouseId, title, price, place, amount, unit, date} = dto
         const warehouse = await this.warehouseService.findWarehouseById(warehouseId)
 
         if (!warehouse) {
@@ -35,7 +35,7 @@ export class PurchasesService {
         }
 
         if (!image) {
-            const newPurchase = await this.purchasesRepository.save({title, price, place, amount, date})
+            const newPurchase = await this.purchasesRepository.save({title, price, place, amount, unit, date})
             newPurchase.warehouse = await this.warehouseService.findWarehouseById(warehouseId)
             return await this.purchasesRepository.save(newPurchase)
         }
@@ -48,5 +48,11 @@ export class PurchasesService {
     async getAllPurchases(warehouseId: number) {
         const purchases = await this.warehouseService.findWarehouseById(warehouseId)
         return purchases.purchases
+    }
+
+    async getOnePurchase (purchaseId: number){
+        const purchase = await this.purchasesRepository.findOne(
+            {where:{id:purchaseId}, relations:{purchaseInfo: true}})
+        return purchase
     }
 }

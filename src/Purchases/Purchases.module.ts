@@ -10,7 +10,8 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 @Module({
     controllers: [PurchasesController],
     providers: [PurchasesService],
-    imports: [TypeOrmModule.forFeature([Purchases]), WarehouseModule, FileModule]
+    imports: [TypeOrmModule.forFeature([Purchases]), WarehouseModule, FileModule],
+    exports:[PurchasesService]
 })
 
 export class PurchasesModule {

@@ -10,6 +10,7 @@ import {ApiProperty} from "@nestjs/swagger";
 import {Role} from "./role.entity";
 import {Category} from "./category.entity";
 import {Warehouse} from "./warehouse.entity";
+import {Purchases} from "./Purchases.entity";
 
 
 @Entity()
@@ -60,5 +61,6 @@ export class User {
     @OneToMany(() => Warehouse, (warehouse) => warehouse.user)
     warehouses: Warehouse[]
 
-
+@OneToMany(()=>Purchases, (purchases)=>purchases.user)
+    purchases: Purchases[]
 }

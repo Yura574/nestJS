@@ -1,6 +1,7 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Warehouse} from "./warehouse.entity";
 import {PurchasesInfo} from "./PurchasesInfo.entity";
+import {User} from "./user.entity";
 
 
 @Entity()
@@ -33,6 +34,10 @@ export class Purchases {
     @ManyToOne(()=> Warehouse, (warehouse)=> warehouse.purchases)
     @JoinColumn()
     warehouse: Warehouse
+
+    @ManyToOne(()=> User, (user)=> user.purchases)
+    @JoinColumn()
+    user: User
 
     @OneToMany(()=> PurchasesInfo, (purchaseInfo)=> purchaseInfo.purchases)
     purchaseInfo: PurchasesInfo[]

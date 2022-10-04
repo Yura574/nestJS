@@ -2,7 +2,6 @@ import {Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors} from 
 import {PurchasesService} from "./Purchases.service";
 import {CreatePurchasesDto} from "../Entitys/dto/purchasesDto";
 import {FileInterceptor} from "@nestjs/platform-express";
-import {log} from "util";
 
 
 @Controller('purchase')
@@ -19,14 +18,14 @@ export class PurchasesController {
         return this.purchaseService.createPurchase(dto, image)
     }
 
-    @Get('all')
+    @Get('all/:id')
     getAllPurchases(@Param() param) {
         return this.purchaseService.getAllPurchases(param.id)
     }
 
     @Get('one/:id')
     getOnePurchase(@Param() param) {
-        return this.purchaseService.getOnePurchase(param.id)
+        return this.purchaseService.getInfoPurchase(param.id)
     }
 
 }

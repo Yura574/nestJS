@@ -29,7 +29,7 @@ export class UserController{
 
     @Get('one/:id')
     getOne(@Param() param){
-        return this.userService.findUserCategory(param.id)
+        return this.userService.findUserById(param.id)
     }
 
     @Post('one')

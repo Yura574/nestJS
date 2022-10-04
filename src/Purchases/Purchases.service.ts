@@ -46,11 +46,11 @@ export class PurchasesService {
     }
 
     async getAllPurchases(warehouseId: number) {
-        const purchases = await this.warehouseService.findWarehouseById(warehouseId)
-        return purchases.purchases
+        const warehouse = await this.purchasesRepository.find({relations: {purchaseInfo: true} })
+        return warehouse
     }
 
-    async getOnePurchase (purchaseId: number){
+    async getInfoPurchase (purchaseId: number){
         const purchase = await this.purchasesRepository.findOne(
             {where:{id:purchaseId}, relations:{purchaseInfo: true}})
         return purchase

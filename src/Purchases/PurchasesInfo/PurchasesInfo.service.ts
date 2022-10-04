@@ -17,7 +17,7 @@ export class PurchasesInfoService {
     async create (dto: PurchaseInfoDto){
         const {purchaseId, title, place, price, amount, unit, warehouse, date} = dto
         const newInfo =   await this.purchasesInfoRepository.save({title, place, price, amount, unit, warehouse, date})
-        newInfo.purchases = await this.purchasesService.getOnePurchase(purchaseId)
+        newInfo.purchases = await this.purchasesService.getInfoPurchase(purchaseId)
         return await  this.purchasesInfoRepository.save(newInfo)
      }
 

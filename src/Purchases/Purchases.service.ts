@@ -3,9 +3,10 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {WarehouseService} from "../Warehouse/warehouse.service";
 import {Purchases} from "../Entitys/Purchases.entity";
-import {CreatePurchasesDto} from "../Entitys/dto/purchasesDto";
+import {createPurchasesDto} from "../Entitys/dto/purchasesDto";
 import {isExist} from "../UtilFunction/common/isExist";
 import {FileService} from "../Files/file.service";
+import {UserService} from "../User/user.service";
 
 
 @Injectable()
@@ -14,11 +15,12 @@ export class PurchasesService {
     constructor(@InjectRepository(Purchases)
                 private purchasesRepository: Repository<Purchases>,
                 private warehouseService: WarehouseService,
+                private userService: UserService,
                 private fileService: FileService) {
     }
 
-    async createPurchase(dto: CreatePurchasesDto, image: Express.Multer.File) {
-        const {warehouseId, title, price, place, amount, unit, date} = dto
+    async createPurchase(dto: createPurchasesDto, image: Express.Multer.File) {
+        const {userId, warehouseId, title, price, place, amount, unit, date} = dto
         const warehouse = await this.warehouseService.findWarehouseById(warehouseId)
 
         if (!warehouse) {
@@ -31,8 +33,22 @@ export class PurchasesService {
         // если название такое существует, возвращает ошибку "such title already exist"
 
         if (exist) {
-            return exist
+            const currentPurchase = allPurchases.filter(el=> el.title === title)
+            console.log(currentPurchase)
+            const newPurchase = {...currentPurchase[0],
+                date: date,
+                price: price,
+                amount: +currentPurchase[0].amount + +amount,
+            }
+            console.log(newPurchase)
+            return await this.purchasesRepository.update({title: newPurchase.title }, {
+                price: newPurchase.price,
+                amount: newPurchase.amount.toString(),
+                date: newPurchase.date
+
+            })
         }
+
 
         if (!image) {
             const newPurchase = await this.purchasesRepository.save({title, price, place, amount, unit, date})
@@ -40,19 +56,19 @@ export class PurchasesService {
             return await this.purchasesRepository.save(newPurchase)
         }
         const fileName = await this.fileService.createFile(image, 'purchases/')
-        const newPurchase = await this.purchasesRepository.save({title, image: fileName})
+        const newPurchase = await this.purchasesRepository.save({title, price, place, amount, unit, date, image: fileName})
         newPurchase.warehouse = await this.warehouseService.findWarehouseById(warehouseId)
+        newPurchase.user = await this.userService.findUserById(userId)
         return await this.purchasesRepository.save(newPurchase)
     }
 
-    async getAllPurchases(warehouseId: number) {
-        const warehouse = await this.purchasesRepository.find({relations: {purchaseInfo: true} })
-        return warehouse
+    async getAllPurchases (userId: number){
+        const user = await this.userService.findUserById(userId)
+        return user.purchases
     }
-
-    async getInfoPurchase (purchaseId: number){
-        const purchase = await this.purchasesRepository.findOne(
-            {where:{id:purchaseId}, relations:{purchaseInfo: true}})
-        return purchase
-    }
+    // async getInfoPurchase (purchaseId: number){
+    //     const purchase = await this.purchasesRepository.findOne(
+    //         {where:{id:purchaseId}, relations:{purchaseInfo: true}})
+    //     return purchase
+    // }
 }

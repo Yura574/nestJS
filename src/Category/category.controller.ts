@@ -25,6 +25,7 @@ export class CategoryController {
     createCategory(@Body() dto: CategoryDto,
                    @UploadedFile() image: Express.Multer.File) {
         console.log(dto)
+        console.log(image)
         return this.categoryService.createCategory(dto, image)
     }
 

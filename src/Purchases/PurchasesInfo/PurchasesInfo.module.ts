@@ -3,13 +3,13 @@ import {PurchasesInfoController} from "./PurchasesInfo.controller";
 import {PurchasesInfoService} from "./PurchasesInfo.service";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {PurchasesInfo} from "../../Entitys/PurchasesInfo.entity";
-import {PurchasesModule} from "../Purchases.module";
+import {UserModule} from "../../User/user.module";
 
 
 @Module({
     controllers:[PurchasesInfoController],
     providers:[PurchasesInfoService],
-    imports:[TypeOrmModule.forFeature([PurchasesInfo]), PurchasesModule]
+    imports:[TypeOrmModule.forFeature([PurchasesInfo]), UserModule]
 })
 
 export class PurchasesInfoModule {

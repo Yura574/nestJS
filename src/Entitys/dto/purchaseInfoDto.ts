@@ -1,10 +1,10 @@
 import {IsNotEmpty, IsString} from "class-validator";
 
 
-export class PurchaseInfoDto{
+export class purchaseInfoDto{
 
     @IsNotEmpty()
-    purchaseId: number
+    userId: number
 
     @IsNotEmpty()
     title: string
@@ -20,8 +20,7 @@ export class PurchaseInfoDto{
 
     @IsString()
     unit: string
-    @IsString()
-    warehouse: string
+
 
     @IsString()
     date: string

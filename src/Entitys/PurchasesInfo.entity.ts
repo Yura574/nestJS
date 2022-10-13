@@ -1,5 +1,6 @@
 import {BeforeInsert, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Purchases} from "./Purchases.entity";
+import {User} from "./user.entity";
 
 
 @Entity()
@@ -23,15 +24,17 @@ export class PurchasesInfo {
     @Column()
     unit: string
 
-    @Column()
-    warehouse: string
 
     @Column()
     date: string
 
-    @ManyToOne(()=>Purchases, (purchases)=> purchases.purchaseInfo)
+    // @ManyToOne(()=>Purchases, (purchases)=> purchases.purchaseInfo)
+    // @JoinColumn()
+    // purchases: Purchases
+
+    @ManyToOne(()=> User, (user)=> user.purchasesInfo)
     @JoinColumn()
-    purchases: Purchases
+    user: User
 
 
 }

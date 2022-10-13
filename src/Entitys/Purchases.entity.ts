@@ -39,6 +39,6 @@ export class Purchases {
     @JoinColumn()
     user: User
 
-    @OneToMany(()=> PurchasesInfo, (purchaseInfo)=> purchaseInfo.purchases)
-    purchaseInfo: PurchasesInfo[]
+    // @OneToMany(()=> PurchasesInfo, (purchaseInfo)=> purchaseInfo.purchases)
+    // purchaseInfo: PurchasesInfo[]
 }

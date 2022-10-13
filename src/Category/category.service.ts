@@ -77,6 +77,11 @@ export class CategoryService {
 
     }
 
+
+
+
+
+
     async findCategoryById(id: string) {
         return await this.categoryRepository.findOne({where: {id: +id}})
 

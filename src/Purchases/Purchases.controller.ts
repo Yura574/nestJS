@@ -1,6 +1,6 @@
 import {Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
 import {PurchasesService} from "./Purchases.service";
-import {CreatePurchasesDto} from "../Entitys/dto/purchasesDto";
+import {createPurchasesDto} from "../Entitys/dto/purchasesDto";
 import {FileInterceptor} from "@nestjs/platform-express";
 
 
@@ -12,9 +12,8 @@ export class PurchasesController {
 
     @Post('create')
     @UseInterceptors(FileInterceptor('image'))
-    createPurchase(@Body() dto: CreatePurchasesDto,
+    createPurchase(@Body() dto: createPurchasesDto,
                    @UploadedFile() image: Express.Multer.File) {
-        console.log(dto)
         return this.purchaseService.createPurchase(dto, image)
     }
 
@@ -25,7 +24,7 @@ export class PurchasesController {
 
     @Get('one/:id')
     getOnePurchase(@Param() param) {
-        return this.purchaseService.getInfoPurchase(param.id)
+        // return this.purchaseService.getInfoPurchase(param.id)
     }
 
 }

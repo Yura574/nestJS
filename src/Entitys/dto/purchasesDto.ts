@@ -2,7 +2,9 @@ import {IsDate, IsNotEmpty, IsNumber, IsString} from "class-validator";
 import {Column} from "typeorm";
 
 
-export class CreatePurchasesDto {
+export class createPurchasesDto {
+    @IsNotEmpty()
+    userId: number
 
     @IsNotEmpty()
     warehouseId: number

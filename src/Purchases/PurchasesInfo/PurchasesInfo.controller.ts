@@ -1,6 +1,6 @@
-import {Body, Controller, Post} from "@nestjs/common";
+import {Body, Controller, Get, Param, Post} from "@nestjs/common";
 import {PurchasesInfoService} from "./PurchasesInfo.service";
-import {PurchaseInfoDto} from "../../Entitys/dto/PurchaseInfoDto";
+import {purchaseInfoDto} from "../../Entitys/dto/purchaseInfoDto";
 
 
 @Controller('purchaseInfo')
@@ -10,7 +10,14 @@ export class PurchasesInfoController {
     }
 
     @Post('create')
-    createPurchasesInfo(@Body() dto: PurchaseInfoDto) {
+    createPurchasesInfo(@Body() dto: purchaseInfoDto) {
         return this.purchasesInfoService.create(dto)
     }
+
+    @Get('all/:id')
+    getAllPurchasesInfo(@Param() param){
+        console.log(param.id)
+        return this.purchasesInfoService.getAllPurchasesInfo(param.id)
+    }
+
 }

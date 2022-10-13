@@ -11,6 +11,7 @@ import {Role} from "./role.entity";
 import {Category} from "./category.entity";
 import {Warehouse} from "./warehouse.entity";
 import {Purchases} from "./Purchases.entity";
+import {PurchasesInfo} from "./PurchasesInfo.entity";
 
 
 @Entity()
@@ -61,6 +62,9 @@ export class User {
     @OneToMany(() => Warehouse, (warehouse) => warehouse.user)
     warehouses: Warehouse[]
 
-@OneToMany(()=>Purchases, (purchases)=>purchases.user)
+    @OneToMany(()=> Purchases, (purchases)=> purchases.user)
     purchases: Purchases[]
+
+    @OneToMany(() => PurchasesInfo, (purchasesInfo) => purchasesInfo.user)
+    purchasesInfo: PurchasesInfo[]
 }

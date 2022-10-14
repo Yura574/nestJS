@@ -4,18 +4,18 @@ import {Repository} from "typeorm";
 import {GoodsDto} from "../Entitys/dto/goodsDto";
 import {FileService} from "../Files/file.service";
 import {SubCategoryService} from "../SubCategory/subCategory.service";
-import {Goods} from "../Entitys/goods.entity";
 import * as path from "path";
 import * as fs from "fs";
+import {Products} from "../Entitys/products.entity";
 
 
 @Injectable()
 
-export class GoodsService {
+export class ProductService {
 
 
-    constructor(@InjectRepository(Goods)
-                private goodsRepository: Repository<Goods>,
+    constructor(@InjectRepository(Products)
+                private goodsRepository: Repository<Products>,
                 private fileService: FileService,
                 private subCategoryService: SubCategoryService
     ) {

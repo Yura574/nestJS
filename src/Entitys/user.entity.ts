@@ -2,7 +2,7 @@ import {
     Column,
     CreateDateColumn,
     Entity, JoinColumn, ManyToOne,
-    OneToMany, OneToOne,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
@@ -47,9 +47,7 @@ export class User {
     @UpdateDateColumn({type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP'})
     updated: Date
 
-    toResponse() {
-        const {id, email, refreshToken, updated, created, role} = this
-    }
+
 
 
     @ManyToOne(() => Role, (role) => role.user)

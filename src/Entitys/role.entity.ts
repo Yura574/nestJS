@@ -2,8 +2,7 @@ import {
     BaseEntity,
     Column,
     Entity,
-    ManyToMany, OneToMany, OneToOne, PrimaryColumn,
-    PrimaryGeneratedColumn
+     OneToMany,  PrimaryColumn,
 } from "typeorm";
 import {ApiProperty} from "@nestjs/swagger";
 import {User} from "./user.entity";

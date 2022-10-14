@@ -1,6 +1,5 @@
-import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn,  ManyToOne,   PrimaryGeneratedColumn} from "typeorm";
 import {Warehouse} from "./warehouse.entity";
-import {PurchasesInfo} from "./PurchasesInfo.entity";
 import {User} from "./user.entity";
 
 
@@ -38,6 +37,7 @@ export class Purchases {
     @ManyToOne(()=> User, (user)=> user.purchases)
     @JoinColumn()
     user: User
+
 
     // @OneToMany(()=> PurchasesInfo, (purchaseInfo)=> purchaseInfo.purchases)
     // purchaseInfo: PurchasesInfo[]

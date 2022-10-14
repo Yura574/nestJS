@@ -2,7 +2,6 @@ import {Body, Controller, Delete, Get, Param, Post, UploadedFile, UseInterceptor
 import {WarehouseService} from "./warehouse.service";
 import {FileInterceptor} from "@nestjs/platform-express";
 import {CreateWarehouseDto} from "../Entitys/dto/warehouseDto";
-import {log} from "util";
 
 
 @Controller('warehouse')

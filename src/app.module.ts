@@ -10,10 +10,11 @@ import {ServeStaticModule} from "@nestjs/serve-static";
 import * as path from "path";
 import {CategoryModule} from "./Category/category.module";
 import {SubCategoryModule} from "./SubCategory/SubCategory.module";
-import {GoodsModule} from "./Goods/Goods.module";
 import {WarehouseModule} from "./Warehouse/warehouse.module";
 import {PurchasesModule} from "./Purchases/Purchases.module";
 import {PurchasesInfoModule} from "./Purchases/PurchasesInfo/PurchasesInfo.module";
+import {ProductModule} from "./Product/Product.module";
+import {ProductCompositionModule} from "./Product/ProductComposition/ProductComposition.module";
 
 @Module({
     imports: [
@@ -39,7 +40,7 @@ import {PurchasesInfoModule} from "./Purchases/PurchasesInfo/PurchasesInfo.modul
            dest: './upload'
         }),
         UserModule, AuthModule, RoleModule, FileModule, CategoryModule,
-        SubCategoryModule, GoodsModule, WarehouseModule, PurchasesModule, PurchasesInfoModule
+        SubCategoryModule, ProductModule, ProductCompositionModule, WarehouseModule, PurchasesModule, PurchasesInfoModule
 
     ],
 })

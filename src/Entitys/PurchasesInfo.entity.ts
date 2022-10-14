@@ -1,5 +1,4 @@
-import {BeforeInsert, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {Purchases} from "./Purchases.entity";
+import { Column, Entity, JoinColumn, ManyToOne,  PrimaryGeneratedColumn} from "typeorm";
 import {User} from "./user.entity";
 
 

@@ -5,8 +5,6 @@ import {Repository} from "typeorm";
 import {FileService} from "../Files/file.service";
 import {CategoryService} from "../Category/category.service";
 import {SubCategory} from "../Entitys/subCategory.entity";
-import * as path from "path";
-import * as fs from "fs";
 import {deleteFile} from "../UtilFunction/common/deleteFile";
 
 
@@ -42,10 +40,10 @@ export class SubCategoryService {
     async getGoods(id: string) {
         const subCategory = await this.subCategoryRepository.findOne({
             where: {id: +id},
-            relations: {goods: true}
+            relations: {products: true}
         })
         console.log(subCategory)
-        return subCategory.goods
+        return subCategory.products
     }
 
     async deleteSubCategory(id: string) {

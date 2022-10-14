@@ -20,7 +20,7 @@ export class ProductComposition {
     @Column()
     price: string
 
-    @ManyToOne(()=> Products, (products)=> products.productComposition)
-    products: Products
+    @ManyToOne(()=> Products, (product)=> product.productComposition)
+    product: Products
 
 }

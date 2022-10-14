@@ -25,7 +25,7 @@ export class Products{
     @ManyToOne(()=> SubCategory, (subCategory)=>subCategory.products, {onDelete: "CASCADE"} )
     subCategory: SubCategory
 
-    @OneToMany(()=>ProductComposition, (productComposition)=> productComposition.products)
+    @OneToMany(()=>ProductComposition, (productComposition)=> productComposition.product)
     productComposition: ProductComposition[]
 
 

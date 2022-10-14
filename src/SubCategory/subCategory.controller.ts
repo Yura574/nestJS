@@ -7,7 +7,8 @@ import {SubCategoryDto} from "../Entitys/dto/subCategoryDto";
 @Controller('subCategory')
 export class SubCategoryController {
 
-    constructor(private subCategoryService: SubCategoryService) {
+    constructor(private subCategoryService: SubCategoryService,
+                ) {
     }
 
     @Post('create')
@@ -24,9 +25,11 @@ export class SubCategoryController {
     }
 
     @Delete('delete/:id')
-   async delete(@Param() param) {
+    async delete(@Param() param) {
         console.log(param)
         return this.subCategoryService.deleteSubCategory(param.id)
     }
+
+
 
 }

@@ -21,7 +21,7 @@ export class SubCategoryController {
 
     @Get('one/:id')
     getGoods(@Param() param) {
-        return this.subCategoryService.getGoods(param.id)
+        return this.subCategoryService.getProducts(param.id)
     }
 
     @Delete('delete/:id')

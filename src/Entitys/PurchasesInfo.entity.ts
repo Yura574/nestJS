@@ -23,6 +23,8 @@ export class PurchasesInfo {
     @Column()
     unit: string
 
+    @Column({nullable: true})
+    unitPrice: string
 
     @Column()
     date: string

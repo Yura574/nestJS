@@ -1,7 +1,7 @@
 import {IsNotEmpty, IsString} from "class-validator";
 
 
-export class purchaseInfoDto{
+export class purchaseInfoDto {
 
     @IsNotEmpty()
     userId: number
@@ -20,6 +20,9 @@ export class purchaseInfoDto{
 
     @IsString()
     unit: string
+
+    @IsString()
+    unitPrice: string
 
 
     @IsString()

@@ -25,6 +25,9 @@ export class createPurchasesDto {
     unit: string
 
     @IsString()
+    unitPrice: string
+
+    @IsString()
     date: string
 
 }

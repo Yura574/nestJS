@@ -15,19 +15,19 @@ export class PurchasesInfoController {
     }
 
     @Get('all/:id')
-    getAllPurchasesInfo(@Param() param){
+    getAllPurchasesInfo(@Param() param) {
         console.log(param.id)
         return this.purchasesInfoService.getAllPurchasesInfo(param.id)
     }
 
     @Delete('delete/:id')
-    deletePurchaseInfo(@Param() param){
-return this.purchasesInfoService.deletePurchaseInfo(param.id)
+    deletePurchaseInfo(@Param() param) {
+        return this.purchasesInfoService.deletePurchaseInfo(param.id)
 
     }
 
     @Get('getOne/:id')
-    getOnePurchaseInfo(@Param() param){
+    getOnePurchaseInfo(@Param() param) {
         return this.purchasesInfoService.getOnePurchaseInfo(param.id)
     }
 

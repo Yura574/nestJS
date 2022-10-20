@@ -7,6 +7,7 @@ import {createPurchasesDto} from "../Entitys/dto/purchasesDto";
 import {isExist} from "../UtilFunction/common/isExist";
 import {FileService} from "../Files/file.service";
 import {UserService} from "../User/user.service";
+import {deleteFile} from "../UtilFunction/common/deleteFile";
 
 
 @Injectable()
@@ -33,42 +34,67 @@ export class PurchasesService {
         // если название такое существует, возвращает ошибку "such title already exist"
 
         if (exist) {
-            const currentPurchase = allPurchases.filter(el=> el.title === title)
+            const currentPurchase = allPurchases.filter(el => el.title === title)
             console.log(currentPurchase)
-            const newPurchase = {...currentPurchase[0],
+            const newPurchase = {
+                ...currentPurchase[0],
                 date: date,
                 price: price,
                 amount: +currentPurchase[0].amount + +amount,
             }
-            console.log(newPurchase)
-            return await this.purchasesRepository.update({title: newPurchase.title }, {
+            return await this.purchasesRepository.update({title: newPurchase.title}, {
                 price: newPurchase.price,
                 amount: newPurchase.amount.toString(),
                 date: newPurchase.date
-
             })
         }
 
-
         if (!image) {
-            const newPurchase = await this.purchasesRepository.save({title, price, place, amount, unit, unitPrice, date})
+            const newPurchase = await this.purchasesRepository.save({
+                title,
+                price,
+                place,
+                amount,
+                unit,
+                unitPrice,
+                date
+            })
             newPurchase.warehouse = await this.warehouseService.findWarehouseById(warehouseId)
             return await this.purchasesRepository.save(newPurchase)
         }
         const fileName = await this.fileService.createFile(image, 'purchases/')
-        const newPurchase = await this.purchasesRepository.save({title, price, place, amount, unit, unitPrice, date, image: fileName})
+        const newPurchase = await this.purchasesRepository.save({
+            title,
+            price,
+            place,
+            amount,
+            unit,
+            unitPrice,
+            date,
+            image: fileName
+        })
         newPurchase.warehouse = await this.warehouseService.findWarehouseById(warehouseId)
         newPurchase.user = await this.userService.findUserById(userId)
         return await this.purchasesRepository.save(newPurchase)
     }
 
-    async getAllPurchases (userId: number){
+    async getAllPurchases(userId: number) {
         const user = await this.userService.findUserById(userId)
         return user.purchases
     }
+
     // async getInfoPurchase (purchaseId: number){
     //     const purchase = await this.purchasesRepository.findOne(
     //         {where:{id:purchaseId}, relations:{purchaseInfo: true}})
     //     return purchase
     // }
+
+    async deletePurchase(id: number) {
+        const purchase = await this.purchasesRepository.findOne({where: {id}})
+        console.log(purchase)
+        if (purchase.image) {
+            deleteFile(purchase)
+        }
+        return this.purchasesRepository.delete({id})
+    }
 }

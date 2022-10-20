@@ -45,14 +45,14 @@ export class SubCategoryService {
         return subCategory.products
     }
 
-    async deleteSubCategory(id: string) {
+    async deleteSubCategory(id: number) {
         try {
             //находим категорию
-            const oldSubCategory = await this.subCategoryRepository.findOne({where: {id: +id}})
+            const oldSubCategory = await this.subCategoryRepository.findOne({where: {id}})
             //удаляем фотографию для этой категории
             deleteFile(oldSubCategory)
             //удаляем категорию и бд
-            return await this.subCategoryRepository.delete({id: +id})
+            return await this.subCategoryRepository.delete({id})
         } catch (err) {
             console.log(err)
         }

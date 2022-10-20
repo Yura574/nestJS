@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, UploadedFile, UseInterceptors} from "@nestjs/common";
 import {PurchasesService} from "./Purchases.service";
 import {createPurchasesDto} from "../Entitys/dto/purchasesDto";
 import {FileInterceptor} from "@nestjs/platform-express";
@@ -25,6 +25,11 @@ export class PurchasesController {
     @Get('one/:id')
     getOnePurchase(@Param() param) {
         // return this.purchaseService.getInfoPurchase(param.id)
+    }
+
+    @Delete('delete/:id')
+    deletePurchase(@Param() param) {
+        return this.purchaseService.deletePurchase(param.id)
     }
 
 }

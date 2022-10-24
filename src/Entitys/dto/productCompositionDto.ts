@@ -5,13 +5,15 @@ export class ProductCompositionDto {
 
     @IsNotEmpty()
     @IsString()
-    productId: string
+    productId: number
     @IsArray()
     composition: Composition[]
 }
 
 export class Composition {
 
+    @IsString()
+    warehouseId: string
 
     @IsString()
     purchaseTitle: string

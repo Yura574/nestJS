@@ -35,7 +35,6 @@ export class PurchasesService {
 
         if (exist) {
             const currentPurchase = allPurchases.filter(el => el.title === title)
-            console.log(currentPurchase)
             const newPurchase = {
                 ...currentPurchase[0],
                 date: date,
@@ -88,6 +87,13 @@ export class PurchasesService {
     //         {where:{id:purchaseId}, relations:{purchaseInfo: true}})
     //     return purchase
     // }
+    async updatePurchase(id: number, title: string, amount: string, unit: string, image: any,
+                         place: string, price: string, date: string, unitPrice: string) {
+        return await this.purchasesRepository.update({id}, {
+            title, image, amount, unit, price, place, unitPrice, date
+        })
+
+    }
 
     async deletePurchase(id: number) {
         const purchase = await this.purchasesRepository.findOne({where: {id}})

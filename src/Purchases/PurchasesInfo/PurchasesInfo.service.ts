@@ -15,7 +15,7 @@ export class PurchasesInfoService {
     }
 
     async create (dto: purchaseInfoDto){
-        const {userId, title, place, price, amount, unit, date, unitPrice} = dto
+        const {userId, title, place, price, amount, unit, unitPrice, date} = dto
         const newInfo =   await this.purchasesInfoRepository.save({title, place, price, amount, unit, unitPrice,  date})
         newInfo.user = await this.userService.findUserById(userId)
         return await  this.purchasesInfoRepository.save(newInfo)

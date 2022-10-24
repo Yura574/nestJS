@@ -1,5 +1,5 @@
 import {IsArray, IsNotEmpty, IsString} from "class-validator";
-import {ProductCompositionDto} from "./productCompositionDto";
+import {Composition} from "./productCompositionDto";
 
 
 export class ProductsDto {
@@ -13,5 +13,5 @@ export class ProductsDto {
     subCategoryId: string
 
    @IsArray()
-    productComposition: ProductCompositionDto[]
+    productComposition: Composition[]
 }

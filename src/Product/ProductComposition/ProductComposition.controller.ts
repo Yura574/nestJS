@@ -13,6 +13,6 @@ export class ProductCompositionController {
     createComposition (@Body() dto: ProductCompositionDto){
         console.log(dto)
         return this.productCompositionService.createProductComposition(dto)
-
     }
+
 }

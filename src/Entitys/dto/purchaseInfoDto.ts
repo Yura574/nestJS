@@ -24,7 +24,6 @@ export class purchaseInfoDto {
     @IsString()
     unitPrice: string
 
-
     @IsString()
     date: string
 

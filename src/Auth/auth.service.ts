@@ -1,4 +1,4 @@
-import {ForbiddenException, HttpException, HttpStatus, Injectable, UnauthorizedException} from "@nestjs/common";
+import {ForbiddenException, Injectable, UnauthorizedException} from "@nestjs/common";
 import {UserService} from "../User/user.service";
 import {UserDto} from "../Entitys/dto/userDto";
 import {InjectRepository} from "@nestjs/typeorm";
@@ -30,8 +30,7 @@ export class AuthService {
             const tokens = await this.singToken(user)
             user.refreshToken = tokens.refresh_token
             await this.userService.refreshTokenUser(user.id, tokens.refresh_token)
-            const userData = {...tokens, user}
-            return userData
+            return {...tokens, user}
         } catch (e) {
             if (e.code === '23505') {
                 throw new ForbiddenException('such user already exist')
@@ -66,19 +65,16 @@ export class AuthService {
         }
     }
 
-    async logout(token) {
-        try {
-            const validToken = this.jwt.verify(token, {secret: process.env.SECRET_CODE || 'secret'})
-            const user = await this.userRepository.findOne({where: {email: validToken.email}, relations: {role: true}})
-            console.log(user)
-        } catch (e) {
-            console.log(e)
-        }
-
-
-        return 'updatedUser'
-
-    }
+    // async logout(token) {
+    //     try {
+    //         const validToken = this.jwt.verify(token, {secret: process.env.SECRET_CODE || 'secret'})
+    //         const user = await this.userRepository.findOne({where: {email: validToken.email}, relations: {role: true}})
+    //         console.log("user", user)
+    //         return user
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+    // }
 
     refreshToken() {
 

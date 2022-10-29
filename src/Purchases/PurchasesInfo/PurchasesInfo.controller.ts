@@ -11,7 +11,6 @@ export class PurchasesInfoController {
 
     @Post('create')
     createPurchasesInfo(@Body() dto: purchaseInfoDto) {
-        console.log('info',dto)
         return this.purchasesInfoService.create(dto)
     }
 

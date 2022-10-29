@@ -23,7 +23,6 @@ export class PurchasesService {
     async createPurchase(dto: createPurchasesDto, image: Express.Multer.File) {
         const {userId, warehouseId, title, price, place, amount, unit, unitPrice, date} = dto
         const warehouse = await this.warehouseService.findWarehouseById(warehouseId)
-
         if (!warehouse) {
             const error = new ForbiddenException(BadRequestException, 'warehouse not found')
             return {error}
@@ -59,22 +58,26 @@ export class PurchasesService {
                 date
             })
             newPurchase.warehouse = await this.warehouseService.findWarehouseById(warehouseId)
+            newPurchase.user = await this.userService.findUserById(userId)
+            return await this.purchasesRepository.save(newPurchase)
+        } else {
+            const fileName = await this.fileService.createFile(image, 'purchases/')
+            const newPurchase = await this.purchasesRepository.save({
+                title,
+                price,
+                place,
+                amount,
+                unit,
+                unitPrice,
+                date,
+                image: fileName
+            })
+            newPurchase.warehouse = await this.warehouseService.findWarehouseById(warehouseId)
+            newPurchase.user = await this.userService.findUserById(userId)
+            console.log('newPurchase', newPurchase)
             return await this.purchasesRepository.save(newPurchase)
         }
-        const fileName = await this.fileService.createFile(image, 'purchases/')
-        const newPurchase = await this.purchasesRepository.save({
-            title,
-            price,
-            place,
-            amount,
-            unit,
-            unitPrice,
-            date,
-            image: fileName
-        })
-        newPurchase.warehouse = await this.warehouseService.findWarehouseById(warehouseId)
-        newPurchase.user = await this.userService.findUserById(userId)
-        return await this.purchasesRepository.save(newPurchase)
+
     }
 
     async getAllPurchases(userId: number) {
@@ -92,6 +95,9 @@ export class PurchasesService {
         return await this.purchasesRepository.update({id}, {
             title, image, amount, unit, price, place, unitPrice, date
         })
+
+    }
+    async findPurchaseByTitle(warehouseId: number,title: string){
 
     }
 

@@ -57,7 +57,9 @@ export class CategoryService {
                 return {error}
             }
             if (!image) {
-                return await this.categoryRepository.update({id: Number(dto.id)}, {title: dto.title})
+                return await this.categoryRepository.update(
+                    {id: Number(dto.id)},
+                    {title: dto.title})
             }
             deleteFile(oldCategory)
             // const fileName = oldCategory.image.split('/')[3]

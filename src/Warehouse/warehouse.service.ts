@@ -49,6 +49,31 @@ export class WarehouseService {
 
     }
 
+    async updatedWarehouse(dto, image: Express.Multer.File) {
+        const {warehouseId, title, warehouseImage} = dto
+        console.log('dto', dto)
+        const warehouse = await this.warehouseRepository.findOne({where: {id: warehouseId}})
+        console.log('warehouse',warehouse)
+        if (warehouse.image) {
+            deleteFile(warehouse)
+        }
+        if (image) {
+            const fileName = await this.fileService.createFile(image, 'warehouses/')
+           return  await this.warehouseRepository.update({id: warehouseId},
+                {
+                    image: fileName,
+                    title: title
+                })
+            // return await this.warehouseRepository.save({title: newWarehouse.})
+        }
+        return  await this.warehouseRepository.update({id: warehouseId},
+            {
+                image: null,
+                title: title
+            })
+
+    }
+
     async getAllWarehouses(userId: number) {
         const user = await this.userService.findUserById(userId)
         return user.warehouses
@@ -63,15 +88,15 @@ export class WarehouseService {
     async deleteWarehouse(warehouseId: number) {
         try {
             const oldWarehouse = await this.warehouseRepository.findOne(
-                {where: {id: warehouseId}, relations:{purchases: true}})
-            if (oldWarehouse.purchases.length > 0){
+                {where: {id: warehouseId}, relations: {purchases: true}})
+            if (oldWarehouse.purchases.length > 0) {
                 const error = new HttpException(
                     'удалите сначала товары на складе', 403
                 )
                 return {error}
             } else {
                 oldWarehouse.image && deleteFile(oldWarehouse)
-                return  await this.warehouseRepository.delete({id: warehouseId})
+                return await this.warehouseRepository.delete({id: warehouseId})
             }
         } catch (err) {
             console.log(err)

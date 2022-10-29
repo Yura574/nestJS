@@ -8,7 +8,6 @@ export class FileService {
 
     async createFile(file, pathFile) {
         try {
-            console.log(file)
             const fileName = uuid.v4() + '.jpg'
             const filePath = pathFile !== ''
                 ? path.resolve(__dirname, '..', 'static', pathFile)

@@ -31,7 +31,7 @@ export class CategoryController {
 
     @Put('update')
     @UseInterceptors(FileInterceptor('image'))
-    updateCategory(@Body() dto: CategoryUpdateDto,
+    updateCategory(@Body() dto,
                    @UploadedFile() image: Express.Multer.File,
     ) {
 

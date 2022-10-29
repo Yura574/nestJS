@@ -4,6 +4,7 @@ import {PurchasesInfo} from "../../Entitys/PurchasesInfo.entity";
 import {Repository} from "typeorm";
 import {purchaseInfoDto} from "../../Entitys/dto/purchaseInfoDto";
 import {UserService} from "../../User/user.service";
+import {PurchasesService} from "../Purchases.service";
 
 
 @Injectable()
@@ -11,30 +12,48 @@ import {UserService} from "../../User/user.service";
 export class PurchasesInfoService {
     constructor(@InjectRepository(PurchasesInfo)
                 private purchasesInfoRepository: Repository<PurchasesInfo>,
+                private purchaseService: PurchasesService,
                 private userService: UserService) {
     }
 
-    async create (dto: purchaseInfoDto){
+    async create(dto: purchaseInfoDto) {
         const {userId, title, place, price, amount, unit, unitPrice, date} = dto
-        const newInfo =   await this.purchasesInfoRepository.save({title, place, price, amount, unit, unitPrice,  date})
+
+        const newInfo = await this.purchasesInfoRepository.save({title, place, price, amount, unit, unitPrice, date})
         newInfo.user = await this.userService.findUserById(userId)
-        return await  this.purchasesInfoRepository.save(newInfo)
-     }
+        return await this.purchasesInfoRepository.save(newInfo)
+    }
 
-     async getAllPurchasesInfo(userId: number) {
+    async getAllPurchasesInfo(userId: number) {
         const user = await this.userService.findUserById(userId)
-         console.log(user)
-         return user.purchasesInfo
-     }
+        console.log(user)
+        return user.purchasesInfo
+    }
 
-     async deletePurchaseInfo(id: number) {
+    async deletePurchaseInfo(idPurchaseInfo: number) {
+        const purchaseInfo = await this.purchasesInfoRepository.findOne({
+            where: {id: idPurchaseInfo},
+            relations: {user: true}
+        })
+        const purchase = await this.userService.findUserById(purchaseInfo.user.id)
+        const allPurchases = purchase.purchases
+        const idPurchase = allPurchases.filter(el => el.title === purchaseInfo.title)
+        const {
+            id, title, price, amount, unit, unitPrice, date, image, place, user, warehouse
+        } = idPurchase[0]
+        const newAmount = (+amount - +purchaseInfo.amount).toString()
+        if (+newAmount <= 0) {
+           throw new Error('вы пытаетесь удалить больше чем есть материала на складе')
+        } else {
+            await this.purchaseService.updatePurchase(id, title, newAmount, unit, image, place, price, date, unitPrice)
+        }
+        return await this.purchasesInfoRepository.delete({id: idPurchaseInfo})
 
-        return await this.purchasesInfoRepository.delete({id})
+    }
 
-     }
-     async getOnePurchaseInfo (id: number){
+    async getOnePurchaseInfo(id: number) {
         return await this.purchasesInfoRepository.findOne({where: {id}})
-     }
+    }
 
 
 }

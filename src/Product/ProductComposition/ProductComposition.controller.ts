@@ -11,7 +11,6 @@ export class ProductCompositionController {
 
     @Post('create')
     createComposition (@Body() dto: ProductCompositionDto){
-        console.log(dto)
         return this.productCompositionService.createProductComposition(dto)
     }
 

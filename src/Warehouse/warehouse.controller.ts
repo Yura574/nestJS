@@ -16,8 +16,6 @@ export class WarehouseController {
     @UseInterceptors(FileInterceptor('image'))
     createWareHouse(@Body() dto: CreateWarehouseDto,
                     @UploadedFile() image: Express.Multer.File) {
-        console.log(image)
-        console.log(dto)
         return this.warehouseService.createWarehouse(dto, image)
     }
 
@@ -31,7 +29,6 @@ export class WarehouseController {
 
     @Get('all/:id')
     getAllWarehouses(@Param() param) {
-        console.log(param.id)
         return this.warehouseService.getAllWarehouses(param.id)
 
     }

@@ -25,7 +25,6 @@ export class ProductService {
 
     async createProduct(dto: ProductsDto, image: Express.Multer.File) {
         const {title, subCategoryId, productComposition} = dto
-        console.log(image)
 
 
         const category = await this.subCategoryService.getOneSubCategory(subCategoryId)
@@ -36,10 +35,8 @@ export class ProductService {
         const newProduct = fileName
             ? await this.productsRepository.save({title, image: fileName})
             : await this.productsRepository.save({title})
-        console.log(newProduct.id)
 
         productComposition.map(() => {
-
             this.productCompositionService.createProductComposition({
                 productId: newProduct.id,
                 composition: productComposition
@@ -60,9 +57,10 @@ export class ProductService {
     async addImage(id: number, image: Express.Multer.File) {
         const product = await this.getProduct(id)
         let newImage
-        if (!product.image) {
-            newImage = await this.fileService.createFile(image, 'product/')
+        if (product.image) {
+            deleteFile(product)
         }
+        newImage = await this.fileService.createFile(image, 'product/')
         await this.productsRepository.update({id: product.id}, {
             image: newImage
         })
@@ -88,7 +86,6 @@ export class ProductService {
              if (product.image) {
                 deleteFile(product)
             }
-        console.log(product)
         const composition = product.productComposition
         composition.map(el => this.productCompositionService.deleteProductComposition(el.id))
         return this.productsRepository.delete({id: id})

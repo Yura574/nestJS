@@ -15,7 +15,6 @@ export class SubCategoryController {
     @UseInterceptors(FileInterceptor('image'))
     create(@Body() dto: SubCategoryDto,
            @UploadedFile() image: Express.Multer.File) {
-        console.log(dto)
         return this.subCategoryService.createSubCategory(dto, image)
     }
 
@@ -26,7 +25,6 @@ export class SubCategoryController {
 
     @Delete('delete/:id')
     async delete(@Param() param) {
-        console.log(param)
         return this.subCategoryService.deleteSubCategory(param.id)
     }
 

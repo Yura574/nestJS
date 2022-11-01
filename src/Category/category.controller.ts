@@ -24,8 +24,6 @@ export class CategoryController {
     @UseInterceptors(FileInterceptor('image'))
     createCategory(@Body() dto: CategoryDto,
                    @UploadedFile() image: Express.Multer.File) {
-        console.log(dto)
-        console.log(image)
         return this.categoryService.createCategory(dto, image)
     }
 
@@ -35,8 +33,6 @@ export class CategoryController {
                    @UploadedFile() image: Express.Multer.File,
     ) {
 
-        console.log(dto)
-        console.log(image)
         return this.categoryService.updateCategory(dto, image)
     }
 

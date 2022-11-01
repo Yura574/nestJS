@@ -25,7 +25,6 @@ export class ProductCompositionService {
         composition.map(async composition => {
             const warehouse = await this.warehouseService.findWarehouseById(+composition.warehouseId)
             const purchases = warehouse.purchases
-            console.log(purchases)
             const updatedPurchase = purchases.find(purchases => purchases.title === composition.purchaseTitle)
             if (updatedPurchase) {
                 const {id,title, price,unitPrice,unit, amount,place, date, image} = updatedPurchase
@@ -37,7 +36,6 @@ export class ProductCompositionService {
             const productComposition = await this.productCompositionRepository.save(
                 {purchaseTitle, amount, unit, price})
             productComposition.product = await this.productService.getProduct(+productId)
-            console.log("productComposition :", productComposition)
             return await this.productCompositionRepository.save(productComposition)
         })
     }

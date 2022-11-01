@@ -40,7 +40,7 @@ export class SubCategoryService {
     async getProducts(id: string) {
         const subCategory =  await this.subCategoryRepository.findOne({
             where: {id: +id},
-            relations: {products: true}
+            relations: {products: {productComposition: true}}
         })
         return subCategory.products
     }

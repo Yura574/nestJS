@@ -8,6 +8,7 @@ import {isExist} from "../UtilFunction/common/isExist";
 import {FileService} from "../Files/file.service";
 import {UserService} from "../User/user.service";
 import {deleteFile} from "../UtilFunction/common/deleteFile";
+import {log} from "util";
 
 
 @Injectable()
@@ -74,7 +75,6 @@ export class PurchasesService {
             })
             newPurchase.warehouse = await this.warehouseService.findWarehouseById(warehouseId)
             newPurchase.user = await this.userService.findUserById(userId)
-            console.log('newPurchase', newPurchase)
             return await this.purchasesRepository.save(newPurchase)
         }
 
@@ -82,7 +82,12 @@ export class PurchasesService {
 
     async getAllPurchases(userId: number) {
         const user = await this.userService.findUserById(userId)
-        return user.purchases
+        //для каждой закупки находим к какому складу относится, добавляем закупкам id склада к которому она относиться,
+        //и возвращаем массив закупок с id склада
+        return await Promise.all(user.purchases.map(async (el) => {
+            const purchase = await this.purchasesRepository.findOne({where: {id: el.id}, relations: {warehouse: true}})
+            return {...el, warehouseId: purchase.warehouse.id}
+        }))
     }
 
     // async getInfoPurchase (purchaseId: number){
@@ -97,13 +102,13 @@ export class PurchasesService {
         })
 
     }
-    async findPurchaseByTitle(warehouseId: number,title: string){
+
+    async findPurchaseByTitle(warehouseId: number, title: string) {
 
     }
 
     async deletePurchase(id: number) {
         const purchase = await this.purchasesRepository.findOne({where: {id}})
-        console.log(purchase)
         if (purchase.image) {
             deleteFile(purchase)
         }

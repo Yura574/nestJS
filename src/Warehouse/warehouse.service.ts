@@ -33,7 +33,6 @@ export class WarehouseService {
             if (exist) {
                 return exist
             }
-            console.log(exist)
             if (!image) {
                 const newWarehouse = await this.warehouseRepository.save({title})
                 newWarehouse.user = await this.userService.findUserById(userId)
@@ -51,9 +50,7 @@ export class WarehouseService {
 
     async updatedWarehouse(dto, image: Express.Multer.File) {
         const {warehouseId, title, warehouseImage} = dto
-        console.log('dto', dto)
         const warehouse = await this.warehouseRepository.findOne({where: {id: warehouseId}})
-        console.log('warehouse',warehouse)
         if (warehouse.image) {
             deleteFile(warehouse)
         }

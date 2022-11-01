@@ -15,7 +15,6 @@ export class UserController{
     @ApiResponse({status: 200, type: User})
     @Post()
     createUser(@Body() dto: UserDto){
-        // console.log(dto)
         return this.userService.createUser(dto)
     }
     @ApiOperation({summary: 'Полочить всех пользователей '})

@@ -16,7 +16,6 @@ export class PurchasesInfoController {
 
     @Get('all/:id')
     getAllPurchasesInfo(@Param() param) {
-        console.log(param.id)
         return this.purchasesInfoService.getAllPurchasesInfo(param.id)
     }
 

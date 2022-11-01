@@ -12,11 +12,10 @@ export class ProductController {
 
     @Post('create')
     @UseInterceptors(FileInterceptor('image'))
-    create(@Body() dto,
+  async create(@Body() dto,
            @UploadedFile() image) {
-        console.log('dto', dto)
-        console.log('image', image)
-        return this.productsService.createProduct(dto, image)
+        const newProduct = await this.productsService.createProduct(dto, image)
+        return await this.productsService.getProduct(newProduct.id)
     }
 
     @Put('addImage')
@@ -24,13 +23,11 @@ export class ProductController {
     addImage(@Body() dto,
              @UploadedFile() image) {
         console.log(image)
-        console.log(dto)
         return this.productsService.addImage(dto.id, image)
     }
 
     @Delete('delete/:id')
    async delete(@Param() param) {
-        console.log(param.id)
         return this.productsService.deleteProduct(param.id)
     }
 

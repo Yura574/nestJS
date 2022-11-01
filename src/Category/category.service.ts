@@ -29,7 +29,6 @@ export class CategoryService {
         if(isExist.length> 0){
             throw new ForbiddenException(BadRequestException, 'such category already exist')
         }
-        console.log(isExist)
 
         if (!image) {
             const newCategory = await this.categoryRepository.save({title})
@@ -45,7 +44,6 @@ export class CategoryService {
     }
 
     async updateCategory(dto: CategoryUpdateDto, image: Express.Multer.File) {
-        console.log(dto)
 
         try {
             const oldCategory = await this.categoryRepository.findOneBy({id: Number(dto.id)})
@@ -67,7 +65,7 @@ export class CategoryService {
             //
             // fs.unlinkSync(filePath)
             const fileName = await this.fileService.createFile(image, 'category/')
-            const updatedCategory = await this.categoryRepository.update({id: Number(dto.id)}, {
+            await this.categoryRepository.update({id: Number(dto.id)}, {
                 title: dto.title,
                 image: fileName
             })

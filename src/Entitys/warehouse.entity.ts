@@ -20,6 +20,7 @@ export class Warehouse {
     user: User
 
     @OneToMany(()=> Purchases, (purchases)=>purchases.warehouse )
+
     purchases: Purchases[]
 
 }

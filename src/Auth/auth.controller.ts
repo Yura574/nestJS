@@ -29,7 +29,6 @@ export class AuthController {
             const userData = await this.authService.singIn(dto)
             const {refresh_token, user} = userData
             res.cookie('refresh', refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            // console.log(userData)
             delete user.refreshToken
             delete user.password
             return res.json(user)
@@ -73,7 +72,6 @@ export class AuthController {
     me(@Req() req: Request) {
 
         const token = req.cookies.refresh
-        console.log(token)
 
         return this.authService.authMe(token)
     }

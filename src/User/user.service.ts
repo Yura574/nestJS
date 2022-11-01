@@ -45,7 +45,8 @@ export class UserService {
             where: {
                 id
             },
-            relations: {categories: true, role: true, warehouses: true, purchases: true,purchasesInfo: true }
+            relations: {categories: true, role: true, warehouses: true, purchases: true,purchasesInfo: true },
+
         })
 
     }
@@ -75,7 +76,6 @@ export class UserService {
     }
 
     async findUserCategory(userID) {
-        console.log(userID)
         return await this.userRepository.findOne({
             where: {id: +userID}, relations: {
                 categories: true

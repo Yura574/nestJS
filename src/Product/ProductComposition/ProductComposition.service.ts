@@ -21,23 +21,28 @@ export class ProductCompositionService {
     }
 
     async createProductComposition(dto: ProductCompositionDto) {
-        const {productId, composition} = dto
+        const {productId, count, composition} = dto
+        console.log(dto)
         composition.map(async composition => {
             const warehouse = await this.warehouseService.findWarehouseById(+composition.warehouseId)
             const purchases = warehouse.purchases
             const updatedPurchase = purchases.find(purchases => purchases.title === composition.purchaseTitle)
             if (updatedPurchase) {
-                const {id,title, price,unitPrice,unit, amount,place, date, image} = updatedPurchase
-                const newAmount = (+amount - +composition.amount).toString()
-                await this.purchaseService.updatePurchase(id,title, newAmount, unit, image, place,
+                const {id, title, price, unitPrice, unit, amount, place, date, image} = updatedPurchase
+                const newAmount = ((+amount - +composition.amount * count).toFixed(2)).toString()
+                await this.purchaseService.updatePurchase(id, title, newAmount, unit, image, place,
                     price, date, unitPrice)
             }
             const {purchaseTitle, amount, unit, price} = composition
+            const newAmount = +amount * count
             const productComposition = await this.productCompositionRepository.save(
-                {purchaseTitle, amount, unit, price})
-            productComposition.product = await this.productService.getProduct(+productId)
-            return await this.productCompositionRepository.save(productComposition)
+                {purchaseTitle,  amount: (+amount * count).toString(), unit, price})
+            productComposition.product = await this.productService.getProductById(+productId)
+            await this.productCompositionRepository.save(productComposition)
         })
+        // const product = await this.productService.getProduct(+productId)
+        // console.log('composition', product)
+        // return product.productComposition
     }
 
     async deleteProductComposition(id: number) {

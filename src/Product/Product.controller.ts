@@ -12,10 +12,12 @@ export class ProductController {
 
     @Post('create')
     @UseInterceptors(FileInterceptor('image'))
-  async create(@Body() dto,
-           @UploadedFile() image) {
+    async create(@Body() dto,
+                 @UploadedFile() image) {
         const newProduct = await this.productsService.createProduct(dto, image)
-        return await this.productsService.getProduct(newProduct.id)
+        return await this.productsService.getProductById(+newProduct.id)
+
+
     }
 
     @Put('addImage')
@@ -27,14 +29,19 @@ export class ProductController {
     }
 
     @Delete('delete/:id')
-   async delete(@Param() param) {
+    async delete(@Param() param) {
         return this.productsService.deleteProduct(param.id)
     }
 
     @Get('one/:id')
     async getComposition(@Param() param) {
-        return this.productsService.getProduct(param.id)
-
+        return this.productsService.getProductById(param.id)
     }
+
+    @Post('writeOff')
+    writeOff(@Body() dto) {
+        return this.productsService.writeOff(dto)
+    }
+
 
 }

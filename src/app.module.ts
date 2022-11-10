@@ -15,6 +15,7 @@ import {PurchasesModule} from "./Purchases/Purchases.module";
 import {PurchasesInfoModule} from "./Purchases/PurchasesInfo/PurchasesInfo.module";
 import {ProductModule} from "./Product/Product.module";
 import {ProductCompositionModule} from "./Product/ProductComposition/ProductComposition.module";
+import {LedgerModule} from "./Ledger/Ledger.module";
 
 @Module({
     imports: [
@@ -40,7 +41,8 @@ import {ProductCompositionModule} from "./Product/ProductComposition/ProductComp
            dest: './upload'
         }),
         UserModule, AuthModule, RoleModule, FileModule, CategoryModule,
-        SubCategoryModule, ProductModule, ProductCompositionModule, WarehouseModule, PurchasesModule, PurchasesInfoModule
+        SubCategoryModule, ProductModule, ProductCompositionModule, WarehouseModule,
+        PurchasesModule, PurchasesInfoModule, LedgerModule
 
     ],
 })

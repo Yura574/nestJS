@@ -6,12 +6,13 @@ import {ProductService} from "./Product.service";
 import {ProductController} from "./Product.controller";
 import {Products} from "../Entitys/products.entity";
 import {ProductCompositionModule} from "./ProductComposition/ProductComposition.module";
+import {UserModule} from "../User/user.module";
 
 @Module({
     providers: [ProductService],
     controllers: [ProductController],
     imports: [TypeOrmModule.forFeature([Products]), FileModule, SubCategoryModule,
-        forwardRef(() => ProductCompositionModule)],
+        forwardRef(() => ProductCompositionModule), UserModule],
     exports: [ProductService]
 })
 

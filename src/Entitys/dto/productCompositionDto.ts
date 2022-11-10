@@ -1,11 +1,15 @@
-import {IsArray, IsNotEmpty, IsString} from "class-validator";
+import {IsArray, IsNotEmpty, IsNumber, IsString} from "class-validator";
 
 
 export class ProductCompositionDto {
 
     @IsNotEmpty()
-    @IsString()
+    @IsNumber()
     productId: number
+
+    @IsNumber()
+    count: number
+
     @IsArray()
     composition: Composition[]
 }

@@ -12,6 +12,8 @@ import {Category} from "./category.entity";
 import {Warehouse} from "./warehouse.entity";
 import {Purchases} from "./Purchases.entity";
 import {PurchasesInfo} from "./PurchasesInfo.entity";
+import {Ledger} from "./ledger.entity";
+import {Products} from "./products.entity";
 
 
 @Entity()
@@ -48,8 +50,6 @@ export class User {
     updated: Date
 
 
-
-
     @ManyToOne(() => Role, (role) => role.user)
     @JoinColumn()
     role: Role
@@ -60,9 +60,15 @@ export class User {
     @OneToMany(() => Warehouse, (warehouse) => warehouse.user)
     warehouses: Warehouse[]
 
-    @OneToMany(()=> Purchases, (purchases)=> purchases.user)
+    @OneToMany(() => Purchases, (purchases) => purchases.user)
     purchases: Purchases[]
 
     @OneToMany(() => PurchasesInfo, (purchasesInfo) => purchasesInfo.user)
     purchasesInfo: PurchasesInfo[]
+
+    @OneToMany(() => Ledger, (ledger) => ledger.user)
+    ledger: Ledger[]
+
+    @OneToMany(() => Products, (products) => products.user)
+    products: Products[]
 }

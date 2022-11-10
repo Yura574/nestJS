@@ -24,7 +24,7 @@ export class UserService {
     }
 
     getUsers() {
-        return this.userRepository.find({relations: {role: true, warehouses:  true}})
+        return this.userRepository.find({relations: {role: true, warehouses: true}})
     }
 
     async findUserByEmail(email: string) {
@@ -34,6 +34,7 @@ export class UserService {
             },
         )
     }
+
     //
     // async findAllCategoriesByUser(id: number) {
     //     const user = await this.findUserById(id)
@@ -45,7 +46,15 @@ export class UserService {
             where: {
                 id
             },
-            relations: {categories: true, role: true, warehouses: true, purchases: true,purchasesInfo: true },
+            relations: {
+                categories: true,
+                role: true,
+                warehouses: true,
+                purchases: true,
+                purchasesInfo: true,
+                ledger: true,
+                products: true
+            },
 
         })
 

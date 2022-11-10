@@ -4,9 +4,10 @@ import {Repository} from "typeorm";
 import {FileService} from "../Files/file.service";
 import {SubCategoryService} from "../SubCategory/subCategory.service";
 import {Products} from "../Entitys/products.entity";
-import {ProductsDto} from "../Entitys/dto/productsDto";
+import {ProductsDto, UpdateProductDto} from "../Entitys/dto/productsDto";
 import {ProductCompositionService} from "./ProductComposition/ProductComposition.service";
 import {deleteFile} from "../UtilFunction/common/deleteFile";
+import {UserService} from "../User/user.service";
 
 
 @Injectable()
@@ -17,6 +18,7 @@ export class ProductService {
     constructor(@InjectRepository(Products)
                 private productsRepository: Repository<Products>,
                 private fileService: FileService,
+                private userService: UserService,
                 private subCategoryService: SubCategoryService,
                 @Inject(forwardRef(() => ProductCompositionService))
                 private productCompositionService: ProductCompositionService
@@ -24,8 +26,7 @@ export class ProductService {
     }
 
     async createProduct(dto: ProductsDto, image: Express.Multer.File) {
-        const {title, subCategoryId, productComposition} = dto
-
+        const {userId, title, subCategoryId, count, productComposition, primeCost} = dto
 
         const category = await this.subCategoryService.getOneSubCategory(subCategoryId)
         if (!category) {
@@ -33,29 +34,29 @@ export class ProductService {
         }
         const fileName = image ? await this.fileService.createFile(image, '') : ''
         const newProduct = fileName
-            ? await this.productsRepository.save({title, image: fileName})
-            : await this.productsRepository.save({title})
+            ? await this.productsRepository.save({title, primeCost, count, image: fileName})
+            : await this.productsRepository.save({title, primeCost, count})
 
-        productComposition.map(() => {
-            this.productCompositionService.createProductComposition({
-                productId: newProduct.id,
-                composition: productComposition
-            })
+        await this.productCompositionService.createProductComposition({
+            productId: newProduct.id,
+            count,
+            composition: productComposition
         })
-
+        newProduct.user = await this.userService.findUserById(userId)
         newProduct.subCategory = await this.subCategoryService.getOneSubCategory(subCategoryId)
         return await this.productsRepository.save(newProduct)
     }
 
-    async getProduct(id: number) {
+    async getProductById(id: number) {
         return await this.productsRepository.findOne({
-            where: {id: +id},
+            where: {id},
             relations: {productComposition: true}
         })
     }
 
+
     async addImage(id: number, image: Express.Multer.File) {
-        const product = await this.getProduct(id)
+        const product = await this.getProductById(id)
         let newImage
         if (product.image) {
             deleteFile(product)
@@ -67,28 +68,28 @@ export class ProductService {
         return newImage
     }
 
+    async updateProduct(dto: UpdateProductDto) {
+        const {id, title, count, primeCost, image} = dto
+        return await this.productsRepository.update({id}, {
+            title, count, primeCost, image
+        })
+    }
+
     async deleteProduct(id: number) {
-        // // console.log(id)
-        // const oldGoods = await this.productsRepository.findOne({where: {id}})
-        //
-        //
-        //     const product = await this.getProduct(id)
-        // console.log('12',product)
-        // if (product.image) {
-        //     deleteFile(product)
-        // }
-
-
         const product = await this.productsRepository.findOne({
             where: {id},
             relations: {productComposition: true}
         })
-             if (product.image) {
-                deleteFile(product)
-            }
+        if (product.image) {
+            deleteFile(product)
+        }
         const composition = product.productComposition
         composition.map(el => this.productCompositionService.deleteProductComposition(el.id))
         return this.productsRepository.delete({id: id})
+    }
+
+    async writeOff(dto) {
+
     }
 
 }

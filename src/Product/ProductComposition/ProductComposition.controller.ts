@@ -1,4 +1,4 @@
-import {Body, Controller, Post} from "@nestjs/common";
+import {Body, Controller, Delete, Param, Post} from "@nestjs/common";
 import {ProductCompositionService} from "./ProductComposition.service";
 import {ProductCompositionDto} from "../../Entitys/dto/productCompositionDto";
 
@@ -11,7 +11,13 @@ export class ProductCompositionController {
 
     @Post('create')
     createComposition (@Body() dto: ProductCompositionDto){
-        return this.productCompositionService.createProductComposition(dto)
+        const result = this.productCompositionService.createProductComposition(dto)
+        return result
+    }
+
+    @Delete('delete/:id')
+    deleteProductComposition(@Param() param){
+        return this.productCompositionService.deleteProductComposition(param.id)
     }
 
 }

@@ -2,7 +2,7 @@ import {forwardRef, Inject, Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {ProductComposition} from "../../Entitys/productComposition.entity";
 import {Repository} from "typeorm";
-import {ProductCompositionDto} from "../../Entitys/dto/productCompositionDto";
+import {  ProductCompositionDto} from "../../Entitys/dto/productCompositionDto";
 import {ProductService} from "../Product.service";
 import {WarehouseService} from "../../Warehouse/warehouse.service";
 import {PurchasesService} from "../../Purchases/Purchases.service";
@@ -22,7 +22,6 @@ export class ProductCompositionService {
 
     async createProductComposition(dto: ProductCompositionDto) {
         const {productId, count, composition} = dto
-        console.log(dto)
         composition.map(async composition => {
             const warehouse = await this.warehouseService.findWarehouseById(+composition.warehouseId)
             const purchases = warehouse.purchases
@@ -32,18 +31,27 @@ export class ProductCompositionService {
                 const newAmount = ((+amount - +composition.amount * count).toFixed(2)).toString()
                 await this.purchaseService.updatePurchase(id, title, newAmount, unit, image, place,
                     price, date, unitPrice)
+               // await this.editProductComposition({purchase:updatedPurchase, composition, count})
             }
             const {purchaseTitle, amount, unit, price} = composition
-            const newAmount = +amount * count
+            const newAmount = (+amount * count).toString()
             const productComposition = await this.productCompositionRepository.save(
-                {purchaseTitle,  amount: (+amount * count).toString(), unit, price})
+                {purchaseTitle,  amount: newAmount, unit, price})
             productComposition.product = await this.productService.getProductById(+productId)
             await this.productCompositionRepository.save(productComposition)
         })
-        // const product = await this.productService.getProduct(+productId)
-        // console.log('composition', product)
-        // return product.productComposition
+
     }
+
+    // async editProductComposition(dto: EditProductCompositionDto){
+    //     const {composition, count, purchase} =dto
+    //
+    //             const {id, title, price, unitPrice, unit, amount, place, date, image} = purchase
+    //             const newAmount = ((+amount - +composition.amount * count).toFixed(2)).toString()
+    //             await this.purchaseService.updatePurchase(id, title, newAmount, unit, image, place,
+    //                 price, date, unitPrice)
+    //
+    // }
 
     async deleteProductComposition(id: number) {
         return await this.productCompositionRepository.delete({id})

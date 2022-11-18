@@ -44,7 +44,7 @@ export class UserService {
     async findUserById(id) {
         return await this.userRepository.findOne({
             where: {
-                id
+                id: +id
             },
             relations: {
                 categories: true,

@@ -14,8 +14,8 @@ export class ProductController {
     @UseInterceptors(FileInterceptor('image'))
     async create(@Body() dto,
                  @UploadedFile() image) {
-        const newProduct = await this.productsService.createProduct(dto, image)
-        return await this.productsService.getProductById(+newProduct.id)
+        return  await this.productsService.createProduct(dto, image)
+
 
 
     }
@@ -28,6 +28,9 @@ export class ProductController {
         return this.productsService.addImage(dto.id, image)
     }
 
+    @Post('addTheSameProduct')
+    addTheSameProduct(@Body() dto){}
+
     @Delete('delete/:id')
     async delete(@Param() param) {
         return this.productsService.deleteProduct(param.id)
@@ -38,10 +41,6 @@ export class ProductController {
         return this.productsService.getProductById(param.id)
     }
 
-    @Post('writeOff')
-    writeOff(@Body() dto) {
-        return this.productsService.writeOff(dto)
-    }
 
 
 }

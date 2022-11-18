@@ -8,7 +8,6 @@ import {isExist} from "../UtilFunction/common/isExist";
 import {FileService} from "../Files/file.service";
 import {UserService} from "../User/user.service";
 import {deleteFile} from "../UtilFunction/common/deleteFile";
-import {log} from "util";
 
 
 @Injectable()
@@ -104,7 +103,8 @@ export class PurchasesService {
     }
 
     async findPurchaseByTitle(warehouseId: number, title: string) {
-
+        const warehouse = await this.warehouseService.findWarehouseById(warehouseId)
+        return  warehouse.purchases.find( el => el.title === title)
     }
 
     async deletePurchase(id: number) {

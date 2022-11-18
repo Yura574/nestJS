@@ -1,4 +1,4 @@
-import {IsArray, IsNotEmpty, IsNumber, IsString} from "class-validator";
+import {IsArray,  IsNotEmpty, IsNumber,  IsString} from "class-validator";
 
 
 export class ProductCompositionDto {
@@ -14,10 +14,14 @@ export class ProductCompositionDto {
     composition: Composition[]
 }
 
+
+
 export class Composition {
 
     @IsString()
-    warehouseId: string
+    warehouseId: number
+    @IsNumber()
+    id: number
 
     @IsString()
     purchaseTitle: string
@@ -31,3 +35,4 @@ export class Composition {
     @IsString()
     price: string
 }
+

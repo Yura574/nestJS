@@ -12,7 +12,7 @@ export class Products {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({unique: true})
+    @Column({})
     title: string
 
     @Column({type: "real"})

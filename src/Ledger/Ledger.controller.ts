@@ -15,10 +15,11 @@ export class LedgerController {
         return this.ledgerService.getJournalEntries(param.id)
     }
 
-    @Post('journalEntry')
-    createJournalEntry (@Body() dto: sellJournalEntryDto){
-        return this.ledgerService.createJournalEntry(dto)
+    @Post('sell')
+    sellJournalEntry (@Body() dto: sellJournalEntryDto){
+        return this.ledgerService.sellJournalEntry(dto)
     }
+
 
     @Delete('deleteJournalEntry/:id')
     deleteJournalEntry (@Param() param){

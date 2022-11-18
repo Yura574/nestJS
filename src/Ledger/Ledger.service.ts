@@ -22,7 +22,7 @@ export class LedgerService {
 
     }
 
-    async createJournalEntry(dto: sellJournalEntryDto) {
+    async sellJournalEntry(dto: sellJournalEntryDto) {
         const {userId, title, operation, count, price, primeCost, data} = dto
         const userProducts = await this.userService.findUserById(userId)
         let product = userProducts.products.find(el => el.title === title)

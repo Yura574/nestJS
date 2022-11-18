@@ -11,13 +11,13 @@ export class ProductComposition {
     @Column()
     purchaseTitle: string
 
-    @Column()
+    @Column({type:"real", nullable: true})
     amount: string
 
     @Column()
     unit: string
 
-    @Column()
+    @Column({type:"real", nullable: true})
     price: string
 
     @ManyToOne(()=> Products, (product)=> product.productComposition)

@@ -34,7 +34,7 @@ export class SubCategoryService {
     }
 
     async getOneSubCategory(id: string) {
-        return await this.subCategoryRepository.findOne({where: {id: +id}})
+        return await this.subCategoryRepository.findOne({where: {id: +id}, relations: {products: true}})
     }
 
     async getProducts(id: string) {

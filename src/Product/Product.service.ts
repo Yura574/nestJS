@@ -57,8 +57,8 @@ export class ProductService {
                         if (result.length === product.productComposition.length) {
                             result.map(async el => {
                                 const purchase = await this.purchasesService.findPurchaseByTitle(el.warehouseId, el.purchaseTitle)
-                                const newAmount = (+purchase.amount - +el.amount * count).toString()
-                                const newPrice = (+purchase.price - +el.price * count).toString()
+                                const newAmount = ((+purchase.amount - +el.amount * count).toFixed(2)).toString()
+                                const newPrice = ((+purchase.price - +el.price * count).toFixed(2)).toString()
                                 const {id, title, unit, unitPrice, place, image, date} = purchase
                                 await this.purchasesService.updatePurchase(id, title, newAmount, unit, image, place, newPrice, date, unitPrice)
                             })
@@ -120,6 +120,43 @@ export class ProductService {
         })
     }
 
+    async getSumProducts(userId: number){
+        const user = await this.userService.findUserById(userId)
+        const purchases = user.products
+        const initValue = 0
+        return purchases.reduce((acc, currentValue)=> acc+ +(+currentValue.primeCost * currentValue.count).toFixed(2), initValue)
+
+    }
+
+    async writeOffProduct(dto) {
+        const {id, count, operation, data}= dto
+        const product = await this.productsRepository.findOne({
+            where: {id},
+            relations: {productComposition: true}
+        })
+        if(product.count - count > 0){
+            const newCount = product.count - count
+            return this.updateProduct({...product, count: newCount})
+        }
+        if (product.image) {
+            deleteFile(product)
+        }
+        const composition = product.productComposition
+        composition.map(el => this.productCompositionService.deleteProductComposition(el.id))
+        return this.productsRepository.delete({id: id})
+    }
+    // async saleProduct(id: number) {
+    //     const product = await this.productsRepository.findOne({
+    //         where: {id},
+    //         relations: {productComposition: true}
+    //     })
+    //     if (product.image) {
+    //         deleteFile(product)
+    //     }
+    //     const composition = product.productComposition
+    //     composition.map(el => this.productCompositionService.deleteProductComposition(el.id))
+    //     return this.productsRepository.delete({id: id})
+    // }
     async deleteProduct(id: number) {
         const product = await this.productsRepository.findOne({
             where: {id},

@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors} from "@nestjs/common";
+import {Body, Controller,  Get, Param, Post, Put, UploadedFile, UseInterceptors} from "@nestjs/common";
 import {FileInterceptor} from "@nestjs/platform-express";
 import {ProductService} from "./Product.service";
 
@@ -15,9 +15,6 @@ export class ProductController {
     async create(@Body() dto,
                  @UploadedFile() image) {
         return  await this.productsService.createProduct(dto, image)
-
-
-
     }
 
     @Put('addImage')
@@ -31,9 +28,18 @@ export class ProductController {
     @Post('addTheSameProduct')
     addTheSameProduct(@Body() dto){}
 
-    @Delete('delete/:id')
-    async delete(@Param() param) {
-        return this.productsService.deleteProduct(param.id)
+    @Get('sum/:id')
+    getSumProducts(@Param() param){
+       return this.productsService.getSumProducts(param.id)
+    }
+
+    // @Post('saleProduct')
+    // async saleProduct(@Body() dto) {
+    //     return this.productsService.saleProduct(dto)
+    // }
+    @Post('writeOffProduct')
+    async writeOffProduct(@Body() dto) {
+        return this.productsService.writeOffProduct(dto)
     }
 
     @Get('one/:id')

@@ -88,6 +88,14 @@ export class PurchasesService {
             return {...el, warehouseId: purchase.warehouse.id}
         }))
     }
+    async getSumPurchases(userId: number){
+        const user = await this.userService.findUserById(userId)
+        const purchases = user.purchases
+        const initValue = 0
+        return purchases.reduce((acc, currentValue)=> acc+ +currentValue.price, initValue)
+
+
+    }
 
     // async getInfoPurchase (purchaseId: number){
     //     const purchase = await this.purchasesRepository.findOne(

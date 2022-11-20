@@ -1,5 +1,6 @@
-import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "./user.entity";
+import {Investment} from "./investment.entity";
 
 
 @Entity()
@@ -27,10 +28,14 @@ export class Ledger {
     profit: string
 
 
+
     @Column({nullable: true})
     data: string
 
     @ManyToOne(()=> User, (user)=> user.ledger)
     @JoinColumn()
     user: User
+
+    @OneToMany(()=> Investment, (investment)=> investment.ledger)
+    investment: Investment[]
 }

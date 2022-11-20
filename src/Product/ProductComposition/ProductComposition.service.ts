@@ -29,14 +29,15 @@ export class ProductCompositionService {
             if (updatedPurchase) {
                 const {id, title, price, unitPrice, unit, amount, place, date, image} = updatedPurchase
                 const newAmount = ((+amount - +composition.amount * count).toFixed(2)).toString()
+                const newPrice = ((+price - +composition.price * count).toFixed(2)).toString()
                 await this.purchaseService.updatePurchase(id, title, newAmount, unit, image, place,
-                    price, date, unitPrice)
+                    newPrice, date, unitPrice)
                // await this.editProductComposition({purchase:updatedPurchase, composition, count})
             }
             const {purchaseTitle, amount, unit, price} = composition
-            const newAmount = (+amount * count).toString()
+            // const newAmount = (+amount ).toString()
             const productComposition = await this.productCompositionRepository.save(
-                {purchaseTitle,  amount: newAmount, unit, price})
+                {purchaseTitle,  amount, unit, price})
             productComposition.product = await this.productService.getProductById(+productId)
             await this.productCompositionRepository.save(productComposition)
         })

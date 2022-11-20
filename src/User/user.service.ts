@@ -35,12 +35,6 @@ export class UserService {
         )
     }
 
-    //
-    // async findAllCategoriesByUser(id: number) {
-    //     const user = await this.findUserById(id)
-    //     return user.categories
-    // }
-
     async findUserById(id) {
         return await this.userRepository.findOne({
             where: {
@@ -64,32 +58,32 @@ export class UserService {
         return this.userRepository.update({id}, {refreshToken})
     }
 
-    async logout(userId: number) {
-        return this.userRepository.update({id: userId}, {refreshToken: null})
-    }
-
-    async validateUser(email: string, password: string) {
-        const user = await this.userRepository.findOne({
-            relations: {
-                role: true
-            },
-            where: {
-                email
-            }
-        })
-        if (user && user.password === password) {
-            const {password, ...result} = user
-            return result
-        }
-        return null
-    }
-
-    async findUserCategory(userID) {
-        return await this.userRepository.findOne({
-            where: {id: +userID}, relations: {
-                categories: true
-            }
-        });
-    }
+    // async logout(userId: number) {
+    //     return this.userRepository.update({id: userId}, {refreshToken: null})
+    // }
+    //
+    // async validateUser(email: string, password: string) {
+    //     const user = await this.userRepository.findOne({
+    //         relations: {
+    //             role: true
+    //         },
+    //         where: {
+    //             email
+    //         }
+    //     })
+    //     if (user && user.password === password) {
+    //         const {password, ...result} = user
+    //         return result
+    //     }
+    //     return null
+    // }
+    //
+    // async findUserCategory(userID) {
+    //     return await this.userRepository.findOne({
+    //         where: {id: +userID}, relations: {
+    //             categories: true
+    //         }
+    //     });
+    // }
 
 }

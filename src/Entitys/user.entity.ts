@@ -14,6 +14,7 @@ import {Purchases} from "./Purchases.entity";
 import {PurchasesInfo} from "./PurchasesInfo.entity";
 import {Ledger} from "./ledger.entity";
 import {Products} from "./products.entity";
+import {Accounts} from "./Accounts.entity";
 
 
 @Entity()
@@ -71,4 +72,7 @@ export class User {
 
     @OneToMany(() => Products, (products) => products.user)
     products: Products[]
+
+    @OneToMany(()=> Accounts, (accounts)=> accounts.user)
+    accounts: Accounts[]
 }

@@ -20,6 +20,10 @@ export class PurchasesController {
     getAllPurchases(@Param() param) {
         return this.purchaseService.getAllPurchases(param.id)
     }
+    @Get('sum/:id')
+    getSumPurchases(@Param() param){
+        return this.purchaseService.getSumPurchases(param.id)
+    }
 
     @Get('one/:id')
     getOnePurchase(@Param() param) {

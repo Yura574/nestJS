@@ -18,13 +18,13 @@ export class Ledger {
     @Column({nullable: true})
     count: number
 
-    @Column({nullable: true, type: "real"})
+    @Column({nullable: true, type: "real", default: '0'})
     price: string
 
-    @Column({nullable: true,type:"real"})
+    @Column({nullable: true,type:"real", default: '0'})
     primeCost: string
 
-    @Column({nullable: true,type: "real"})
+    @Column({nullable: true,type: "real", default: '0'})
     profit: string
 
 

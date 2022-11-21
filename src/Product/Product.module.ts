@@ -9,12 +9,16 @@ import {ProductCompositionModule} from "./ProductComposition/ProductComposition.
 import {UserModule} from "../User/user.module";
 import {WarehouseModule} from "../Warehouse/warehouse.module";
 import {PurchasesModule} from "../Purchases/Purchases.module";
+import {AccountsModule} from "../Accounts/Accounts.module";
+import {LedgerModule} from "../Ledger/Ledger.module";
 
 @Module({
     providers: [ProductService],
     controllers: [ProductController],
     imports: [TypeOrmModule.forFeature([Products]), FileModule, SubCategoryModule,
-        forwardRef(() => ProductCompositionModule), UserModule, WarehouseModule, PurchasesModule],
+        forwardRef(() => ProductCompositionModule),
+        forwardRef(() => LedgerModule), UserModule, WarehouseModule,
+        PurchasesModule, AccountsModule ],
     exports: [ProductService]
 })
 

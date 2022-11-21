@@ -1,4 +1,4 @@
-import {HttpException, Injectable} from "@nestjs/common";
+import {forwardRef, HttpException, Inject, Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Ledger} from "../Entitys/ledger.entity";
 import {Repository} from "typeorm";
@@ -13,6 +13,7 @@ export class LedgerService {
     constructor(@InjectRepository(Ledger)
                 private legerRepository: Repository<Ledger>,
                 private userService: UserService,
+                @Inject(forwardRef(() => ProductService))
                 private productService: ProductService
     ) {
     }
@@ -48,6 +49,13 @@ export class LedgerService {
         })
         delete journalEntry.user
         return journalEntry
+    }
+
+    async createJournalEntry (dto) {
+        const {user,title, count, price, primeCost, profit, investment, operation, data} = dto
+        console.log(profit)
+        return await this.legerRepository.save(
+            {user,title, count, price, primeCost, profit, operation, data })
     }
 
     async deleteJournalEntry(id: number){

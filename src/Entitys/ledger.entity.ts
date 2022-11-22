@@ -1,6 +1,8 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "./user.entity";
 import {Investment} from "./investment.entity";
+import {LedgerComposition} from "./ledgerComposition.entity";
+import {Duty} from "./duty.entity";
 
 
 @Entity()
@@ -38,4 +40,10 @@ export class Ledger {
 
     @OneToMany(()=> Investment, (investment)=> investment.ledger)
     investment: Investment[]
+
+    @OneToMany(()=> Duty, (duty)=> duty.ledger)
+    duty: Duty[]
+
+    @OneToMany(() => LedgerComposition, (ledgerComposition) => ledgerComposition.ledger)
+    ledgerComposition: LedgerComposition[]
 }

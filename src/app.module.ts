@@ -18,6 +18,9 @@ import {ProductCompositionModule} from "./Product/ProductComposition/ProductComp
 import {LedgerModule} from "./Ledger/Ledger.module";
 import {InvestmentModule} from "./Ledger/Investment/Investment.module";
 import {AccountsModule} from "./Accounts/Accounts.module";
+import {LedgerCompositionModule} from "./Ledger/LedgerComposition/LedgerComposition.module";
+import {Duty} from "./Entitys/duty.entity";
+import {DutyModule} from "./Ledger/Duty/Duty.module";
 
 @Module({
     imports: [
@@ -44,7 +47,8 @@ import {AccountsModule} from "./Accounts/Accounts.module";
         }),
         UserModule, AuthModule, RoleModule, FileModule, CategoryModule,
         SubCategoryModule, ProductModule, ProductCompositionModule, WarehouseModule,
-        PurchasesModule, PurchasesInfoModule, LedgerModule, InvestmentModule, AccountsModule
+        PurchasesModule, PurchasesInfoModule, LedgerModule, InvestmentModule, AccountsModule, LedgerModule,
+        LedgerCompositionModule, DutyModule
 
     ],
 })

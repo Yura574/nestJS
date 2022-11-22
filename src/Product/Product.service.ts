@@ -146,9 +146,7 @@ export class ProductService {
             const accounts = await this.accountsService.getAccounts(userId)
             switch (operation) {
                 case 'writeOff': {
-                    const newPrimeCost = (+accounts.primeCost + +product.primeCost * count).toString()
                     const newPrimeCostForAccount = (+accounts.primeCost + +product.primeCost * count).toString()
-                    const newProfit = (+accounts.profit - +product.primeCost * count).toString()
                     const newProfitForAccount = (+accounts.profit - +product.primeCost * count).toString()
                     await this.ledgerService.createJournalEntry(
                         {user, title: product.title, operation, count, price, primeCost: product.primeCost, profit: -product.primeCost, data})
@@ -161,7 +159,6 @@ export class ProductService {
                     const newPrimeCost = +accounts.primeCost + +product.primeCost * count
                     const newProfit =(+price - +product.primeCost) * count
                     const newProfitForAccount = (+accounts.profit +(+price - +product.primeCost) * count).toString()
-                    console.log(newProfit)
                     await this.ledgerService.createJournalEntry(
                         {user, title: product.title, operation, count, price, primeCost: +product.primeCost, profit: newProfit, data})
                     return await this.accountsService.updateAccounts({
@@ -169,15 +166,19 @@ export class ProductService {
                         investment: accounts.investment, duty: accounts.duty
                     })
                 }
+
             }
 
         }
-        if (product.image) {
-            deleteFile(product)
+        if(product.count - count ===0){
+            if (product.image) {
+                deleteFile(product)
+            }
+            const composition = product.productComposition
+            composition.map(el => this.productCompositionService.deleteProductComposition(el.id))
+            return this.productsRepository.delete({id: productId})
         }
-        const composition = product.productComposition
-        composition.map(el => this.productCompositionService.deleteProductComposition(el.id))
-        return this.productsRepository.delete({id: productId})
+
     }
 
     // async saleProduct(id: number) {

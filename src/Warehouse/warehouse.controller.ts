@@ -16,6 +16,7 @@ export class WarehouseController {
     @UseInterceptors(FileInterceptor('image'))
     createWareHouse(@Body() dto: CreateWarehouseDto,
                     @UploadedFile() image: Express.Multer.File) {
+
         return this.warehouseService.createWarehouse(dto, image)
     }
 
@@ -29,12 +30,14 @@ export class WarehouseController {
 
     @Get('all/:id')
     getAllWarehouses(@Param() param) {
+        console.log(1)
         return this.warehouseService.getAllWarehouses(param.id)
 
     }
 
     @Get('purchases/:id')
     async getWarehousePurchases(@Param() param) {
+        console.log(1)
         const warehouse = await this.warehouseService.findWarehouseById(param.id)
         return warehouse.purchases
     }

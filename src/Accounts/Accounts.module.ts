@@ -2,7 +2,7 @@ import {AccountsService} from "./Accounts.service";
 import {AccountsController} from "./Accounts.controller";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {Accounts} from "../Entitys/Accounts.entity";
-import {Module} from "@nestjs/common";
+import {forwardRef, Module} from "@nestjs/common";
 import {UserModule} from "../User/user.module";
 
 
@@ -10,7 +10,9 @@ import {UserModule} from "../User/user.module";
     providers:[AccountsService],
     controllers:[AccountsController],
     exports:[AccountsService],
-    imports:[TypeOrmModule.forFeature([Accounts]), UserModule]
+    imports:[TypeOrmModule.forFeature([Accounts]),
+        forwardRef(()=>UserModule)
+    ]
 })
 
 export class AccountsModule {}

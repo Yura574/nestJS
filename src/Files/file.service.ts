@@ -7,6 +7,7 @@ import * as uuid from 'uuid'
 export class FileService {
 
     async createFile(file, pathFile) {
+        console.log(1)
         try {
             const fileName = uuid.v4() + '.jpg'
             const filePath = pathFile !== ''

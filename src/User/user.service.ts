@@ -1,9 +1,10 @@
-import {Injectable} from "@nestjs/common";
+import {forwardRef, Inject, Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {UserDto} from "../Entitys/dto/userDto";
 import {RoleService} from "./Roles/role.service";
 import {User} from "../Entitys";
+import {AccountsService} from "../Accounts/Accounts.service";
 
 
 @Injectable()
@@ -11,11 +12,15 @@ export class UserService {
     constructor(@InjectRepository(User)
                 private userRepository: Repository<User>,
                 private roleService: RoleService,
+                @Inject(forwardRef(() => AccountsService))
+                private accountService: AccountsService
     ) {
     }
 
     async createUser(dto: UserDto) {
         const role = await this.roleService.getRoleByValue('admin')
+
+
         return await this.userRepository.save({...dto, role})
     }
 
@@ -36,7 +41,8 @@ export class UserService {
     }
 
     async findUserById(id) {
-        return await this.userRepository.findOne({
+        console.log(id)
+       const user =  await this.userRepository.findOne({
             where: {
                 id: +id
             },
@@ -47,10 +53,17 @@ export class UserService {
                 purchases: true,
                 purchasesInfo: true,
                 ledger: true,
-                products: true
+                products: true,
+                accounts: true
             },
 
         })
+        // console.log(user.accounts)
+        if(user.accounts.length === 0){
+            console.log(1)
+            await this.accountService.createAccounts(user.id, user)
+        }
+        return user
 
     }
 

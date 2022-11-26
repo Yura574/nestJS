@@ -19,7 +19,7 @@ export class LedgerService {
     }
 
     async getJournalEntries(id: number) {
-        return await this.legerRepository.find({where: {id}})
+        return await this.legerRepository.find({where: {user:{id}}})
 
     }
 

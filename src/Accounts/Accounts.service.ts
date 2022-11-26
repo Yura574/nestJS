@@ -1,4 +1,4 @@
-import {HttpException, Injectable} from "@nestjs/common";
+import {forwardRef, HttpException, Inject, Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {Accounts} from "../Entitys/Accounts.entity";
@@ -9,15 +9,11 @@ import {UserService} from "../User/user.service";
 export class AccountsService {
     constructor(@InjectRepository(Accounts)
                 private accountsService: Repository<Accounts>,
+                @Inject(forwardRef(() => UserService))
                 private userService: UserService) {
     }
 
-    async createAccounts(userId: number) {
-        const user = await this.userService.findUserById(userId)
-        // if (!user) {
-        //     const error = new HttpException('user not found', 403)
-        //     return {error}
-        // }
+    async createAccounts(userId: number, user) {
         const newAccounts = await this.accountsService.save({id: userId, user})
 
         delete newAccounts.user
@@ -36,12 +32,15 @@ export class AccountsService {
     }
 
     async getAccounts(id: number) {
-        const accounts = await this.accountsService.findOne({where: {user: {id}}})
-        if (!accounts) {
-            return await this.createAccounts(id)
-        }
-        return accounts
+        return await this.accountsService.findOne({where: {user: {id}}})
+        // if (!accounts) {
+        //     return await this.createAccounts(id)
+        // }
+        // return accounts
 
+    }
+    async getOne (id){
+        return await this.accountsService.find({where:{user:{id}}})
     }
 
     async deleteAccounts(id: number) {

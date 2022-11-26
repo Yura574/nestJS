@@ -14,6 +14,7 @@ export class AuthController {
     @Post('singUp')
     async singUp(@Body() dto: UserDtoRegistration,
                  @Res() res: Response) {
+        console.log(5)
         const userData = await this.authService.singUp(dto)
         const {user, refresh_token} = userData
         res.cookie('refresh', refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
@@ -25,6 +26,7 @@ export class AuthController {
     @Post('singIn')
     async singIn(@Body() dto: UserDto,
                  @Res() res: Response) {
+        console.log(4)
         try {
             const userData = await this.authService.singIn(dto)
             const {refresh_token, user} = userData
@@ -40,37 +42,56 @@ export class AuthController {
     @Get('me')
     async authMe(@Req() req: Request,
                  @Res() res: Response) {
-        // console.log(req.cookies.refresh)
-        const userData = await this.authService.authMe(req.cookies.refresh)
-        const { refresh_token, user} = userData
-        res.cookie('refresh', refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-        if (!user) {
-            throw new ForbiddenException({message: 'not authorization'})
+        try{
+            if(!req.cookies.refresh){
+                const error= new ForbiddenException({message: 'not authorization'})
+
+                return res.json(error)
+            }
+            const userData = await this.authService.authMe(req.cookies.refresh)
+
+            const { refresh_token, user} = userData
+            res.cookie('refresh', refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            if (!user) {
+                console.log('not user')
+                const error= new ForbiddenException({message: 'not authorization'})
+
+            }
+            delete user.password
+            delete user.refreshToken
+            return res.json(user)
         }
-        delete user.password
-        delete user.refreshToken
-        return res.json(user)
+        catch (err){
+            console.log(err)
+        }
+
     }
+    @Get('test')
+   async test(@Req() req: Request,
+              @Res() res: Response){
+        return 'test'
+    }
+
 
 
     @Get('logout')
     async logout(@Req() req: Request,
            @Res() res: Response) {
-        // console.log(req.cookies)
+
         // const user = await this.authService.logout(req.cookies.refresh)
-        // console.log('promis',user)
         res.clearCookie('refresh')
         return res.json()
     }
 
     @Post('refresh')
     refreshTokens() {
+        console.log(3)
         return this.authService.refreshToken()
     }
 
     @Post('me')
     me(@Req() req: Request) {
-
+        console.log(2)
         const token = req.cookies.refresh
 
         return this.authService.authMe(token)

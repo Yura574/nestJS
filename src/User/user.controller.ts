@@ -28,8 +28,8 @@ export class UserController{
 
     @Get('one/:id')
     getOne(@Param() param){
-        return this.userService.findUserById(param.id)
-    }
+                return this.userService.findUserById(param.id)
+        }
 
     @Post('one')
     findUserByEmail(@Body() email: string){
@@ -37,7 +37,6 @@ export class UserController{
     }
     @Delete('delete/:id')
     deleteUser (@Param() params){
-        // return params.id
         return this.userService.deleteUser(Number(params.id))
     }
 }

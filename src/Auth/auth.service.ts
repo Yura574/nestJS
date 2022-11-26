@@ -1,4 +1,4 @@
-import {ForbiddenException, Injectable, UnauthorizedException} from "@nestjs/common";
+import {ForbiddenException, HttpException, Injectable, UnauthorizedException} from "@nestjs/common";
 import {UserService} from "../User/user.service";
 import {UserDto} from "../Entitys/dto/userDto";
 import {InjectRepository} from "@nestjs/typeorm";
@@ -23,7 +23,7 @@ export class AuthService {
             const candidate = await this.userService.findUserByEmail(dto.email)
             if (candidate) {
                 // console.log('error')
-                throw new ForbiddenException('such user already exist')
+                throw new HttpException('such user already exist', 400)
             }
             const hash = await bcrypt.hash(dto.password, 8)
             const user = await this.userService.createUser({...dto, password: hash})

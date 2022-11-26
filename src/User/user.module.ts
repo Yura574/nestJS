@@ -6,6 +6,7 @@ import {RoleModule} from "./Roles/role.module";
 import {AuthModule} from "../Auth/auth.module";
 import {JwtModule} from "@nestjs/jwt";
 import {Role, User} from "../Entitys";
+import {AccountsModule} from "../Accounts/Accounts.module";
 
 @Module({
     controllers: [UserController],
@@ -13,7 +14,9 @@ import {Role, User} from "../Entitys";
     exports: [UserService],
     imports: [TypeOrmModule.forFeature([User, Role]),
         RoleModule,
-        forwardRef(() => AuthModule), JwtModule]
+        forwardRef(() => AuthModule),
+        forwardRef(() => AccountsModule),
+        JwtModule]
 })
 
 export class UserModule {

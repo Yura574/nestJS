@@ -44,6 +44,7 @@ export class CategoryController {
 
     @Get('one/:id')
     getUserCategories(@Param() param) {
+        console.log(1)
 
         return this.categoryService.findSubCategories(param.id)
     }

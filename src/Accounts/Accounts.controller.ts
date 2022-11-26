@@ -16,6 +16,10 @@ export class AccountsController {
     getAccounts(@Param() param) {
         return this.accountsService.getAccounts(param.id)
     }
+    @Get('one/:id')
+    getOne(@Param() param) {
+        return this.accountsService.getOne(param.id)
+    }
 
     @Delete('delete/:id')
         deleteAccounts(@Param() param){

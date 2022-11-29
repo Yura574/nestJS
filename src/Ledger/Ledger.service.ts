@@ -53,7 +53,7 @@ export class LedgerService {
 
     async createJournalEntry (dto) {
         const {user,title, count, price, primeCost, profit, investment, operation, data} = dto
-        console.log(profit)
+
         return await this.legerRepository.save(
             {user,title, count, price, primeCost, profit, operation, data })
     }

@@ -11,8 +11,7 @@ export class ProductCompositionController {
 
     @Post('create')
     createComposition (@Body() dto: ProductCompositionDto){
-        const result = this.productCompositionService.createProductComposition(dto)
-        return result
+        return  this.productCompositionService.createProductComposition(dto)
     }
 
     @Delete('delete/:id')

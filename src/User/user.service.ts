@@ -41,7 +41,6 @@ export class UserService {
     }
 
     async findUserById(id) {
-        console.log(id)
        const user =  await this.userRepository.findOne({
             where: {
                 id: +id
@@ -60,7 +59,6 @@ export class UserService {
         })
         // console.log(user.accounts)
         if(user.accounts.length === 0){
-            console.log(1)
             await this.accountService.createAccounts(user.id, user)
         }
         return user

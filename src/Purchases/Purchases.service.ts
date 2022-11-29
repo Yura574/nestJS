@@ -21,6 +21,7 @@ export class PurchasesService {
     }
 
     async createPurchase(dto: createPurchasesDto, image: Express.Multer.File) {
+        console.log(dto)
         const {userId, warehouseId, title, price, place, amount, unit, unitPrice, date} = dto
         const warehouse = await this.warehouseService.findWarehouseById(warehouseId)
         if (!warehouse) {
@@ -37,11 +38,11 @@ export class PurchasesService {
             const newPurchase = {
                 ...currentPurchase[0],
                 date: date,
-                price: price,
+                price: +price + +price,
                 amount: +currentPurchase[0].amount + +amount,
             }
             return await this.purchasesRepository.update({title: newPurchase.title}, {
-                price: newPurchase.price,
+                price: newPurchase.price.toString(),
                 amount: newPurchase.amount.toString(),
                 date: newPurchase.date
             })

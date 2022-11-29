@@ -46,4 +46,8 @@ export class AccountsService {
     async deleteAccounts(id: number) {
         return this.accountsService.delete({id})
     }
+
+    async changeAccounts (dto){
+
+    }
 }

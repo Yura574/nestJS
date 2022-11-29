@@ -44,9 +44,8 @@ export class AuthController {
                  @Res() res: Response) {
         try{
             if(!req.cookies.refresh){
-                const error= new ForbiddenException({message: 'not authorization'})
-
-                return res.json(error)
+                return res.json(new ForbiddenException({message: 'not authorization'})
+                )
             }
             const userData = await this.authService.authMe(req.cookies.refresh)
 

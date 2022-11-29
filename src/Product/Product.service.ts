@@ -71,8 +71,6 @@ export class ProductService {
                                 count: product.count + count
 
                             })
-
-                            return 1
                         } else {
                             return error
                         }

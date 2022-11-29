@@ -21,7 +21,6 @@ export class ProductController {
     @UseInterceptors(FileInterceptor('image'))
     addImage(@Body() dto,
              @UploadedFile() image) {
-        console.log(image)
         return this.productsService.addImage(dto.id, image)
     }
 

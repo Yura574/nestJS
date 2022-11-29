@@ -14,6 +14,7 @@ export class PurchasesController {
     @UseInterceptors(FileInterceptor('image'))
     createPurchase(@Body() dto: createPurchasesDto,
                    @UploadedFile() image: Express.Multer.File) {
+        console.log(2)
         return this.purchaseService.createPurchase(dto, image)
     }
     @Get('all/:id')

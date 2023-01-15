@@ -17,7 +17,7 @@ export class AuthController {
 
         const userData = await this.authService.singUp(dto)
         const {user, refresh_token} = userData
-        res.cookie('refresh', refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+        res.cookie('refresh', refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "none"})
         delete user.password
         delete user.refreshToken
         console.log(user)
@@ -53,10 +53,11 @@ export class AuthController {
             const userData = await this.authService.authMe(req.cookies.refresh)
 
             const { refresh_token, user} = userData
-            res.cookie('refresh', refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            res.cookie('refresh', refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "none"})
             if (!user) {
                 console.log('not user')
                 const error= new ForbiddenException({message: 'not authorization'})
+                return {error}
 
             }
             delete user.password

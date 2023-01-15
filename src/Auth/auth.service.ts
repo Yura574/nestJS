@@ -27,6 +27,7 @@ export class AuthService {
             }
             const hash = await bcrypt.hash(dto.password, 8)
             const user = await this.userService.createUser({...dto, password: hash})
+            console.log(user)
             const tokens = await this.singToken(user)
             user.refreshToken = tokens.refresh_token
             await this.userService.refreshTokenUser(user.id, tokens.refresh_token)

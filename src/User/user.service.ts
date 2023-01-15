@@ -19,6 +19,7 @@ export class UserService {
 
     async createUser(dto: UserDto) {
         const role = await this.roleService.getRoleByValue('admin')
+        console.log(role)
 
 
         return await this.userRepository.save({...dto, role})

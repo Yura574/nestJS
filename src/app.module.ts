@@ -9,7 +9,7 @@ import {MulterModule} from "@nestjs/platform-express";
 import {ServeStaticModule} from "@nestjs/serve-static";
 import * as path from "path";
 import {CategoryModule} from "./Category/category.module";
-import {SubCategoryModule} from "./SubCategory/SubCategory.module";
+// import {SubCategoryModule} from "./SubCategory/SubCategory.module";
 import {WarehouseModule} from "./Warehouse/warehouse.module";
 import {PurchasesModule} from "./Purchases/Purchases.module";
 import {PurchasesInfoModule} from "./Purchases/PurchasesInfo/PurchasesInfo.module";
@@ -44,7 +44,8 @@ import {DutyModule} from "./Ledger/Duty/Duty.module";
            dest: './upload'
         }),
         UserModule, AuthModule, RoleModule, FileModule, CategoryModule,
-        SubCategoryModule, ProductModule, ProductCompositionModule, WarehouseModule,
+        // SubCategoryModule,
+        ProductModule, ProductCompositionModule, WarehouseModule,
         PurchasesModule, PurchasesInfoModule, LedgerModule, InvestmentModule, AccountsModule, LedgerModule,
         LedgerCompositionModule, DutyModule
 

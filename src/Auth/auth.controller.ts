@@ -27,13 +27,15 @@ export class AuthController {
     @Post('singIn')
     async singIn(@Body() dto: UserDto,
                  @Res() res: Response) {
-        console.log(4)
+
         try {
             const userData = await this.authService.singIn(dto)
             const {refresh_token, user} = userData
             res.cookie('refresh', refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             delete user.refreshToken
             delete user.password
+            console.log(user)
+            console.log(refresh_token)
             return res.json(user)
         } catch (e) {
             throw new ForbiddenException('email or password incorrect')

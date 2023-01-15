@@ -36,7 +36,7 @@ import {SubCategoryModule} from "./SubCategory/subCategory.module";
             entities: ["src/entity/**/*.ts"],
             synchronize: true,
             autoLoadEntities: true,
-            ssl: true
+
         }),
         ServeStaticModule.forRoot({
             rootPath: path.resolve(__dirname,'static'),

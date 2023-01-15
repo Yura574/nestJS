@@ -31,7 +31,7 @@ export class AuthController {
         try {
             const userData = await this.authService.singIn(dto)
             const {refresh_token, user} = userData
-            res.cookie('refresh', refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            res.cookie('refresh', refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: "none"})
             delete user.refreshToken
             delete user.password
             console.log(user)

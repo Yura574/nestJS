@@ -7,11 +7,11 @@ import {SubCategory} from "./subCategory.entity";
 
 export class Category {
 
-    @Column()
-    title: string
-
     @PrimaryGeneratedColumn()
     id: number
+
+    @Column()
+    title: string
 
     @Column({nullable: true})
     image: string

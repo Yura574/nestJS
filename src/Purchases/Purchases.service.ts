@@ -10,6 +10,8 @@ import {UserService} from "../User/user.service";
 import {deleteFile} from "../UtilFunction/common/deleteFile";
 
 
+
+
 @Injectable()
 
 export class PurchasesService {
@@ -32,7 +34,6 @@ export class PurchasesService {
 
         const exist = isExist(allPurchases, title, 'purchase')
         // если название такое существует, возвращает ошибку "such title already exist"
-
         if (exist) {
             const currentPurchase = allPurchases.filter(el => el.title === title)
             const newPurchase = {

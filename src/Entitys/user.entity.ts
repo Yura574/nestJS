@@ -14,7 +14,7 @@ import {Purchases} from "./Purchases.entity";
 import {PurchasesInfo} from "./PurchasesInfo.entity";
 import {Ledger} from "./ledger.entity";
 import {Products} from "./products.entity";
-import {Accounts} from "./Accounts.entity";
+import {Accounts} from "./accounts.entity";
 
 
 @Entity()

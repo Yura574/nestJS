@@ -14,12 +14,13 @@ export class AuthController {
     @Post('singUp')
     async singUp(@Body() dto: UserDtoRegistration,
                  @Res() res: Response) {
-        console.log(5)
+
         const userData = await this.authService.singUp(dto)
         const {user, refresh_token} = userData
         res.cookie('refresh', refresh_token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
         delete user.password
         delete user.refreshToken
+        console.log(user)
         return res.json(user)
     }
 

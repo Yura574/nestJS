@@ -36,7 +36,6 @@ import {DutyModule} from "./Ledger/Duty/Duty.module";
             entities: ["src/entity/**/*.ts"],
             synchronize: true,
             autoLoadEntities: true,
-
         }),
         ServeStaticModule.forRoot({
             rootPath: path.resolve(__dirname,'static'),

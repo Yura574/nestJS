@@ -56,6 +56,10 @@ export class AuthService {
     async authMe(token) {
         try {
             const validToken = this.jwt.verify(token, {secret: process.env.SECRET_CODE || 'secret'})
+            if (!validToken) {
+                throw new UnauthorizedException('invalid token')
+
+            }
             const user = await this.userRepository.findOne({where: {email: validToken.email}, relations: {role: true}})
             const tokens = await this.singToken(user)
             await this.updateToken(user.id, tokens.refresh_token)

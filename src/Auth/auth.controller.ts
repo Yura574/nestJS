@@ -45,6 +45,7 @@ export class AuthController {
     @Get('me')
     async authMe(@Req() req: Request,
                  @Res() res: Response) {
+        console.log('req cookie', req.cookies.refresh)
         try{
             if(!req.cookies.refresh){
                 return res.json(new ForbiddenException({message: 'not authorization'})

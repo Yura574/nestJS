@@ -57,7 +57,7 @@ export class AuthService {
         try {
             const validToken = this.jwt.verify(token, {secret: process.env.SECRET_CODE || 'secret'})
             if (!validToken) {
-                throw new UnauthorizedException('invalid token')
+                throw new ForbiddenException('invalid token')
 
             }
             const user = await this.userRepository.findOne({where: {email: validToken.email}, relations: {role: true}})
@@ -66,7 +66,7 @@ export class AuthService {
             return {...tokens, user}
         } catch (e) {
             console.log(e)
-            throw new UnauthorizedException('invalid token')
+            throw new ForbiddenException('invalid token')
         }
     }
 

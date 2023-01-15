@@ -26,6 +26,7 @@ export class UserService {
     }
 
     async deleteUser(id: number) {
+        await this.accountService.deleteAccounts(id)
         return await this.userRepository.delete({id})
     }
 

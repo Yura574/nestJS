@@ -43,6 +43,7 @@ import {DutyModule} from "./Ledger/Duty/Duty.module";
         MulterModule.register({
            dest: './upload'
         }),
+
         UserModule, AuthModule, RoleModule, FileModule, CategoryModule,
         // SubCategoryModule,
         ProductModule, ProductCompositionModule, WarehouseModule,

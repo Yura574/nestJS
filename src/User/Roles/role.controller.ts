@@ -8,7 +8,7 @@ export class RoleController{
     constructor( private roleService: RoleService) {
     }
 
-    @Post()
+    @Post('create')
     createRole(@Body() dto: CreateRoleDto)  {
         return this.roleService.createRole(dto)
     }

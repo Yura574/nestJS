@@ -83,7 +83,7 @@ export class AuthController {
            @Res() res: Response) {
 
         // const user = await this.authService.logout(req.cookies.refresh)
-        res.clearCookie('refresh')
+        res.clearCookie('refresh', {httpOnly: true, secure: true, sameSite: "none"})
         return res.json()
     }
 

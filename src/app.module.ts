@@ -20,6 +20,7 @@ import {AccountsModule} from "./Accounts/Accounts.module";
 import {LedgerCompositionModule} from "./Ledger/LedgerComposition/LedgerComposition.module";
 import {DutyModule} from "./Ledger/Duty/Duty.module";
 import {SubCategoryModule} from "./SubCategory/subCategory.module";
+import { join } from 'path';
 
 @Module({
     imports: [
@@ -27,6 +28,7 @@ import {SubCategoryModule} from "./SubCategory/subCategory.module";
            // envFilePath: `.${process.env.NODE_ENV}.env`
         }),
         TypeOrmModule.forRoot({
+
             type: "postgres",
             host: process.env.POSTGRES_HOST,
             port: Number(process.env.POSTGRES_PORT),
@@ -36,7 +38,8 @@ import {SubCategoryModule} from "./SubCategory/subCategory.module";
             entities: ["src/entity/**/*.ts"],
             synchronize: true,
             autoLoadEntities: true,
-            ssl: true
+
+
 
         }),
         ServeStaticModule.forRoot({

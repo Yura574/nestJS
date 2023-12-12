@@ -1,13 +1,4 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Post, Put,
-    UploadedFile,
-    UseInterceptors
-} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors} from "@nestjs/common";
 import {CategoryService} from "./category.service";
 import {CategoryDto} from "../Entitys/dto/categoryDto";
 import {FileInterceptor} from "@nestjs/platform-express";
@@ -44,7 +35,7 @@ export class CategoryController {
 
     @Get('one/:id')
     getUserCategories(@Param() param) {
-             return this.categoryService.findSubCategories(param.id)
+        return this.categoryService.findSubCategories(param.id)
     }
 
 }

@@ -24,15 +24,15 @@ import {SubCategoryModule} from "./SubCategory/subCategory.module";
 @Module({
     imports: [
         ConfigModule.forRoot({
-           envFilePath: `.${process.env.NODE_ENV}.env`
+           // envFilePath: `.${process.env.NODE_ENV}.env`
         }),
         TypeOrmModule.forRoot({
             type: "postgres",
-            host: process.env.HOST,
-            port: Number(process.env.POSTGRES_PORT),
-            username: process.env.POSTGRES_USER,
-            password: process.env.POSTGRES_PASSWORD,
-            database: process.env.POSTGRES_DB,
+            host: 'dpg-cf23fnpgp3jl0q117bfg-a',
+            port: 5432,
+            username: 'yura574',
+            password: 'H00EtI32V944g5zDKunjXFJSzrfjFRxe',
+            database: 'coplascadb_hbis',
             entities: ["src/entity/**/*.ts"],
             synchronize: true,
             autoLoadEntities: true,

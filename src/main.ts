@@ -11,7 +11,7 @@ async function start() {
       whitelist: true
     }))
     app.enableCors({
-      origin:  'https://yura574.github.io',
+      origin:  'http://localhost:3001/', 
       methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
       credentials: true
     });

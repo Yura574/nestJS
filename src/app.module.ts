@@ -28,7 +28,7 @@ import {SubCategoryModule} from "./SubCategory/subCategory.module";
         }),
         TypeOrmModule.forRoot({
             type: "postgres",
-            host: process.env.HOST,
+            host: process.env.POSTGRES_HOST,
             port: Number(process.env.POSTGRES_PORT),
             username: process.env.POSTGRES_USER,
             password: process.env.POSTGRES_PASSWORD,
@@ -36,6 +36,7 @@ import {SubCategoryModule} from "./SubCategory/subCategory.module";
             entities: ["src/entity/**/*.ts"],
             synchronize: true,
             autoLoadEntities: true,
+            ssl: true
 
         }),
         ServeStaticModule.forRoot({

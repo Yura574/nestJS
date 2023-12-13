@@ -43,7 +43,8 @@ import {SubCategoryModule} from "./SubCategory/subCategory.module";
       entities: ["src/entity/**/*.ts"],
       synchronize: true,
       autoLoadEntities: true,
-      url:'postgres://yura574:43CeiIlufGGMSbdITXvzO9mBuUx2FSQ7@dpg-cls6c67qd2ns73e0n740-a/coplascadb_2dep'
+
+      // url:'postgres://yura574:43CeiIlufGGMSbdITXvzO9mBuUx2FSQ7@dpg-cls6c67qd2ns73e0n740-a/coplascadb_2dep'
         // ssl: dis
     }),
     ServeStaticModule.forRoot({

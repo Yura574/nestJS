@@ -43,10 +43,10 @@ import {SubCategoryModule} from "./SubCategory/subCategory.module";
       entities: ["src/entity/**/*.ts"],
       synchronize: true,
       autoLoadEntities: true,
-      // url: process.env.DATABASE_URL,
-      // ssl: {
-      //   rejectUnauthorized: false, // Временное решение для самоподписанных сертификатов
-      // },
+      url: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false, // Временное решение для самоподписанных сертификатов
+      },
     }),
     ServeStaticModule.forRoot({
       rootPath: path.resolve(__dirname, 'static'),
